@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Formik } from 'formik';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Image} from 'react-native';
 //containers
 import MainContainer from '../components/containers/MainContainer'; 
 import KeyboardAvoidingContainer from '../components/containers/KeyboardAvoidingContainer';
@@ -33,8 +33,13 @@ const Login = () => {
     }
 
     return <MainContainer>
+        <Image 
+        source={require('../assets/GOJIM.png')}
+        style={{width:150, height:50, resizeMode: 'contain'}}
+        />
+         
         <KeyboardAvoidingContainer>
-            <LargeText style={{marginBottom: 35}}>Sign In </LargeText>
+            <LargeText style={{marginBottom: 35, marginTop: 20}}>Sign In </LargeText>
            
             <Formik 
                 initialValues={{email: '', password: ''}}

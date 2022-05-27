@@ -5,7 +5,7 @@ import { colours } from '../ColourPalette';
 const { white } = colours;
 
 const StyledText = styled.Text`
-    font-size: 30px;
+    font-size: 25px;
     color: ${white};
     text-align: left;
 `
