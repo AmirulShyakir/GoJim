@@ -82,11 +82,11 @@ function Login({navigation}) {
                             onChangeText={handleChange("password")}
                             onBlur={handleBlur("password")}
                             values={values.password}
-                        isPassword={true}
+                            isPassword={true}
                             style={{ marginBottom:25}}
                         />
 
-                        <MessageBox style={{ marginBottom:20  }} success={isSuccessMessage}>
+                        <MessageBox style={{ marginBottom:20 }} success={isSuccessMessage}>
                             {message || " "}
                         </MessageBox>
 
