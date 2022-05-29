@@ -14,7 +14,6 @@ const ButtonView = styled.TouchableOpacity`
     border-radius: 10px;
     height: 60px
 `
-
 const RegularButton = (props) => {
     return (
         <ButtonView onPress={props.onPress} {...props}>
