@@ -15,7 +15,7 @@ import RegularButton from '../components/Buttons/RegularButton';
 import { colours } from '../components/ColourPalette';
 const {primary, white} = colours;
 
-const Signup = () => {
+function Signup({navigation}) {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState('false');
 
@@ -31,14 +31,18 @@ const Signup = () => {
         }
     }
 
+    const pressLogin = () => {
+        navigation.navigate('Login');
+    }
+
     return <MainContainer>
         <Image 
         source={require('../assets/GOJIM.png')}
-        style={{width:150, height:50, resizeMode: 'contain', marginBottom: 15}}
+        style={{width:150, height:50, resizeMode: 'contain', marginBottom: 50}}
         />
          
         <KeyboardAvoidingContainer>
-            <LargeText style={{marginBottom: 35, marginTop: 20}}>Sign Up </LargeText>
+         
            
             <Formik 
                 initialValues={{email: '', password: ''}}
@@ -105,7 +109,7 @@ const Signup = () => {
                             </RegularButton>
                         )}
                    
-                        <PressableText style={{paddingTop: 10}} onPress={() => {}}>Have and account? Sign in here</PressableText> 
+                        <PressableText style={{paddingTop: 10}} onPress={pressLogin}>Have and account? Login here</PressableText> 
                     </>
                 )}
             </Formik>

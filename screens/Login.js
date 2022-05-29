@@ -33,17 +33,16 @@ function Login({navigation}) {
     }
 
     const pressSignup = () => {
-        navigation.push('Signup');
+        navigation.navigate('Signup');
     }
 
     return <MainContainer>
         <Image 
         source={require('../assets/GOJIM.png')}
-        style={{width:150, height:50, resizeMode: 'contain', marginBottom: 15}}
+        style={{width:150, height:50, resizeMode: 'contain', marginBottom: 50}}
         />
          
         <KeyboardAvoidingContainer>
-            <LargeText style={{marginBottom: 35, marginTop: 20}}>Login </LargeText>
            
             <Formik 
                 initialValues={{email: '', password: ''}}

@@ -8,7 +8,7 @@ import Navigator from './routes/LoginSignupStack';
 export default function App() {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar barstyle="dark"/>
       <Navigator/>
     </>
   );

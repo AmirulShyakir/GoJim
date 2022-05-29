@@ -1,5 +1,7 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import styled from 'styled-components/native';
+
 import { colours } from '../ColourPalette';
 import SmallText from '../Texts/SmallText';
 
@@ -12,9 +14,11 @@ const StyledPressable = styled.Pressable`
 
 const PressableText = (props) => {
     return (
-        <StyledPressable onPress={props.onPress} {...props}>
-            <SmallText style={{ color: action }}>{props.children}</SmallText>
-        </StyledPressable>
+        <TouchableOpacity onPress={props.onPress} {...props}>
+            <StyledPressable >
+                <SmallText style={{ color: action }}>{props.children}</SmallText>
+            </StyledPressable>
+        </TouchableOpacity>
     );
 };
 
