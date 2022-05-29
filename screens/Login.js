@@ -82,7 +82,7 @@ function Login({navigation}) {
                             onChangeText={handleChange("password")}
                             onBlur={handleBlur("password")}
                             values={values.password}
-                        isPassword={true}
+                            isPassword={true}
                             style={{ marginBottom:25}}
                         />
 
