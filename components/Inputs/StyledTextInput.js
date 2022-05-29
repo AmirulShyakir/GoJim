@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { View } from 'react-native';
-
 import { Feather } from '@expo/vector-icons'
 
 import styled from 'styled-components/native';
