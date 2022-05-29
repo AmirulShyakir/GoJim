@@ -1,6 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect,useState} from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator, Image} from 'react-native';
+import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 //containers
 import MainContainer from '../components/containers/MainContainer'; 
 import KeyboardAvoidingContainer from '../components/containers/KeyboardAvoidingContainer';
@@ -20,16 +22,19 @@ function Login({navigation}) {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState('false');
 
-    const handleLogin = async (credentials, setSubmitting) => {
-        try {
-            setMessage(null);
-            //call backend
-            //move to next page
+    const handleLogin = (credentials, setSubmitting) => {
+        signInWithEmailAndPassword(auth, credentials.email, credentials.password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log("logged in with " + user.email);
             setSubmitting(false);
-        } catch(error) {
+            navigation.replace('Home')
+        })
+        .catch(error => {
             setMessage("Login failed: " + error.message);
+            setIsSuccessMessage(false);
             setSubmitting(false);
-        }
+        })
     }
 
     const pressSignup = () => {

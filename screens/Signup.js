@@ -1,6 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator, Image} from 'react-native';
+import { useNavigation } from '@react-navigation/core';
+import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
 //containers
 import MainContainer from '../components/containers/MainContainer'; 
 import KeyboardAvoidingContainer from '../components/containers/KeyboardAvoidingContainer';
@@ -19,18 +23,20 @@ function Signup({navigation}) {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState('false');
 
-    const handleSignup = async (credentials, setSubmitting) => {
-        try {
-            setMessage(null);
-            //call backend
-            //move to next page
-            setSubmitting(false);
-        } catch(error) {
+    const handleSignup = (credentials, setSubmitting) => {
+        createUserWithEmailAndPassword(auth, credentials.email, credentials.password)
+        .then(userCredentials => {
+            const user = userCredentials.user;
+            console.log("Signed up with " + user.email);
+            navigation.navigate('Login');
+        })
+        .catch(error => {
             setMessage("Signup failed: " + error.message);
+            setIsSuccessMessage(false);
             setSubmitting(false);
-        }
+        })
     }
-
+    
     const pressLogin = () => {
         navigation.navigate('Login');
     }
@@ -42,17 +48,15 @@ function Signup({navigation}) {
         />
          
         <KeyboardAvoidingContainer>
-         
-           
             <Formik 
                 initialValues={{email: '', password: ''}}
                 onSubmit={(values, {setSubmitting}) => {
-                    if (values.email == '' || values.password == '' || values.confirmPassword == '') {
+                    if (values.email == '' || values.password == '') {
                         setMessage("Please fill in all fields");
                         setSubmitting(false);
-                        setIsSuccessMessage(false); //the tut didnt have this tho
+                        setIsSuccessMessage(false);
                     } else if (values.password !== values.confirmPassword) {
-                        setMessage("Passwords do not match");
+                        setMessage("Passwords do no match");
                         setSubmitting(false);
                         setIsSuccessMessage(false);
                     } else {
@@ -77,11 +81,10 @@ function Signup({navigation}) {
                             label={"Password"} 
                             icon="lock" 
                             placeholder="********"
-
                             onChangeText={handleChange("password")}
                             onBlur={handleBlur("password")}
                             values={values.password}
-                        isPassword={true}
+                            isPassword={true}
                             style={{ marginBottom:25}}
                         />
 
@@ -89,13 +92,12 @@ function Signup({navigation}) {
                             label={"Confirm Password"} 
                             icon="lock" 
                             placeholder="********"
-                            onChangeText={handleChange("password")}
-                            onBlur={handleBlur("password")}
+                            onChangeText={handleChange("confirmPassword")}
+                            onBlur={handleBlur("confirmPassword")}
                             values={values.confirmPassword}
-                        isPassword={true}
+                            isPassword={true}
                             style={{ marginBottom:25}}
                         />
-
 
                         <MessageBox style={{ marginBottom:20  }} success={isSuccessMessage}>
                             {message || " "}

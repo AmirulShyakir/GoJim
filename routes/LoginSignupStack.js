@@ -6,16 +6,20 @@ import { colours } from "../components/ColourPalette";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 import LargeText from "../components/Texts/RegularText";
+import Home from "../screens/Home";
 
 const {action, black, white} = colours;
 
 const screens = {
-    Login: {    //screen name
-        screen: Login, //component name
+    Login: { 
+        screen: Login, 
     },
     Signup : {
-        screen : Signup
+        screen : Signup,
     },
+    Home : {
+        screen : Home,
+    }
 }
 
 const LoginSignupStack = createStackNavigator(screens, {
