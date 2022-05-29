@@ -99,7 +99,7 @@ function Signup({navigation}) {
                             style={{ marginBottom:25}}
                         />
 
-                        <MessageBox style={{ marginBottom:20  }} success={isSuccessMessage}>
+                        <MessageBox style={{ marginBottom:20 }} success={isSuccessMessage}>
                             {message || " "}
                         </MessageBox>
 
