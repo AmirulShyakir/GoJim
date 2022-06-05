@@ -55,7 +55,7 @@ function Signup({navigation}) {
                         setSubmitting(false);
                         setIsSuccessMessage(false);
                     } else if (values.password !== values.confirmPassword) {
-                        setMessage("Passwords do no match");
+                        setMessage("Passwords do not match");
                         setSubmitting(false);
                         setIsSuccessMessage(false);
                     } else {
@@ -110,7 +110,7 @@ function Signup({navigation}) {
                             </RegularButton>
                         )}
                    
-                        <PressableText style={{paddingTop: 10}} onPress={pressLogin}>Have and account? Login here</PressableText> 
+                        <PressableText style={{paddingTop: 10}} onPress={pressLogin}>Have An Account? Login Here</PressableText> 
                     </>
                 )}
             </Formik>
