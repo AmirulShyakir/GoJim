@@ -78,7 +78,6 @@ function Login({navigation}) {
                             label={"Password"} 
                             icon="lock" 
                             placeholder="********"
-                            keyboardType="email-address"  
                             onChangeText={handleChange("password")}
                             onBlur={handleBlur("password")}
                             values={values.password}
