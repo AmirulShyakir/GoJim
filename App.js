@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState } from 'react';
 
 import Home from './screens/SignedIn/Home';
 import Events from './screens/SignedIn/Events';
@@ -12,34 +13,6 @@ import Login from './screens/Login';
 import { colours } from './components/ColourPalette';
 import { Feather } from '@expo/vector-icons'
 const {action, white, black} = colours;
-
-/*
-export default function App() {
-  return (
-    <>
-      <StatusBar barstyle="dark"/>
-      <Navigator/>
-    </>
-  );
-}
-*/
-
-function LoginSignupScreens() {
-  const LoginSignupStack = createNativeStackNavigator();
-  return (  
-    <LoginSignupStack.Navigator
-      screenOptions={{
-        headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
-        headerTintColor: white}}
-    >
-      <LoginSignupStack.Screen name="Login" component={Login} />
-      <LoginSignupStack.Screen name="Signup" component={Signup} />
-    </LoginSignupStack.Navigator>
-  );
-}
-
-
-
 
 const ProfileStackScreen = () => {
   const ProfileStack = createNativeStackNavigator();
@@ -77,52 +50,65 @@ const SettingsStackScreen = () => {
   )
 }
 
-function Tabs() {
+const App = () => {
+  const [isLoggedIn,setIsLoggedIn] = useState(false);
+  const AuthLogin = (LoginStatus) => { setIsLoggedIn(LoginStatus)}
+  const LoginSignupStack = createNativeStackNavigator();
   const Tabs = createBottomTabNavigator();
-  return (
-    <Tabs.Navigator
-      screenOptions = {({route}) => ({
-        HeaderTitle: () => <Text> Header </Text>,
-        tabBarIcon: ({focused, color, size}) => {
-          let iconName;
-            if(route.name === "Profile") {
-              iconName = focused ? "user" : "user"; 
-            } else if(route.name == "Events") {
-                iconName = focused ? "calendar" : "calendar";
-            } else if(route.name == "Home") {
-                iconName = focused ?  "home" : "home";
-            } else if(route.name == "Settings") {
-                iconName = focused ? "settings" : "settings";
-            } 
-            return (
-                <Feather 
-                    name={iconName} size={size} color= {color} 
-                />
-            );
-          },
-        headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
-        headerTintColor: white,
-      })}
-      tabBarOptions = {{
-        activeTintColor: action,
-        labelStyle: {fontSize: 10},
-      }}
-      initialRouteName="Home"
-      >
-      <Tabs.Screen name="Profile" component={ProfileStackScreen} />
-      <Tabs.Screen name="Events" component={EventsStackScreen} />
-      <Tabs.Screen name="Home" component={HomeStackScreen} />
-      <Tabs.Screen name="Settings" component={SettingsStackScreen} />
-    </Tabs.Navigator>
-  );
+  
+  if(!isLoggedIn){
+    return (
+      <NavigationContainer>
+        <LoginSignupStack.Navigator
+          screenOptions={{
+            headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
+            headerTintColor: white}}
+        >
+          <LoginSignupStack.Screen name="Login" component={Login} initialParams={{ authenticate: Login }} />
+          <LoginSignupStack.Screen name="Signup" component={Signup} />
+        </LoginSignupStack.Navigator>
+      </NavigationContainer>
+    )
+  } else {
+    return (
+      <NavigationContainer>
+        <Tabs.Navigator
+          screenOptions = {({route}) => ({
+            HeaderTitle: () => <Text> Header </Text>,
+            tabBarIcon: ({focused, color, size}) => {
+              let iconName;
+                if(route.name === "Profile") {
+                  iconName = focused ? "user" : "user"; 
+                } else if(route.name == "Events") {
+                    iconName = focused ? "calendar" : "calendar";
+                } else if(route.name == "Home") {
+                    iconName = focused ?  "home" : "home";
+                } else if(route.name == "Settings") {
+                    iconName = focused ? "settings" : "settings";
+                } 
+                return (
+                    <Feather 
+                        name={iconName} size={size} color= {color} 
+                    />
+                );
+              },
+            headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
+            headerTintColor: white,
+          })}
+          tabBarOptions = {{
+            activeTintColor: action,
+            labelStyle: {fontSize: 10},
+          }}
+          initialRouteName="Home"
+          >
+          <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+          <Tabs.Screen name="Events" component={EventsStackScreen} />
+          <Tabs.Screen name="Home" component={HomeStackScreen} initialParams={{ authenticate: AuthLogin }} />
+          <Tabs.Screen name="Settings" component={SettingsStackScreen} />
+        </Tabs.Navigator>
+      </NavigationContainer>
+    )
+  }
 }
 
-export default function App() {
-  return (
-    <NavigationContainer>
-      <Tabs/>
-    </NavigationContainer>
-  )
-}
-
-
+export default App;

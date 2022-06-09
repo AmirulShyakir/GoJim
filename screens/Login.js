@@ -18,7 +18,7 @@ import RegularButton from '../components/Buttons/RegularButton';
 import { colours } from '../components/ColourPalette';
 const {primary, white} = colours;
 
-function Login({navigation}) {
+function Login({navigation, route}) {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState('false');
 
@@ -28,7 +28,8 @@ function Login({navigation}) {
             const user = userCredentials.user;
             console.log("logged in with " + user.email);
             setSubmitting(false);
-            navigation.replace('Home')
+            //navigation.replace('Home')
+            route.params.authenticate(true);
         })
         .catch(error => {
             setMessage("Login failed: " + error.message);
