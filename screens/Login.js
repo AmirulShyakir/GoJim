@@ -8,7 +8,6 @@ import MainContainer from '../components/containers/MainContainer';
 import KeyboardAvoidingContainer from '../components/containers/KeyboardAvoidingContainer';
 import RowContainer from '../components/containers/RowContainer';
 //texts
-import LargeText from '../components/Texts/LargeText';
 import PressableText from '../components/Texts/PressableText';
 import MessageBox from '../components/Texts/MessageBox';
 import StyledTextInput from '../components/Inputs/StyledTextInput';
@@ -28,7 +27,6 @@ function Login({navigation, route}) {
             const user = userCredentials.user;
             console.log("logged in with " + user.email);
             setSubmitting(false);
-            //navigation.replace('Home')
             route.params.authenticate(true);
         })
         .catch(error => {
@@ -56,7 +54,7 @@ function Login({navigation, route}) {
                     if (values.email == "" || values.password == "") {
                         setMessage('Please fill in all fields');
                         setSubmitting(false);
-                        setIsSuccessMessage(false); //the tut didnt have this tho
+                        setIsSuccessMessage(false);
                     } else {
                         handleLogin(values, setSubmitting);
                     }

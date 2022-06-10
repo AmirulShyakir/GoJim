@@ -1,7 +1,8 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { auth } from './firebase';
 
 import Home from './screens/SignedIn/Home';
 import Events from './screens/SignedIn/Events';
@@ -18,7 +19,7 @@ const ProfileStackScreen = () => {
   const ProfileStack = createNativeStackNavigator();
   return (
       <ProfileStack.Navigator>
-          <ProfileStack.Screen name="Profile" component={Profile} options={{headerShown:false}} />
+          <ProfileStack.Screen name="ProfileScreen" component={Profile} options={{headerShown:false}} />
       </ProfileStack.Navigator>
   )
 }
@@ -27,16 +28,18 @@ const EventsStackScreen = () => {
   const EventsStack = createNativeStackNavigator();
   return (
       <EventsStack.Navigator>
-          <EventsStack.Screen name="Events" component={Events} options={{headerShown:false}}/>
+          <EventsStack.Screen name="EventsScreen" component={Events} options={{headerShown:false}}/>
       </EventsStack.Navigator>
   )
 }
 
-const HomeStackScreen = () => {
+const HomeStackScreen = ({navigation, route}) => {
   const HomeStack = createNativeStackNavigator();
   return (
       <HomeStack.Navigator>
-          <HomeStack.Screen name="Home" component={Home} options={{headerShown:false}}/>
+          <HomeStack.Screen name="HomeScreen" component={Home} options={{headerShown:false}} 
+          initialParams={{ authenticate: route.params.authenticate }} 
+          />
       </HomeStack.Navigator>
   )
 }
@@ -45,17 +48,32 @@ const SettingsStackScreen = () => {
   const SettingsStack = createNativeStackNavigator();
   return (
       <SettingsStack.Navigator>
-          <SettingsStack.Screen name="Settings" component={Settings} options={{headerShown:false}}/>
+          <SettingsStack.Screen name="SettingsScreen" component={Settings} options={{headerShown:false}}/>
       </SettingsStack.Navigator>
   )
 }
 
 const App = () => {
   const [isLoggedIn,setIsLoggedIn] = useState(false);
-  const AuthLogin = (LoginStatus) => { setIsLoggedIn(LoginStatus)}
   const LoginSignupStack = createNativeStackNavigator();
   const Tabs = createBottomTabNavigator();
+
+  const AuthLogin = (LoginStatus) => {
+    setIsLoggedIn(LoginStatus);
+  }
   
+  /*
+  useEffect(() => {
+    auth.onAuthStateChanged(user=> {
+      if(user){
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    })
+  },[])
+*/
+
   if(!isLoggedIn){
     return (
       <NavigationContainer>
@@ -64,7 +82,9 @@ const App = () => {
             headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
             headerTintColor: white}}
         >
-          <LoginSignupStack.Screen name="Login" component={Login} initialParams={{ authenticate: Login }} />
+          <LoginSignupStack.Screen name="Login" component={Login}
+          initialParams={{ authenticate: AuthLogin }} 
+           />
           <LoginSignupStack.Screen name="Signup" component={Signup} />
         </LoginSignupStack.Navigator>
       </NavigationContainer>
@@ -94,17 +114,22 @@ const App = () => {
               },
             headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
             headerTintColor: white,
-          })}
-          tabBarOptions = {{
-            activeTintColor: action,
-            labelStyle: {fontSize: 10},
-          }}
+            tabBarActiveBackgroundColor: black,
+            tabBarActiveTintColor: action,
+            tabBarLabelStyle: {
+              "fontSize": 10
+            }
+            })}
           initialRouteName="Home"
           >
           <Tabs.Screen name="Profile" component={ProfileStackScreen} />
           <Tabs.Screen name="Events" component={EventsStackScreen} />
-          <Tabs.Screen name="Home" component={HomeStackScreen} initialParams={{ authenticate: AuthLogin }} />
-          <Tabs.Screen name="Settings" component={SettingsStackScreen} />
+          <Tabs.Screen name="Home"  component={HomeStackScreen}
+          initialParams={{ authenticate: AuthLogin }}
+           />
+          <Tabs.Screen name="Settings" 
+          authenticate={ AuthLogin }
+           component={SettingsStackScreen} />
         </Tabs.Navigator>
       </NavigationContainer>
     )

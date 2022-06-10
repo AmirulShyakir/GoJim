@@ -27,7 +27,7 @@ function Signup({navigation}) {
         .then(userCredentials => {
             const user = userCredentials.user;
             console.log("Signed up with " + user.email);
-            navigation.navigate('Login');
+            navigation.navigate('LoginScreen');
         })
         .catch(error => {
             setMessage("Signup failed: " + error.message);
