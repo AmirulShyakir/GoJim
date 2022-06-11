@@ -64,7 +64,7 @@ const App = () => {
   
   
   useEffect(() => {
-    auth.onAuthStateChanged(user=> {
+    auth.onAuthStateChanged((user) => {
       if(user){
         setIsLoggedIn(true);
       } else {

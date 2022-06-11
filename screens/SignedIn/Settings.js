@@ -15,7 +15,7 @@ const Settings = () => {
 
     return <MainContainer>
         <LargeText>Settings Stub</LargeText>
-        <PressableText onPress={() => { Logout } } > Log out </PressableText>
+        <PressableText onPress={ Logout } > Log out </PressableText>
     </MainContainer>
 }
 
