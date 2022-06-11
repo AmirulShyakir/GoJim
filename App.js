@@ -62,7 +62,7 @@ const App = () => {
     setIsLoggedIn(LoginStatus);
   }
   
-  /*
+  
   useEffect(() => {
     auth.onAuthStateChanged(user=> {
       if(user){
@@ -72,7 +72,7 @@ const App = () => {
       }
     })
   },[])
-*/
+
 
   if(!isLoggedIn){
     return (

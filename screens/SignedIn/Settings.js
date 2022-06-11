@@ -8,7 +8,7 @@ import PressableText from '../../components/Texts/PressableText';
 
 
 
-const Settings = ( {navigation, route} ) => {
+const Settings = () => {
     const Logout = () => {
         auth.signOut()
         }
