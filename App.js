@@ -13,7 +13,7 @@ import Signup from './screens/Signup';
 import Login from './screens/Login';
 import { colours } from './components/ColourPalette';
 import { Feather } from '@expo/vector-icons'
-const {action, white, black} = colours;
+const {action, white, black, primary} = colours;
 
 const ProfileStackScreen = () => {
   const ProfileStack = createNativeStackNavigator();
@@ -114,7 +114,8 @@ const App = () => {
               },
             headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
             headerTintColor: white,
-            tabBarActiveBackgroundColor: black,
+            tabBarActiveBackgroundColor: primary,
+            tabBarInactiveBackgroundColor: primary,
             tabBarActiveTintColor: action,
             tabBarLabelStyle: {
               "fontSize": 10
