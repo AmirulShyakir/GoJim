@@ -16,6 +16,7 @@ import StyledTextInput from '../components/Inputs/StyledTextInput';
 import RegularButton from '../components/Buttons/RegularButton';
 //colours
 import { colours } from '../components/ColourPalette';
+import RowContainer from '../components/containers/RowContainer';
 const {primary, white} = colours;
 
 function Signup({navigation}) {
@@ -109,8 +110,7 @@ function Signup({navigation}) {
                                 <ActivityIndicator size='small' color={white} /> 
                             </RegularButton>
                         )}
-                   
-                        <PressableText style={{paddingTop: 10}} onPress={pressLogin}>Have An Account? Login Here</PressableText> 
+                        <PressableText onPress={pressLogin}>Have An Account? Login Here</PressableText> 
                     </>
                 )}
             </Formik>

@@ -2256,6 +2256,14 @@
   "resolved" "https://registry.npmjs.org/@types/hammerjs/-/hammerjs-2.0.41.tgz"
   "version" "2.0.41"
 
+"@types/hoist-non-react-statics@*":
+  "integrity" "sha512-iMIqiko6ooLrTh1joXodJK5X9xeEALT1kM5G3ZLhD3hszxBdIEd5C75U834D9mLcINgD4OyZf5uQXjkuYydWvA=="
+  "resolved" "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.1.tgz"
+  "version" "3.3.1"
+  dependencies:
+    "@types/react" "*"
+    "hoist-non-react-statics" "^3.3.0"
+
 "@types/invariant@^2.2.35":
   "integrity" "sha512-DxX1V9P8zdJPYQat1gHyY0xj3efl8gnMVjiM9iCY6y27lj+PoQWkgjt8jDqmovPqULkKVpKRg8J36iQiA+EtEg=="
   "resolved" "https://registry.npmjs.org/@types/invariant/-/invariant-2.2.35.tgz"
@@ -2289,6 +2297,34 @@
   "integrity" "sha512-vu1SrqBjbbZ3J6vwY17jBs8Sr/BKA+/a/WtjRG+whKg1iuLFOosq872EXS0eXWILdO36DHQQeku/ZcL6hz2fpg=="
   "resolved" "https://registry.npmjs.org/@types/node/-/node-17.0.35.tgz"
   "version" "17.0.35"
+
+"@types/prop-types@*":
+  "integrity" "sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w=="
+  "resolved" "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.5.tgz"
+  "version" "15.7.5"
+
+"@types/react@*":
+  "integrity" "sha512-duF1OTASSBQtcigUvhuiTB1Ya3OvSy+xORCiEf20H0P0lzx+/KeVsA99U5UjLXSbyo1DRJDlLKqTeM1ngosqtg=="
+  "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.12.tgz"
+  "version" "18.0.12"
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    "csstype" "^3.0.2"
+
+"@types/scheduler@*":
+  "integrity" "sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew=="
+  "resolved" "https://registry.npmjs.org/@types/scheduler/-/scheduler-0.16.2.tgz"
+  "version" "0.16.2"
+
+"@types/styled-components@^5.1.25":
+  "integrity" "sha512-fgwl+0Pa8pdkwXRoVPP9JbqF0Ivo9llnmsm+7TCI330kbPIFd9qv1Lrhr37shf4tnxCOSu+/IgqM7uJXLWZZNQ=="
+  "resolved" "https://registry.npmjs.org/@types/styled-components/-/styled-components-5.1.25.tgz"
+  "version" "5.1.25"
+  dependencies:
+    "@types/hoist-non-react-statics" "*"
+    "@types/react" "*"
+    "csstype" "^3.0.2"
 
 "@types/yargs-parser@*":
   "integrity" "sha512-iO9ZQHkZxHn4mSakYV0vFHAVDyEOIJQrV2uZ06HxEPcx+mt8swXoZHIbaaJ2crJYFfErySgktuTZ3BeLz+XmFA=="
@@ -3336,6 +3372,11 @@
     "camelize" "^1.0.0"
     "css-color-keywords" "^1.0.0"
     "postcss-value-parser" "^4.0.2"
+
+"csstype@^3.0.2":
+  "integrity" "sha512-uX1KG+x9h5hIJsaKR9xHUeUraxf8IODOwq9JLNPq6BwB04a/xgpq3rcx47l5BZu5zBPlgD342tdke3Hom/nJRA=="
+  "resolved" "https://registry.npmjs.org/csstype/-/csstype-3.1.0.tgz"
+  "version" "3.1.0"
 
 "dag-map@~1.0.0":
   "integrity" "sha1-6DefBBAA7VYfxRVHXB7SyF7s6Nc="
