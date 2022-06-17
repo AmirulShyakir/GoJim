@@ -4,7 +4,7 @@ import { createAppContainer } from "react-navigation";
 import { colours } from "../components/ColourPalette";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
-import Home from "../screens/Home";
+import Home from "../screens/SignedIn/Home";
 
 const {action, white} = colours;
 
