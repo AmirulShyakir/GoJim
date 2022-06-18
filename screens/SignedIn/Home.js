@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, FlatList, View, StyleSheet } from 'react-native';
+import { Image, Text, FlatList, View, StyleSheet } from 'react-native';
 
 //firebase stuff
 import { auth } from '../../firebase';
@@ -33,10 +33,10 @@ const Home = ({navigation, route}) => {
     
     const getData = async () => {
         const list = [];
-        const conferenceRooms = query(collection(db, "facilities"), where("type", "==", "discussionRoom"));
-        const cRoomsSnapshot = await getDocs(conferenceRooms);
-        cRoomsSnapshot.forEach(facility => {
-                list.push(facility);
+        const discussionRooms = query(collection(db, "facilities"), where("type", "==", "discussionRoom"));
+        const dRoomsSnapshot = await getDocs(discussionRooms);
+        dRoomsSnapshot.forEach(facility => {
+                list.push(facility.data());
             });
             setFacilities([...list])
     };
@@ -61,12 +61,13 @@ const Home = ({navigation, route}) => {
             console.log(doc.id, " => ", doc.data());
         });
     }
-
+    
     return <MainContainer>
-        <LargeText>Homescreen Stub</LargeText>
+        <LargeText>Facilities</LargeText>
         <FlatList
             data={facilities}
-            renderItem={({item}) => <Text style={styles.item}>{item.id}</Text>}
+            renderItem={({item}) => 
+            <Image source={{uri:item.imageURL}}  style={{width:306, height:183}} />}
         />
     </MainContainer>
 }
