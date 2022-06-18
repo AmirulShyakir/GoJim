@@ -8,6 +8,7 @@ const StyledText = styled.Text`
     font-size: 25px;
     color: ${white};
     text-align: left;
+    padding-top: 10px;
 `
 
 const LargeText = (props) => {

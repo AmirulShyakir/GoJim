@@ -94,10 +94,10 @@ const App = () => {
       <NavigationContainer>
         <Tabs.Navigator
           screenOptions = {({route}) => ({
-            HeaderTitle: () => <Text> Header </Text>,
+            HeaderTitle: () => <Text> ZYZZ </Text>,
             tabBarIcon: ({focused, color, size}) => {
               let iconName;
-                if(route.name === "Profile") {
+                if(route.name === "Account") {
                   iconName = focused ? "user" : "user"; 
                 } else if(route.name == "Events") {
                     iconName = focused ? "calendar" : "calendar";
@@ -123,7 +123,7 @@ const App = () => {
             })}
           initialRouteName="Home"
           >
-          <Tabs.Screen name="Profile" component={ProfileStackScreen} />
+          <Tabs.Screen name="Account" component={ProfileStackScreen} />
           <Tabs.Screen name="Events" component={EventsStackScreen} />
           <Tabs.Screen name="Home"  component={HomeStackScreen}
           initialParams={{ authenticate: AuthLogin }}
