@@ -13,6 +13,7 @@ const ButtonView = styled.TouchableOpacity`
     align-items: center;
     border-radius: 10px;
     height: 60px
+    margin-bottom: 10px;
 `
 const RegularButton = (props) => {
     return (
