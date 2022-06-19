@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { colours } from '../ColourPalette';
+import { StatusBar } from 'react-native';
 
 const {primary, tertiary} = colours;
 
@@ -13,7 +14,12 @@ const StyledView = styled.View`
 `
 
 const SignedInContainer = (props) => {
-    return <StyledView {...props}>{props.children}</StyledView>;
+    return <StyledView {...props}>
+    <StatusBar
+        animated={true}
+        barStyle= 'light-content'
+    />
+    {props.children}</StyledView>;
 };
 
 export default SignedInContainer;

@@ -16,7 +16,6 @@ const Settings = () => {
         }
 
     return <MainContainer>
-        <LargeText>Settings Stub</LargeText>
         <RegularButton onPress={ Logout } > Log out </RegularButton>
         <SmallText>GoJim Version 1.0.0</SmallText>
     </MainContainer>

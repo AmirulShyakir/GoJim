@@ -4,9 +4,9 @@ import MainContainer from '../../components/containers/MainContainer';
 //texts
 import LargeText from '../../components/Texts/LargeText';
 
-const Profile = () => {
+const Account = () => {
     return <MainContainer>
-        <LargeText>Profile Stub</LargeText>
+        <LargeText>Account Stub</LargeText>
         <Image 
             style={{width: '100%', height: '50%', borderRadius: 10}}
             source={{
@@ -16,4 +16,4 @@ const Profile = () => {
     </MainContainer>
 }
 
-export default Profile;
+export default Account;
