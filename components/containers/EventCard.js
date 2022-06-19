@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
       <TouchableOpacity onPress={onPress} style={[styles.item]}>
         <RowContainer style={{justifyContent: 'flex-start'}}>
           <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
-          <Text style={[styles.title]}>{item.name} </Text>
+          <Text style={[styles.title]}>{item.eventName} </Text>
         </RowContainer>
 
         <RegularText>{item.venue} </RegularText>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         <RowContainer>
           <RegularText>{facility.venue}</RegularText>
           <MaxCapacityContainer>
-          <RegularText>{item.currentParticipants}/{item.maxParticipants}</RegularText>
+          <RegularText>{item.participants.length}/{item.maxParticipants}</RegularText>
           </MaxCapacityContainer>
         </RowContainer>
       </TouchableOpacity>

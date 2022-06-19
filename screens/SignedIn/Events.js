@@ -22,7 +22,7 @@ const Events = () => {
     
     const getData = async () => {
         const list = [];
-        const events = query(collection(db, "events"), where("type", "==", "friendlies"));
+        const events = query(collection(db, "bookings"), where("event", "==", true), where("eventType", "==", "Networking Sessions"));
         const eventsSnapshot = await getDocs(events);
         eventsSnapshot.forEach(events => {
                 list.push(events.data());
@@ -34,7 +34,7 @@ const Events = () => {
         return (
           <EventCard
             item={item}
-            onPress={() => console.log("selected " + item.name)}
+            onPress={() => console.log("selected " + item.eventName)}
           />
         );
       };
