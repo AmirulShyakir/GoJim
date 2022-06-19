@@ -1,5 +1,5 @@
-import { db } from '../../firebase';
-import React from 'react';
+import { db, auth } from '../../firebase';
+import React, { useEffect, useState } from 'react';
 import View from 'react-native'
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import SignedInContainer from '../../components/containers/SignedInContainer';
@@ -14,35 +14,45 @@ import SearchButton from '../../components/Buttons/SearchButton';
 const {white, secondary, primary} = colours;
 
 const Home1 = ({navigation, route}) => {
-    const pressFacil = () => {
+  useEffect(() => {
+    auth.onAuthStateChanged( (user) => {
+        if(user){
+      
+        } else {
+            route.params.authenticate(false);
+        }   
+    })
+  },[])
+
+  const pressFacil = () => {
     console.log(selected);
     navigation.navigate('HomeScreen', {facilityType: selected});
-    }
-    const [selected, setSelected] = React.useState("");
-    const data = [
-      {key:'Discussion Rooms',value:'Discussion Rooms'},
-      {key:'Event Spaces',value:'Event Spaces'},
-      {key:'Sports Courts',value:'Sports Courts'},
-      {key:'Studios',value:'Studios'},
-    ];
+  }
+  const [selected, setSelected] = React.useState("");
+  const data = [
+    {key:'Discussion Rooms',value:'Discussion Rooms'},
+    {key:'Event Spaces',value:'Event Spaces'},
+    {key:'Sports Courts',value:'Sports Courts'},
+    {key:'Studios',value:'Studios'},
+  ];
   
-    return (
-      <SignedInContainer>
-        <SelectList
-          placeholder='Facility Types'
-          setSelected={setSelected} data={data} 
-          boxStyles={{
-            backgroundColor: white,
-            marginRight: 150,
-            }}
-          dropdownStyles={{
-            backgroundColor: white,
-            marginRight: 150,
-            }}
-          />
-        <RegularButton onPress={pressFacil}>See facilities dummy</RegularButton>
-      </SignedInContainer>
-    )
+  return (
+    <SignedInContainer>
+      <SelectList
+        placeholder='Facility Types'
+        setSelected={setSelected} data={data} 
+        boxStyles={{
+          backgroundColor: white,
+          marginRight: 150,
+        }}
+        dropdownStyles={{
+          backgroundColor: white,
+          marginRight: 150,
+        }}
+      />
+      <RegularButton onPress={pressFacil}>See facilities dummy</RegularButton>
+    </SignedInContainer>
+  )
 }
 
 export default Home1;

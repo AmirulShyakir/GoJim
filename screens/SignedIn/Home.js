@@ -27,16 +27,6 @@ const Home = ({navigation, route}) => {
             });
             setFacilities([...list])
     };
-    
-    useEffect(() => {
-        auth.onAuthStateChanged( (user) => {
-            if(user){
-          
-            } else {
-                route.params.authenticate(false);
-            }   
-        })
-      },[])
 
     const renderItem = ({ item }) => {
         return (
