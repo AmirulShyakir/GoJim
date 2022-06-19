@@ -10,6 +10,7 @@ import RegularButton from '../../components/Buttons/RegularButton';
 import { colours} from '../../components/ColourPalette';
 import RowContainer from '../../components/containers/RowContainer';
 import SearchButton from '../../components/Buttons/SearchButton';
+import DatePicker from '../../components/Buttons/DateTimePicker';
 
 const {white, secondary, primary} = colours;
 
@@ -40,6 +41,7 @@ const Home1 = ({navigation, route}) => {
             marginRight: 150,
             }}
           />
+        <DatePicker></DatePicker>
         <RegularButton onPress={pressFacil}>See facilities dummy</RegularButton>
       </SignedInContainer>
     )
