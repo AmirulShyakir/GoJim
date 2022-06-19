@@ -4,7 +4,7 @@ import { colours } from '../../components/ColourPalette';
 import RegularText from '../../components/Texts/RegularText';
 import RowContainer from '../../components/containers/RowContainer';
 import MaxCapacityContainer from '../../components/containers/MaxCapacityContainer';
-import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { TouchableOpacity, StyleSheet, Image, Text } from 'react-native';
 import { db } from '../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
@@ -25,10 +25,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: white,
+    marginLeft: 15,
   },
   image: {
-    width:'100%', 
-    height:183,
+    width: 109, 
+    height: 65,
     paddingBottom:50,
     borderRadius: 10
   }
@@ -52,12 +53,17 @@ const styles = StyleSheet.create({
 
     return (
       <TouchableOpacity onPress={onPress} style={[styles.item]}>
-        <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
-        <LargeText>{item.name}</LargeText>
+        <RowContainer style={{justifyContent: 'flex-start'}}>
+          <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
+          <Text style={[styles.title]}>{item.name} </Text>
+        </RowContainer>
+
+        <RegularText>{item.venue} </RegularText>
+        
         <RowContainer>
-          <RegularText>{item.venue} at {facility.venue}</RegularText>
+          <RegularText>{facility.venue}</RegularText>
           <MaxCapacityContainer>
-            <RegularText>{item.currentParticipants}/{item.maxParticipants}</RegularText>
+          <RegularText>{item.currentParticipants}/{item.maxParticipants}</RegularText>
           </MaxCapacityContainer>
         </RowContainer>
       </TouchableOpacity>
