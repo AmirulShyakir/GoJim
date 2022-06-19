@@ -1,15 +1,16 @@
-import { TouchableOpacity, Image, StyleSheet } from "react-native";
-import { colours } from "../ColourPalette";
-//Texts
-import RegularText from "../Texts/RegularText";
-import LargeText from "../Texts/LargeText";
+import LargeText from '../../components/Texts/LargeText';
+import RegularButton from '../../components/Buttons/RegularButton';
+import { colours } from '../../components/ColourPalette';
+import RegularText from '../../components/Texts/RegularText';
+import RowContainer from '../../components/containers/RowContainer';
+import MaxCapacityContainer from '../../components/containers/MaxCapacityContainer';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { db } from '../../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 
-//Containers
-import RowContainer from "./RowContainer";
-import MaxCapacityContainer from "./MaxCapacityContainer";
+const {white, secondary, primary} = colours;
 
-//Styles
-const {white, primary} = colours;
 const styles = StyleSheet.create({
   item: {
     flex: 1,
@@ -33,16 +34,34 @@ const styles = StyleSheet.create({
   }
 });
 
+  const EventCard = ({ item, onPress }) => {
+    
+    const [facility, setFacility] = useState({});
+    
+    useEffect(() => {
+        getFacility();
+    }, []);
+    
+    const getFacility = async () => {
+        console.log(item.venue);
+        const docRef = doc(db, 'facilities', item.venue);
+        const docSnap = await getDoc(docRef);
+        const facility = docSnap.data();
+        setFacility(facility);
+    }
 
-const EventCard = ({ item, onPress }) => (
-    <TouchableOpacity onPress={onPress} style={[styles.item]}>
-      <LargeText>{item.name}</LargeText>
-      <RowContainer>
-        <MaxCapacityContainer>
-        <RegularText>{item.capacity}</RegularText>
-        </MaxCapacityContainer>
-      </RowContainer>
-    </TouchableOpacity>
-  );
+    return (
+      <TouchableOpacity onPress={onPress} style={[styles.item]}>
+        <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
+        <LargeText>{item.name}</LargeText>
+        <RowContainer>
+          <RegularText>{item.venue} at {facility.venue}</RegularText>
+          <MaxCapacityContainer>
+            <RegularText>{item.currentParticipants}/{item.maxParticipants}</RegularText>
+          </MaxCapacityContainer>
+        </RowContainer>
+      </TouchableOpacity>
+    );
+  };
 
 export default EventCard;

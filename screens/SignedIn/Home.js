@@ -84,17 +84,6 @@ const Home = ({navigation, route}) => {
             }   
         })
       },[])
- 
-    
-    //to print out facilities on terminal
-    const printRooms = async () => {
-        console.log("Facilities here:");
-        const conferenceRooms = query(collection(db, "facilities"), where("type", "==", "discussionRoom"));
-        const cRoomsSnapshot = await getDocs(conferenceRooms);
-        cRoomsSnapshot.forEach((doc) => {
-            console.log(doc.id, " => ", doc.data());
-        });
-    }
 
     const renderItem = ({ item }) => {
         return (
@@ -109,7 +98,6 @@ const Home = ({navigation, route}) => {
         <FlatList
             data={facilities}
             renderItem={renderItem}
-            keyExtractor={(item) => item.name}
         />
     </SignedInContainer>
 }
