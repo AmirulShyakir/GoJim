@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { StatusBarHeight } from '../Shared';
 import { colours } from '../ColourPalette';
 
 const {primary, tertiary} = colours;
