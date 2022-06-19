@@ -7,6 +7,7 @@ import LargeText from "../Texts/LargeText";
 //Containers
 import RowContainer from "./RowContainer";
 import MaxCapacityContainer from "./MaxCapacityContainer";
+import RegularButton from "../Buttons/RegularButton";
 
 //Styles
 const {white, primary} = colours;
