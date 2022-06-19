@@ -4,7 +4,10 @@ import { colours } from '../../components/ColourPalette';
 import RegularText from '../../components/Texts/RegularText';
 import RowContainer from '../../components/containers/RowContainer';
 import MaxCapacityContainer from '../../components/containers/MaxCapacityContainer';
-import { TouchableOpacity, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { db } from '../../firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 
 const {white, secondary, primary} = colours;
 
@@ -32,6 +35,21 @@ const styles = StyleSheet.create({
 });
 
   const EventCard = ({ item, onPress }) => {
+    
+    /*const [facility, setFacility] = useState();
+    
+    useEffect(() => {
+        getFacility();
+    }, []);
+    
+    const getFacility = async () => {
+        console.log(item.venue);
+        const docRef = doc(db, 'facilities', item.venue);
+        const docSnap = await getDoc(docRef);
+        const facility = docSnap.data();
+        setFacility(facility);
+    }*/
+
     return (
       <TouchableOpacity onPress={onPress} style={[styles.item]}>
         <LargeText>{item.name}</LargeText>
