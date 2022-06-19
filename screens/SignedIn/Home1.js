@@ -15,14 +15,15 @@ const {white, secondary, primary} = colours;
 
 const Home1 = ({navigation, route}) => {
     const pressFacil = () => {
-    navigation.navigate('HomeScreen');
+    console.log(selected);
+    navigation.navigate('HomeScreen', {facilityType: selected});
     }
     const [selected, setSelected] = React.useState("");
     const data = [
-      {key:'1',value:'Discussion Rooms         '},
-      {key:'2',value:'Event Spaces             '},
-      {key:'3',value:'Sports Courts            '},
-      {key:'4',value:'Studios                  '},
+      {key:'Discussion Rooms',value:'Discussion Rooms'},
+      {key:'Event Spaces',value:'Event Spaces'},
+      {key:'Sports Courts',value:'Sports Courts'},
+      {key:'Studios',value:'Studios'},
     ];
   
     return (
