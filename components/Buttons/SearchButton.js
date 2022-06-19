@@ -2,25 +2,24 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { colours } from '../ColourPalette';
 import RegularText from '../Texts/RegularText';
+import { Feather } from '@expo/vector-icons'
 
-const {action, white} = colours;
+const {action, white, tertiary} = colours;
 
 const ButtonView = styled.TouchableOpacity`
-    padding: 15px;
     background-color: ${action};
-    width: 100%;
+    width: 60;
+    height: 60;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    height: 60px
-    marginTop: 10px
 `
-const RegularButton = (props) => {
+const SearchButton = (props) => {
     return (
         <ButtonView onPress={props.onPress} {...props}>
-            <RegularText style={[{color: white}, {...props?.textStyle}]}>{props.children}</RegularText>
+            <Feather name={'search'} size={24} color = {white} />
         </ButtonView>
     );
 };
 
-export default RegularButton;
+export default SearchButton;

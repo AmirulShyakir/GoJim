@@ -23,12 +23,11 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     padding: 20,
-    paddingBottom: 10,
     backgroundColor: primary,
     justifyContent: 'center',
     alignContent: 'center',
     borderRadius: 10,
-    margin: 10,
+    margin: 5,
   },
   title: {
     fontSize: 25,
@@ -60,13 +59,15 @@ const styles = StyleSheet.create({
 const Home = ({navigation, route}) => {
     const [facilities, setFacilities] = useState([]);
 
+    const { facilityType } = route.params;
+
     useEffect(() => {
         getData();
     }, []);
     
     const getData = async () => {
         const list = [];
-        const discussionRooms = query(collection(db, "facilities"), where("type", "==", "discussionRoom"));
+        const discussionRooms = query(collection(db, "facilities"), where("type", "==", facilityType));
         const dRoomsSnapshot = await getDocs(discussionRooms);
         dRoomsSnapshot.forEach(facility => {
                 list.push(facility.data());

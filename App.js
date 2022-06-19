@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { auth } from './firebase';
 
 import Home from './screens/SignedIn/Home';
+import Home1 from './screens/SignedIn/Home1';
 import Events from './screens/SignedIn/Events';
 import Profile from './screens/SignedIn/Profile';
 import Settings from './screens/SignedIn/Settings';
@@ -37,8 +38,10 @@ const HomeStackScreen = ({navigation, route}) => {
   const HomeStack = createNativeStackNavigator();
   return (
       <HomeStack.Navigator>
-          <HomeStack.Screen name="HomeScreen" component={Home} options={{headerShown:false}} 
+          <HomeStack.Screen name="HomeScreen1" component={Home1} options={{headerShown:false}} 
           initialParams={{ authenticate: route.params.authenticate }} 
+          />         
+          <HomeStack.Screen name="HomeScreen" component={Home} options={{headerShown:false}} 
           />
       </HomeStack.Navigator>
   )
