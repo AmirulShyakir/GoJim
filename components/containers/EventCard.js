@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
   const EventCard = ({ item, onPress }) => {
     
-    /*const [facility, setFacility] = useState();
+    const [facility, setFacility] = useState({});
     
     useEffect(() => {
         getFacility();
@@ -48,13 +48,14 @@ const styles = StyleSheet.create({
         const docSnap = await getDoc(docRef);
         const facility = docSnap.data();
         setFacility(facility);
-    }*/
+    }
 
     return (
       <TouchableOpacity onPress={onPress} style={[styles.item]}>
+        <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
         <LargeText>{item.name}</LargeText>
         <RowContainer>
-          <RegularText>{item.venue}</RegularText>
+          <RegularText>{item.venue} at {facility.venue}</RegularText>
           <MaxCapacityContainer>
             <RegularText>{item.currentParticipants}/{item.maxParticipants}</RegularText>
           </MaxCapacityContainer>
