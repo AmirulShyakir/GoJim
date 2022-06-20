@@ -3,6 +3,7 @@ import { Image } from 'react-native';
 import MainContainer from '../../components/containers/MainContainer'; 
 //texts
 import LargeText from '../../components/Texts/LargeText';
+import EventTypeCard from '../../components/containers/EventTypeCard';
 
 const Account = () => {
     return <MainContainer>

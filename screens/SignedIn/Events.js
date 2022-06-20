@@ -1,12 +1,10 @@
 import { db } from '../../firebase';
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
-import MainContainer from '../../components/containers/MainContainer'; 
 import SignedInContainer from '../../components/containers/SignedInContainer';
 //texts
-import LargeText from '../../components/Texts/LargeText';
-import RegularButton from '../../components/Buttons/RegularButton';
 import { FlatList } from 'react-native';
 import EventCard from '../../components/containers/EventCard';
+import EventTypeCard from '../../components/containers/EventTypeCard';
 import { useState, useEffect } from 'react';
 
 

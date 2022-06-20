@@ -7,6 +7,7 @@ import { auth } from './firebase';
 import Home from './screens/SignedIn/Home';
 import Home1 from './screens/SignedIn/Home1';
 import Events from './screens/SignedIn/Events';
+import Events1 from './screens/SignedIn/Events1';
 import Account from './screens/SignedIn/Account';
 import Settings from './screens/SignedIn/Settings';
 
@@ -36,6 +37,15 @@ const EventsStackScreen = () => {
   const EventsStack = createNativeStackNavigator();
   return (
       <EventsStack.Navigator>
+          <EventsStack.Screen name="EventsScreen1" component={Events1} options={{
+            headerShown:true, 
+            headerTitle:'Event Types', 
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} 
+          />   
           <EventsStack.Screen name="EventsScreen" component={Events} options={{
             headerShown:true, 
             headerTitle:'Events', 
