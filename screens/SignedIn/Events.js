@@ -9,8 +9,8 @@ import { useState, useEffect } from 'react';
 
 
 
-const Events = () => {
-    
+const Events = ({route}) => {
+  const { eventType } = route.params;
 
     const [events, setEvents] = useState([]);
 
@@ -20,7 +20,7 @@ const Events = () => {
     
     const getData = async () => {
         const list = [];
-        const events = query(collection(db, "bookings"), where("event", "==", true), where("eventType", "==", "Networking Sessions"));
+        const events = query(collection(db, "bookings"), where("event", "==", true), where("eventType", "==", eventType));
         const eventsSnapshot = await getDocs(events);
         eventsSnapshot.forEach(events => {
                 list.push(events.data());

@@ -28,7 +28,7 @@ const Home1 = ({navigation, route}) => {
     console.log(selected);
     navigation.navigate('HomeScreen', {facilityType: selected});
   }
-  const [selected, setSelected] = React.useState("");
+  const [selected, setSelected] = useState("");
   const data = [
     {key:'Discussion Rooms',value:'Discussion Rooms'},
     {key:'Event Spaces',value:'Event Spaces'},

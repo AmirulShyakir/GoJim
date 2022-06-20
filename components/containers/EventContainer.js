@@ -1,22 +1,23 @@
 import React from 'react';
 import styled from 'styled-components/native';
 import { colours } from '../ColourPalette';
-import { StatusBar } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 const {primary, tertiary} = colours;
 
-const StyledView = styled.View`
-    flex-wrap: wrap;
-    background-color: ${tertiary};
-`
+const style = StyleSheet.create({
+    flex: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    backgroundColor: tertiary,
+    padding: 5,
+})
 
 const EventContainer = (props) => {
-    return <StyledView {...props}>
-    <StatusBar
-        animated={true}
-        barStyle= 'light-content'
-    />
-    {props.children}</StyledView>;
+    return <View style = {style}>
+        {props.children}
+    </View>
+    
 };
 
 export default EventContainer;
