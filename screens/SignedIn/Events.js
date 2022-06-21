@@ -10,7 +10,7 @@ import { useState, useEffect } from 'react';
 
 
 const Events = ({route}) => {
-  const { eventType } = route.params;
+  const eventType  = route.params.key;
 
     const [events, setEvents] = useState([]);
 
@@ -19,7 +19,8 @@ const Events = ({route}) => {
     }, []);
     
     const getData = async () => {
-        const list = [];
+      console.log(eventType + " EVENTS SCREEN");  
+      const list = [];
         const events = query(collection(db, "bookings"), where("event", "==", true), where("eventType", "==", eventType));
         const eventsSnapshot = await getDocs(events);
         eventsSnapshot.forEach(events => {

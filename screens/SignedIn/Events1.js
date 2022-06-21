@@ -19,16 +19,16 @@ import EventContainer from "../../components/containers/EventContainer";
 import { useState, useEffect } from "react";
 
 const Events1 = ({ navigation }) => {
-  const [selected, setSelected] = useState("");
+  /*const [selected, setSelected] = useState("");
 
   useEffect(() => {
     console.log(selected + "joe");
-  }, [selected]);
+  }, [selected]);*/
 
   function pressEvent(eventType) {
-    setSelected(eventType);
-    console.log(selected);
-    navigation.navigate("EventsScreen", { eventType: selected });
+    /*setSelected(eventType);*/
+    console.log(eventType + " EVENTS1 SCREEN");
+    navigation.navigate("EventsScreen", {key: eventType});
   }
 
   return (
