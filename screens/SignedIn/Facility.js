@@ -7,10 +7,12 @@ import MainContainer from '../../components/containers/MainContainer';
 //texts
 import LargeText from '../../components/Texts/LargeText';
 
+import RegularButton from '../../components/Buttons/RegularButton';
 import RowContainer from '../../components/containers/RowContainer';
 import RegularText from '../../components/Texts/RegularText';
 import MaxCapacityContainer from '../../components/containers/MaxCapacityContainer';
 import { colours } from '../../components/ColourPalette';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const {primary} = colours;
 
@@ -31,37 +33,46 @@ const Facility = ({route}) => {
         setFacility(facility);
     }
     
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+        setDatePickerVisibility(false);
+    };
+
+    const handleConfirm = (date) => {
+        console.warn("A date has been picked: ", date);
+        hideDatePicker();
+    };
+
+    
     return (
-    
-        <ScrollView style={styles.scrollView}>
-         <Image
-        style={{width: '100%', height: 200, borderRadius: 10}}
-        source={{uri:facility.imageURL}}
-        />
-        <LargeText>{facilityName}</LargeText>
-        <RowContainer>
-            <RegularText>{facility.venue}</RegularText>
-            <MaxCapacityContainer>
-                <RegularText>{facility.capacity}</RegularText>
-            </MaxCapacityContainer>
-        </RowContainer>
-        <RegularText>{facility.description}</RegularText>
-      </ScrollView>
-    
-        /*<ScrollView style={styles.scrollView}>
+      <ScrollView style={styles.scrollView}>
         <Image
-        style={{width: '100%', height: '50%', borderRadius: 10}}
-        source={{uri:facility.imageURL}}
+          style={{ width: "100%", height: 200, borderRadius: 10 }}
+          source={{ uri: facility.imageURL }}
         />
         <LargeText>{facilityName}</LargeText>
         <RowContainer>
-            <RegularText>{facility.venue}</RegularText>
-            <MaxCapacityContainer>
-                <RegularText>{facility.capacity}</RegularText>
-            </MaxCapacityContainer>
+          <RegularText>{facility.venue}</RegularText>
+          <MaxCapacityContainer>
+            <RegularText>{facility.capacity}</RegularText>
+          </MaxCapacityContainer>
         </RowContainer>
         <RegularText>{facility.description}</RegularText>
-    </ScrollView>*/
+        <View>
+          <RegularButton onPress={showDatePicker}>Make Booking</RegularButton>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+          />
+        </View>
+      </ScrollView>
     );
 }
 
