@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, StyleSheet } from 'react-native';
+import { Image, ScrollView, StyleSheet, View, Text } from 'react-native';
 import { db } from '../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
@@ -25,16 +25,17 @@ const Facility = ({route}) => {
     }, []);
     
     const getFacility = async () => {
-        console.log(facilityName);
         const docRef = doc(db, 'facilities', facilityName);
         const docSnap = await getDoc(docRef);
         const facility = docSnap.data();
         setFacility(facility);
     }
     
-    return <ScrollView style={styles.scrollView}>
-        <Image
-        style={{width: '100%', height: '35%', borderRadius: 10}}
+    return (
+    
+        <ScrollView style={styles.scrollView}>
+         <Image
+        style={{width: '100%', height: 200, borderRadius: 10}}
         source={{uri:facility.imageURL}}
         />
         <LargeText>{facilityName}</LargeText>
@@ -45,13 +46,29 @@ const Facility = ({route}) => {
             </MaxCapacityContainer>
         </RowContainer>
         <RegularText>{facility.description}</RegularText>
-    </ScrollView>
+      </ScrollView>
+    
+        /*<ScrollView style={styles.scrollView}>
+        <Image
+        style={{width: '100%', height: '50%', borderRadius: 10}}
+        source={{uri:facility.imageURL}}
+        />
+        <LargeText>{facilityName}</LargeText>
+        <RowContainer>
+            <RegularText>{facility.venue}</RegularText>
+            <MaxCapacityContainer>
+                <RegularText>{facility.capacity}</RegularText>
+            </MaxCapacityContainer>
+        </RowContainer>
+        <RegularText>{facility.description}</RegularText>
+    </ScrollView>*/
+    );
 }
 
 const styles = StyleSheet.create({
     scrollView: {
       backgroundColor: primary,
-      padding:25
+      padding: 25
     }
 });
 

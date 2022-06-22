@@ -20,11 +20,11 @@ const EventTypeCard = (props) => {
 const {primary} = colours
 const styles = StyleSheet.create({
     container: {
-        width: "44.5%",
-        height: "47%",
+        width: "46%",
+        height: "48%",
         backgroundColor: primary,
         borderRadius: 10,
-        margin: 10,
+        margin: 5,
     },
     image: {
         width: '100%', 

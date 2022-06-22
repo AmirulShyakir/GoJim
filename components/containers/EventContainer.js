@@ -11,6 +11,8 @@ const style = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: tertiary,
     padding: 5,
+    alignContent: 'center',
+    justifyContent: 'center'
 })
 
 const EventContainer = (props) => {

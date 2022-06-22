@@ -50,7 +50,7 @@ const Home1 = ({navigation, route}) => {
           marginRight: 150,
         }}
       />
-      <RegularButton onPress={pressFacil}>See facilities dummy</RegularButton>
+      <RegularButton onPress={pressFacil}>Search</RegularButton>
     </SignedInContainer>
   )
 }
