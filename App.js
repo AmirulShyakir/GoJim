@@ -4,12 +4,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState, useEffect } from 'react';
 import { auth } from './firebase';
 
+//Screens
 import Home from './screens/SignedIn/Home';
 import Home1 from './screens/SignedIn/Home1';
 import Events from './screens/SignedIn/Events';
 import Events1 from './screens/SignedIn/Events1';
 import Account from './screens/SignedIn/Account';
 import Settings from './screens/SignedIn/Settings';
+import Facility from './screens/SignedIn/Facility';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -24,6 +26,7 @@ const AccountStackScreen = () => {
           <AccountStack.Screen name="ProfileScreen" component={Account} options={{
             headerShown:true, 
             headerTitle:'Account', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
@@ -40,6 +43,7 @@ const EventsStackScreen = () => {
           <EventsStack.Screen name="EventsScreen1" component={Events1} options={{
             headerShown:true, 
             headerTitle:'Event Types', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
@@ -49,6 +53,7 @@ const EventsStackScreen = () => {
           <EventsStack.Screen name="EventsScreen" component={Events} options={{
             headerShown:true, 
             headerTitle:'Events', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
@@ -65,6 +70,7 @@ const HomeStackScreen = ({navigation, route}) => {
           <HomeStack.Screen name="HomeScreen1" component={Home1} options={{
             headerShown:true, 
             headerTitle:'Home', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
@@ -75,9 +81,20 @@ const HomeStackScreen = ({navigation, route}) => {
           <HomeStack.Screen name="HomeScreen" component={Home} options={{
             headerShown:true, 
             headerTitle:'Facilities', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
+            headerTintColor: white,
+          }} 
+          />
+          <HomeStack.Screen name="Facility" component={Facility} options={{
+            headerShown:true,   
+            headerTitle:'Book Now', 
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTitleAlign: 'center',
             headerTintColor: white,
           }} 
           />
@@ -92,6 +109,7 @@ const SettingsStackScreen = () => {
           <SettingsStack.Screen name="SettingsScreen" component={Settings} options={{
             headerShown:true, 
             headerTitle:'Settings', 
+            headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
               },
@@ -128,6 +146,7 @@ const App = () => {
         <LoginSignupStack.Navigator
           screenOptions={{
             headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
+            headerTitleAlign: 'center',
             headerTintColor: white}}
         >
           <LoginSignupStack.Screen name="Login" component={Login}
@@ -161,8 +180,6 @@ const App = () => {
                     />
                 );
               },
-            headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
-            headerTintColor: white,
             tabBarActiveTintColor: action,
             tabBarInactiveTintColor: tertiary,
             tabBarLabelStyle: {

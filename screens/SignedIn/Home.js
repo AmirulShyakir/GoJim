@@ -28,11 +28,18 @@ const Home = ({navigation, route}) => {
             setFacilities([...list])
     };
 
+    /*function pressFacility(facilityName) {
+      console.log("selected " + facilityName);
+    };*/
+    
     const renderItem = ({ item }) => {
         return (
           <FacilityCard
             item={item}
-            onPress={() => console.log("selected " + item.name)}
+            onPress={() => {
+              console.log("Navigating to " + item.name);
+              navigation.navigate("Facility", {facilityName: item.name} );
+            }}
           />
         );
       };

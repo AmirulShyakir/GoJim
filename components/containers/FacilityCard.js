@@ -44,7 +44,6 @@ const FacilityCard = ({ item, onPress }) => (
         <RegularText>{item.capacity}</RegularText>
         </MaxCapacityContainer>
       </RowContainer>
-      <RegularButton>Book</RegularButton>
     </TouchableOpacity>
   );
 

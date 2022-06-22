@@ -41,81 +41,102 @@ function Signup({navigation}) {
         navigation.navigate('Login');
     }
 
-    return <MainContainer>
-        <Image 
-        source={require('../assets/GOJIM.png')}
-        style={{width:150, height:50, resizeMode: 'contain', marginBottom: 50}}
+    return (
+      <MainContainer>
+        <Image
+          source={require("../assets/GOJIM.png")}
+          style={{
+            width: 150,
+            height: 50,
+            resizeMode: "contain",
+            marginBottom: 50,
+            marginTop: 30,
+            alignSelf: "center",
+          }}
         />
-         
+
         <KeyboardAvoidingContainer>
-            <Formik 
-                initialValues={{email: '', password: ''}}
-                onSubmit={(values, {setSubmitting}) => {
-                    if (values.email == '' || values.password == '') {
-                        setMessage("Please fill in all fields");
-                        setSubmitting(false);
-                        setIsSuccessMessage(false);
-                    } else if (values.password !== values.confirmPassword) {
-                        setMessage("Passwords do not match");
-                        setSubmitting(false);
-                        setIsSuccessMessage(false);
-                    } else {
-                        handleSignup(values, setSubmitting);
-                    }
-                }}
-            >
-                {({handleChange, handleBlur, handleSubmit, values, isSubmitting}) => (
-                    <>
-                        <StyledTextInput 
-                            label={"Email Address"} 
-                            icon="user" 
-                            placeholder="example@u.nus.edu"
-                            keyboardType="email-address"  
-                            onChangeText={handleChange("email")}
-                            onBlur={handleBlur("email")}
-                            values={values.email}
-                            style={{ marginBottom:25}}
-                        />
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values, { setSubmitting }) => {
+              if (values.email == "" || values.password == "") {
+                setMessage("Please fill in all fields");
+                setSubmitting(false);
+                setIsSuccessMessage(false);
+              } else if (values.password !== values.confirmPassword) {
+                setMessage("Passwords do not match");
+                setSubmitting(false);
+                setIsSuccessMessage(false);
+              } else {
+                handleSignup(values, setSubmitting);
+              }
+            }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              isSubmitting,
+            }) => (
+              <>
+                <StyledTextInput
+                  label={"Email Address"}
+                  icon="user"
+                  placeholder="example@u.nus.edu"
+                  keyboardType="email-address"
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  values={values.email}
+                  style={{ marginBottom: 25 }}
+                />
 
-                        <StyledTextInput 
-                            label={"Password"} 
-                            icon="lock" 
-                            placeholder="********"
-                            onChangeText={handleChange("password")}
-                            onBlur={handleBlur("password")}
-                            values={values.password}
-                            isPassword={true}
-                            style={{ marginBottom:25}}
-                        />
+                <StyledTextInput
+                  label={"Password"}
+                  icon="lock"
+                  placeholder="********"
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  values={values.password}
+                  isPassword={true}
+                  style={{ marginBottom: 25 }}
+                />
 
-                        <StyledTextInput 
-                            label={"Confirm Password"} 
-                            icon="lock" 
-                            placeholder="********"
-                            onChangeText={handleChange("confirmPassword")}
-                            onBlur={handleBlur("confirmPassword")}
-                            values={values.confirmPassword}
-                            isPassword={true}
-                            style={{ marginBottom:25}}
-                        />
+                <StyledTextInput
+                  label={"Confirm Password"}
+                  icon="lock"
+                  placeholder="********"
+                  onChangeText={handleChange("confirmPassword")}
+                  onBlur={handleBlur("confirmPassword")}
+                  values={values.confirmPassword}
+                  isPassword={true}
+                  style={{ marginBottom: 25 }}
+                />
 
-                        <MessageBox style={{ marginBottom:20 }} success={isSuccessMessage}>
-                            {message || " "}
-                        </MessageBox>
+                <MessageBox
+                  style={{ marginBottom: 20 }}
+                  success={isSuccessMessage}
+                >
+                  {message || " "}
+                </MessageBox>
 
-                        {!isSubmitting && 
-                            <RegularButton onPress={handleSubmit}>Signup</RegularButton>}
-                        {isSubmitting && (
-                            <RegularButton disabled={true}> 
-                                <ActivityIndicator size='small' color={white} /> 
-                            </RegularButton>
-                        )}
-                        <PressableText onPress={pressLogin}>Have An Account? Login Here</PressableText> 
-                    </>
+                {!isSubmitting && (
+                  <RegularButton onPress={handleSubmit}>Signup</RegularButton>
                 )}
-            </Formik>
+                {isSubmitting && (
+                  <RegularButton disabled={true}>
+                    <ActivityIndicator size="small" color={white} />
+                  </RegularButton>
+                )}
+                <PressableText onPress={pressLogin}>
+                  Have An Account? Login Here
+                </PressableText>
+              </>
+            )}
+          </Formik>
         </KeyboardAvoidingContainer>
-    </MainContainer>
+      </MainContainer>
+    );
 };
 
 export default Signup;

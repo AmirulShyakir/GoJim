@@ -7,8 +7,7 @@ const {primary} = colours;
 
 const StyledView = styled.View`
     flex: 1;
-    padding: 25px;
-    padding-top: ${StatusBarHeight}px;
+    padding: 15px;
     background-color: ${primary};
 `
 
