@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, View, Text } from "react-native";
+import { Image, ScrollView, StyleSheet, View, Text, Modal } from "react-native";
 
 //Firestore
 import { db } from "../../firebase";
@@ -14,7 +14,7 @@ import RowContainer from "../../components/containers/RowContainer";
 import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { async } from "@firebase/util";
+import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
 
 const { primary } = colours;
 
@@ -22,6 +22,10 @@ const Facility = ({ route }) => {
   const facilityName = route.params.facilityName;
 
   const [facility, setFacility] = useState({});
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDateString, setSelectedDateString] = useState("Select Date");
+  const [selectedDateObject, setSelectedDateObject] = useState({});
+  const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     getFacility();
@@ -34,8 +38,6 @@ const Facility = ({ route }) => {
     setFacility(facility);
   };
 
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -44,16 +46,21 @@ const Facility = ({ route }) => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = async (date) => {
-    console.log("A date has been picked: ", date.toDateString());
-    console.log("A date has been picked: ", date);
-    const docRef = await addDoc(collection(db, "bookings"), {
+  const selectDate = async (date) => {
+    date.setHours(0, 0, 0);
+
+    //backend shit
+    /*const docRef = await addDoc(collection(db, "bookings"), {
         startTime: date
       });
       console.log("Document written with ID: ", docRef.id);
     
-    await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});
+    await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});*/
+
+    setSelectedDateString(date.toDateString());
+    setSelectedDateObject(date);
     hideDatePicker();
+    setModalVisible(true);
   };
 
   return (
@@ -71,13 +78,38 @@ const Facility = ({ route }) => {
       </RowContainer>
       <RegularText>{facility.description}</RegularText>
       <View>
-        <RegularButton onPress={showDatePicker}>Make Booking</RegularButton>
+        <RegularButton onPress={showDatePicker}>
+          {selectedDateString}
+        </RegularButton>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
-          onConfirm={handleConfirm}
+          onConfirm={selectDate}
           onCancel={hideDatePicker}
         />
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <CheckBoxTimeSlot
+                date={selectedDateObject}
+                facilityName={{facilityName}}
+              />
+              <RegularButton
+                onPress={() => setModalVisible(!modalVisible)}
+                style={{ alignSelf: "center" }}
+              >
+                Close Modal
+              </RegularButton>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ScrollView>
   );
@@ -87,6 +119,27 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: primary,
     padding: 25,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 22,
+  },
+  modalView: {
+    margin: 10,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 50,
+    alignItems: "flex-start",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 
