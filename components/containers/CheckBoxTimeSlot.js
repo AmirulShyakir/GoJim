@@ -9,6 +9,7 @@ import {
   getDocs,
   query,
   Timestamp,
+  arrayUnion,
 } from "firebase/firestore";
 
 import React, { useState, useEffect } from "react";
@@ -84,6 +85,42 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
       }
     }
   };
+
+
+  const handleSubmit = async () => {
+    var checked = {
+      8: check8,
+      10: check10,
+      12: check12,
+      14: check14,
+      16: check16,
+      18: check18,
+      20: check20,
+    }
+    
+    for (var i = 8; i <= 20; i += 2) {
+      if (checked[i]) {
+        // update firestore data - 
+        //facilities collection and booking collection
+
+        const docRef = await setDoc(
+          doc(
+            db,
+            "facilities",
+            facilityName.facilityName,
+            "bookings",
+            date.toDateString()
+          ),
+          {
+            timeSlots: arrayUnion(i),
+          },
+          {merge: true}
+        );
+        //await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});*/
+      }
+  };
+
+  }
 
   return (
     <View style={styles.checkboxView}>
@@ -168,7 +205,7 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
         containerStyle={{ backgroundColor: "white" }}
         disabled={disabled20}
       />
-      <RegularButton style={{ alignSelf: "center" }}>
+      <RegularButton style={{ alignSelf: "center" }} onPress={handleSubmit}>
         Confirm Time
       </RegularButton>
     </View>
