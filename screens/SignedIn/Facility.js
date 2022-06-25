@@ -90,7 +90,7 @@ const Facility = ({ navigation, route }) => {
   const updateFiretore = async () => {
     //Update Facil array
     if (timeSlotChosen != 0 && selectedDateString !== "Select Date") {
-      /*await setDoc(
+      await setDoc(
         doc(
           db,
           "facilities",
@@ -104,18 +104,16 @@ const Facility = ({ navigation, route }) => {
         {merge: true}
       );
       //Update Bookings
-      await addDoc(
-        collection(
-          db,
-          "bookings"
-          ),      
+      const bookingRef = doc(collection(db, "bookings"));
+      await setDoc(
+        bookingRef,      
           {
             venue: facilityName,
             date: selectedDateObject,
             timeSlot: timeSlotChosen,
             userUID: auth.currentUser.uid
         }
-      );*/
+      );
         //Ask if want event or nah
         Alert.alert(
           "Booking Confirmed",
@@ -126,7 +124,7 @@ const Facility = ({ navigation, route }) => {
               onPress: () => navigation.navigate("HomeScreen1"),
               style: "cancel"
             },
-            { text: "Yes", onPress: () => navigation.navigate("MakeEvent") }
+            { text: "Yes", onPress: () => navigation.navigate("MakeEvent", {bookingID: bookingRef.id}) }
           ]
         );
     }
