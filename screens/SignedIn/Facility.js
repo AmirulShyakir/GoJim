@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Image, ScrollView, StyleSheet, View, Text, Modal } from "react-native";
 
 //Firestore
-import { db } from "../../firebase";
-import { doc, getDoc, setDoc, addDoc, collection } from "firebase/firestore";
+import { auth, db } from "../../firebase";
+import { doc, getDoc, setDoc, addDoc, collection, arrayUnion} from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
 import RegularText from "../../components/Texts/RegularText";
@@ -26,6 +26,7 @@ const Facility = ({ route }) => {
   const [selectedDateString, setSelectedDateString] = useState("Select Date");
   const [selectedDateObject, setSelectedDateObject] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
+  const [timeSlotChosen, setTimeSlotChosen] = useState(0);
 
   useEffect(() => {
     getFacility();
@@ -63,6 +64,60 @@ const Facility = ({ route }) => {
     setTimeout(() => setModalVisible(true), Platform.OS === "ios" ? 500 : 0);
   };
 
+  const callbackFunction = (childData) => {
+    setTimeSlotChosen(childData)
+    console.log(childData);
+  };
+
+  const updateFiretore = async () => {
+    //Update Facil array
+    if (timeSlotChosen != 0 && selectedDateString !== "Select Date") {
+      await setDoc(
+        doc(
+          db,
+          "facilities",
+          facilityName,
+          "bookings",
+          selectedDateString
+        ),
+        {
+          timeSlots: arrayUnion(timeSlotChosen),
+        },
+        {merge: true}
+      );
+      //Update Bookings
+      await addDoc(
+        collection(
+          db,
+          "bookings"
+          ),      
+          {
+            venue: facilityName,
+            date: selectedDateString,
+            timeSlot: timeSlotChosen,
+            userUID: auth.currentUser.uid
+        }
+      );
+    }
+  }
+
+  const showTimeSlotChosen = () => {
+    if(timeSlotChosen == 0) {
+      return "";
+    } else {
+      var timeDisplayed = {
+        8: ",  8am - 10am",
+        10: ",  10am-12pm",
+        12: ",  12pm-2pm",
+        14: ",  2pm-4pm",
+        16: ",  4pm-6pm",
+        18: ",  6pm-8pm",
+        20: ",  8pm-10pm",
+      }
+      return timeDisplayed[timeSlotChosen];
+    }
+  }
+
   return (
     <ScrollView style={styles.scrollView}>
       <Image
@@ -79,7 +134,7 @@ const Facility = ({ route }) => {
       <RegularText>{facility.description}</RegularText>
       <View>
         <RegularButton onPress={showDatePicker}>
-          {selectedDateString}
+          {selectedDateString} {showTimeSlotChosen()}
         </RegularButton>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
@@ -100,7 +155,8 @@ const Facility = ({ route }) => {
             <View style={styles.modalView}>
               <CheckBoxTimeSlot
                 date={selectedDateObject}
-                facilityName={{facilityName}}
+                facilityName={{ facilityName }}
+                timeSlotChosen={callbackFunction}
               />
               <RegularButton
                 onPress={() => setModalVisible(!modalVisible)}
@@ -111,6 +167,7 @@ const Facility = ({ route }) => {
             </View>
           </View>
         </Modal>
+        <RegularButton onPress={updateFiretore}>Confirm Booking</RegularButton>
       </View>
     </ScrollView>
   );

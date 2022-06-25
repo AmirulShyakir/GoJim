@@ -17,7 +17,7 @@ import { View, StyleSheet } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import RegularButton from "../Buttons/RegularButton";
 
-const CheckBoxTimeSlot = ({ date, facilityName }) => {
+const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
   const [check8, setCheck8] = useState(false);
   const [check10, setCheck10] = useState(false);
   const [check12, setCheck12] = useState(false);
@@ -33,7 +33,6 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
   const [disabled16, setDisabled16] = useState(false);
   const [disabled18, setDisabled18] = useState(false);
   const [disabled20, setDisabled20] = useState(false);
-  const [blocked, setBlocked] = useState(false);
   console.log("A date has been picked: ", date.toDateString());
 
   const checkAvail = async () => {
@@ -102,8 +101,8 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
       if (checked[i]) {
         // update firestore data - 
         //facilities collection and booking collection
-
-        const docRef = await setDoc(
+        timeSlotChosen(i);
+        /*const docRef = await setDoc(
           doc(
             db,
             "facilities",
@@ -119,6 +118,8 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
         //await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});*/
       }
   };
+
+  
 
   }
 
