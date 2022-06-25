@@ -12,6 +12,7 @@ import Events1 from './screens/SignedIn/Events1';
 import Account from './screens/SignedIn/Account';
 import Settings from './screens/SignedIn/Settings';
 import Facility from './screens/SignedIn/Facility';
+import MakeEvent from './screens/SignedIn/MakeEvent';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -91,6 +92,16 @@ const HomeStackScreen = ({navigation, route}) => {
           <HomeStack.Screen name="Facility" component={Facility} options={{
             headerShown:true,   
             headerTitle:'Book Now', 
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTitleAlign: 'center',
+            headerTintColor: white,
+          }} 
+          />
+          <HomeStack.Screen name="MakeEvent" component={MakeEvent} options={{
+            headerShown:true,   
+            headerTitle:'Make An Event', 
             headerStyle:{
               backgroundColor: primary,
               },

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, View, Text, Modal } from "react-native";
+import { Image, ScrollView, StyleSheet, View, Text, Modal, Alert } from "react-native";
 
 //Firestore
 import { auth, db } from "../../firebase";
@@ -18,7 +18,7 @@ import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
 
 const { primary } = colours;
 
-const Facility = ({ route }) => {
+const Facility = ({ navigation, route }) => {
   const facilityName = route.params.facilityName;
 
   const [facility, setFacility] = useState({});
@@ -32,13 +32,6 @@ const Facility = ({ route }) => {
     getFacility();
   }, []);
 
-  const getFacility = async () => {
-    const docRef = doc(db, "facilities", facilityName);
-    const docSnap = await getDoc(docRef);
-    const facility = docSnap.data();
-    setFacility(facility);
-  };
-
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -47,32 +40,57 @@ const Facility = ({ route }) => {
     setDatePickerVisibility(false);
   };
 
+  // Get facility details
+  const getFacility = async () => {
+    const docRef = doc(db, "facilities", facilityName);
+    const docSnap = await getDoc(docRef);
+    const facility = docSnap.data();
+    setFacility(facility);
+  };
+
+  //Standardise Time on Date to be 0000 and change Regular Button text to date selected
   const selectDate = async (date) => {
     date.setHours(0, 0, 0);
-
-    //backend shit
-    /*const docRef = await addDoc(collection(db, "bookings"), {
-        startTime: date
-      });
-      console.log("Document written with ID: ", docRef.id);
-    
-    await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});*/
-
     setSelectedDateString(date.toDateString());
     setSelectedDateObject(date);
     hideDatePicker();
     setTimeout(() => setModalVisible(true), Platform.OS === "ios" ? 500 : 0);
   };
 
-  const callbackFunction = (childData) => {
+  //Update Regular Button text to date
+  const showTimeSlotChosen = () => {
+    if(timeSlotChosen == 0) {
+      return "";
+    } else {
+      var timeDisplayed = {
+        8: ",  8am - 10am",
+        10: ",  10am-12pm",
+        12: ",  12pm-2pm",
+        14: ",  2pm-4pm",
+        16: ",  4pm-6pm",
+        18: ",  6pm-8pm",
+        20: ",  8pm-10pm",
+      }
+      return timeDisplayed[timeSlotChosen];
+    }
+  }
+
+  //Retrieve timeSlotChosen from CheckBoxTimeSlot.js
+  const callbackTimeSlot = (childData) => {
     setTimeSlotChosen(childData)
     console.log(childData);
   };
 
+  //Closes modal on confirm
+  const callbackClose = () => {
+    setModalVisible(!modalVisible)
+  };
+
+  //On confirm Booking update Firestore accordingly
   const updateFiretore = async () => {
     //Update Facil array
     if (timeSlotChosen != 0 && selectedDateString !== "Select Date") {
-      await setDoc(
+      /*await setDoc(
         doc(
           db,
           "facilities",
@@ -93,28 +111,24 @@ const Facility = ({ route }) => {
           ),      
           {
             venue: facilityName,
-            date: selectedDateString,
+            date: selectedDateObject,
             timeSlot: timeSlotChosen,
             userUID: auth.currentUser.uid
         }
-      );
-    }
-  }
-
-  const showTimeSlotChosen = () => {
-    if(timeSlotChosen == 0) {
-      return "";
-    } else {
-      var timeDisplayed = {
-        8: ",  8am - 10am",
-        10: ",  10am-12pm",
-        12: ",  12pm-2pm",
-        14: ",  2pm-4pm",
-        16: ",  4pm-6pm",
-        18: ",  6pm-8pm",
-        20: ",  8pm-10pm",
-      }
-      return timeDisplayed[timeSlotChosen];
+      );*/
+        //Ask if want event or nah
+        Alert.alert(
+          "Booking Confirmed",
+          "Make an Event?",
+          [
+            {
+              text: "No",
+              onPress: () => navigation.navigate("HomeScreen1"),
+              style: "cancel"
+            },
+            { text: "Yes", onPress: () => navigation.navigate("MakeEvent") }
+          ]
+        );
     }
   }
 
@@ -147,6 +161,7 @@ const Facility = ({ route }) => {
           animationType="fade"
           transparent={true}
           visible={modalVisible}
+          backdropOpacity={0.5}
           onRequestClose={() => {
             setModalVisible(!modalVisible);
           }}
@@ -156,13 +171,14 @@ const Facility = ({ route }) => {
               <CheckBoxTimeSlot
                 date={selectedDateObject}
                 facilityName={{ facilityName }}
-                timeSlotChosen={callbackFunction}
+                timeSlotChosen={callbackTimeSlot}
+                onPressClose={callbackClose}
               />
               <RegularButton
                 onPress={() => setModalVisible(!modalVisible)}
                 style={{ alignSelf: "center" }}
               >
-                Close Modal
+                Cancel
               </RegularButton>
             </View>
           </View>

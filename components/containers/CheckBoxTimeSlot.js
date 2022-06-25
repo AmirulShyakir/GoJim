@@ -17,7 +17,7 @@ import { View, StyleSheet } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import RegularButton from "../Buttons/RegularButton";
 
-const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
+const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen, onPressClose }) => {
   const [check8, setCheck8] = useState(false);
   const [check10, setCheck10] = useState(false);
   const [check12, setCheck12] = useState(false);
@@ -56,12 +56,12 @@ const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
           16: setDisabled16,
           18: setDisabled18,
           20: setDisabled20,
-        }
+        };
         disabled[slot](true);
       });
-    } 
+    }
   };
-  
+
   checkAvail();
 
   const toggleCheckbox = (checkboxNumber) => {
@@ -73,7 +73,7 @@ const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
       16: setCheck16,
       18: setCheck18,
       20: setCheck20,
-    }
+    };
     toggle[checkboxNumber](false);
   };
 
@@ -85,7 +85,6 @@ const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
     }
   };
 
-
   const handleSubmit = async () => {
     var checked = {
       8: check8,
@@ -95,33 +94,16 @@ const CheckBoxTimeSlot = ({ date, facilityName, timeSlotChosen }) => {
       16: check16,
       18: check18,
       20: check20,
-    }
-    
+    };
+
     for (var i = 8; i <= 20; i += 2) {
       if (checked[i]) {
-        // update firestore data - 
-        //facilities collection and booking collection
+        // returning timeSlot chosen to Facility.js
         timeSlotChosen(i);
-        /*const docRef = await setDoc(
-          doc(
-            db,
-            "facilities",
-            facilityName.facilityName,
-            "bookings",
-            date.toDateString()
-          ),
-          {
-            timeSlots: arrayUnion(i),
-          },
-          {merge: true}
-        );
-        //await setDoc(doc(db, "bookings", docRef.id), { name: 'JOE MAMA'}, {merge: true});*/
       }
+    }
+    onPressClose();
   };
-
-  
-
-  }
 
   return (
     <View style={styles.checkboxView}>
