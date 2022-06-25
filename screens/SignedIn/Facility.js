@@ -104,21 +104,9 @@ const Facility = ({ navigation, route }) => {
         {merge: true}
       );
       //Update Bookings
-<<<<<<< HEAD
       const bookingRef = doc(collection(db, "bookings"));
       await setDoc(
         bookingRef,      
-=======
-      const bookingRef = doc(collection(
-          db,
-          "bookings"
-          ));
-      await addDoc(
-        collection(
-          db,
-          "bookings"
-          ),      
->>>>>>> mursyid
           {
             venue: facilityName,
             date: selectedDateObject,

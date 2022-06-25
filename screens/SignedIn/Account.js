@@ -1,5 +1,5 @@
 import { auth, db } from '../../firebase';
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, query, where, onSnapshot } from "firebase/firestore";
 import { Image, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import MainContainer from '../../components/containers/MainContainer'; 
@@ -16,17 +16,34 @@ const Account = () => {
     }, []);
   
     const getData = async () => {
-      const collectionRef = query(collection(
-        db,
-        "bookings",
+      const list = [];
+      //update list to fill in participated events
+      const events = query(
+        collection(db, "bookings"),
+        where("events", "==", true),
+        where("participants", "array-contains", auth.currentUser.uid)
+      );
+      const eventsSnapshot = await getDocs(events);
+      eventsSnapshot.forEach((event) => {
+        list.push(event.data());
+      });
+      
+      const bookings = query(
+        collection(db, "bookings"),
         where("userUID", "==", auth.currentUser.uid)
-      ));
-      const collectionSnap = await getDocs(collectionRef);
-      collectionSnap.forEach((booking) => {
-          console.log(booking.id, " => ", booking.data());
-          list.push(booking.data());
-        })
-      setBookings(bookings);
+      );
+      /*const unsubscribe = onSnapshot(bookings, (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            list.push(doc.data());
+            //console.log(doc.data());
+        });
+      });*/
+      const bookingsSnapshot = await getDocs(bookings);
+      bookingsSnapshot.forEach((booking) => {
+        list.push(booking.data());
+      });
+      list.sort((a, b) => b.date.toDate() - a.date.toDate());
+      setBookings([...list]);
     };
 
     const renderItem = ({ item }) => {
@@ -34,14 +51,14 @@ const Account = () => {
           <BookingCard
             item={item}
             onPress={() => {
-              console.log("Navigating to " + item.name);
+              console.log("Navigating to " + item.venue);
             }}
           />
         );
       };
     
     return <SignedInContainer>
-        <LargeText>Account Stub</LargeText>
+        <LargeText>Your Bookings</LargeText>
         <FlatList
             data={bookings}
             renderItem={renderItem}
