@@ -104,6 +104,10 @@ const Facility = ({ navigation, route }) => {
         {merge: true}
       );
       //Update Bookings
+      const bookingRef = doc(collection(
+          db,
+          "bookings"
+          ));
       await addDoc(
         collection(
           db,
