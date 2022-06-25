@@ -1,20 +1,52 @@
-import { auth } from '../../firebase';
-import { Image } from 'react-native';
+import { auth, db } from '../../firebase';
+import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { Image, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
 import MainContainer from '../../components/containers/MainContainer'; 
+import SignedInContainer from '../../components/containers/SignedInContainer';
 //texts
 import LargeText from '../../components/Texts/LargeText';
-import EventTypeCard from '../../components/containers/EventTypeCard';
+import BookingCard from '../../components/containers/BookingCard';
 
 const Account = () => {
-    return <MainContainer>
-        <LargeText>Account Stub</LargeText>
-        <Image 
-            style={{width: '100%', height: '50%', borderRadius: 10}}
-            source={{
-            uri:'https://firebasestorage.googleapis.com/v0/b/gojim-1d589.appspot.com/o/why01008.jpg?alt=media&token=1f35e00d-f0ab-44e0-b522-6b41b71e3dae'
+    const [bookings, setBookings] = useState([]);
+
+    useEffect(() => {
+      getData();
+    }, []);
+  
+    const getData = async () => {
+      const collectionRef = query(collection(
+        db,
+        "bookings",
+        where("userUID", "==", auth.currentUser.uid)
+      ));
+      const collectionSnap = await getDocs(collectionRef);
+      collectionSnap.forEach((booking) => {
+          console.log(booking.id, " => ", booking.data());
+          list.push(booking.data());
+        })
+      setBookings(bookings);
+    };
+
+    const renderItem = ({ item }) => {
+        return (
+          <BookingCard
+            item={item}
+            onPress={() => {
+              console.log("Navigating to " + item.name);
             }}
+          />
+        );
+      };
+    
+    return <SignedInContainer>
+        <LargeText>Account Stub</LargeText>
+        <FlatList
+            data={bookings}
+            renderItem={renderItem}
         />
-    </MainContainer>
+    </SignedInContainer>
 }
 
 export default Account;

@@ -24,21 +24,42 @@ const { primary, white, secondary, tertiary } = colours;
 const MakeEvent = ({ route }) => {
   const { bookingID } = route.params;
   const [message, setMessage] = useState("");
-  const [maxCapacity, setCapacity] = useState(0);
+  const [capacity, setCapacity] = useState(0);
   const [facilityName, setFacilityName] = useState("");
+  const [facilityType, setFacilityType] = useState("");
   const [isSuccessMessage, setIsSuccessMessage] = useState("false");
 
   useEffect(() => {
-    getBooking();
+    getFacilityName();
+    getFacilityDetails();
   }, []);
 
   // Get facility details
-  const getBooking = async () => {
-    const docRef = doc(db, "bookings", bookingID);
-    const docSnap = await getDoc(docRef);
-    const booking = docSnap.data();
+  const getFacilityName = async () => {
+    //get facil name
+    const bookingRef = doc(db, "bookings", bookingID);
+    const bookingSnap = await getDoc(bookingRef);
+    const booking = bookingSnap.data();
     setFacilityName(booking.venue);
+    console.log(facilityName);
   };
+
+  const getFacilityDetails = async () => {
+    //get facil capacity and type
+    const facilityRef = doc(db, "facilities", facilityName);
+    const facilitySnap = await getDoc(facilityRef);
+    if (facilitySnap.exists()) {
+      console.log("Document data:", facilitySnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    const facility = facilitySnap.data();
+    setCapacity(facility.capacity);
+    setFacilityType(facility.type);
+    console.log(capacity + facilityType);
+  }
+
 
   //get maxCapacity
   //get facility type => determine eventType
@@ -65,13 +86,13 @@ const MakeEvent = ({ route }) => {
               setMessage("Please fill in all fields");
               setSubmitting(false);
               setIsSuccessMessage(false);
-            } else if (values.maxParticipants >= maxCapacity) {
-              setMessage(
-                "Please enter a number less than or equal to " + maxParticipants
-              );
+            } else if (values.maxParticipants >= capacity) {
+              setTimeout(() => setMessage(
+                "Please enter a number less than or equal to " + capacity
+              ), 500);
               setSubmitting(false);
               setIsSuccessMessage(false);
-            } else if ((values.maxParticipants = 0)) {
+            } else if ((values.maxParticipants == 0)) {
               setMessage("Number of participants cannot be zero");
               setSubmitting(false);
               setIsSuccessMessage(false);
@@ -142,6 +163,7 @@ const MakeEvent = ({ route }) => {
           )}
         </Formik>
       </KeyboardAvoidingContainer>
+      <RegularButton onPress = {() => console.log("Capacity: " + capacity + " Name: " + facilityName + " Type: " + facilityType)}>press me</RegularButton>
     </MainContainer>
   );
 };
