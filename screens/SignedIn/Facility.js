@@ -60,7 +60,7 @@ const Facility = ({ route }) => {
     setSelectedDateString(date.toDateString());
     setSelectedDateObject(date);
     hideDatePicker();
-    setModalVisible(true);
+    setTimeout(() => setModalVisible(true), Platform.OS === "ios" ? 500 : 0);
   };
 
   return (
@@ -86,6 +86,7 @@ const Facility = ({ route }) => {
           mode="date"
           onConfirm={selectDate}
           onCancel={hideDatePicker}
+          textColor="black"
         />
         <Modal
           animationType="fade"
