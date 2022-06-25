@@ -8,31 +8,31 @@ import {
   where,
   getDocs,
   query,
-  Timestamp
+  Timestamp,
 } from "firebase/firestore";
 
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import RegularButton from "../Buttons/RegularButton";
 
 const CheckBoxTimeSlot = ({ date, facilityName }) => {
-  const [check1, setCheck1] = useState(false);
-  const [check2, setCheck2] = useState(false);
-  const [check3, setCheck3] = useState(false);
-  const [check4, setCheck4] = useState(false);
-  const [check5, setCheck5] = useState(false);
-  const [check6, setCheck6] = useState(false);
-  const [check7, setCheck7] = useState(false);
+  const [check8, setCheck8] = useState(false);
+  const [check10, setCheck10] = useState(false);
+  const [check12, setCheck12] = useState(false);
+  const [check14, setCheck14] = useState(false);
+  const [check16, setCheck16] = useState(false);
+  const [check18, setCheck18] = useState(false);
+  const [check20, setCheck20] = useState(false);
 
-  const [disabled1, setDisabled1] = useState(false);
-  const [disabled2, setDisabled2] = useState(false);
-  const [disabled3, setDisabled3] = useState(false);
-  const [disabled4, setDisabled4] = useState(false);
-  const [disabled5, setDisabled5] = useState(false);
-  const [disabled6, setDisabled6] = useState(false);
-  const [disabled7, setDisabled7] = useState(false);
+  const [disabled8, setDisabled8] = useState(false);
+  const [disabled10, setDisabled10] = useState(false);
+  const [disabled12, setDisabled12] = useState(false);
+  const [disabled14, setDisabled14] = useState(false);
+  const [disabled16, setDisabled16] = useState(false);
+  const [disabled18, setDisabled18] = useState(false);
+  const [disabled20, setDisabled20] = useState(false);
+  const [blocked, setBlocked] = useState(false);
   console.log("A date has been picked: ", date.toDateString());
 
   const checkAvail = async () => {
@@ -47,101 +47,130 @@ const CheckBoxTimeSlot = ({ date, facilityName }) => {
     );
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      docSnap.data().timeSlots.forEach(slot => {
-        switch(slot) {
-          case 8:
-            setDisabled1(true);
-            break;
-          case 10:
-            setDisabled2(true);
-            break;
-          case 12:
-            setDisabled3(true);
-            break;
-          case 14:
-            setDisabled4(true);
-            break;
-          case 16:
-              setDisabled5(true);
-              break;
-          case 18:
-              setDisabled6(true);
-              break;
-          case 20:
-              setDisabled7(true);
-              break;
+      docSnap.data().timeSlots.forEach((slot) => {
+        var disabled = {
+          8: setDisabled8,
+          10: setDisabled10,
+          12: setDisabled12,
+          14: setDisabled14,
+          16: setDisabled16,
+          18: setDisabled18,
+          20: setDisabled20,
         }
+        disabled[slot](true);
       });
-    } else {
-      // doc.data() will be undefined in this case
-      // all time slots will be available
+    } 
+  };
+  
+  checkAvail();
+
+  const toggleCheckbox = (checkboxNumber) => {
+    var toggle = {
+      8: setCheck8,
+      10: setCheck10,
+      12: setCheck12,
+      14: setCheck14,
+      16: setCheck16,
+      18: setCheck18,
+      20: setCheck20,
+    }
+    toggle[checkboxNumber](false);
+  };
+
+  const toggleOtherCheckboxes = (thisCheckbox) => {
+    for (var i = 8; i <= 20; i += 2) {
+      if (thisCheckbox != i) {
+        toggleCheckbox(i);
+      }
     }
   };
-  checkAvail();
-  
+
   return (
     <View style={styles.checkboxView}>
       <CheckBox
         center
         title="8am - 10am"
-        checked={check1}
-        onPress={() => setCheck1(!check1)}
+        checked={check8}
+        onPress={() => {
+          setCheck8(!check8);
+          toggleOtherCheckboxes(8);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled1}
+        disabled={disabled8}
       />
 
       <CheckBox
         center
         title="10am-12pm"
-        checked={check2}
-        onPress={() => setCheck2(!check2)}
+        checked={check10}
+        onPress={() => {
+          setCheck10(!check10);
+          toggleOtherCheckboxes(10);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled2}
+        disabled={disabled10}
       />
       <CheckBox
         center
         title="12pm-2pm"
-        checked={check3}
-        onPress={() => setCheck3(!check3)}
+        checked={check12}
+        onPress={() => {
+          setCheck12(!check12);
+          toggleOtherCheckboxes(12);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled3}
+        disabled={disabled12}
       />
       <CheckBox
         center
         title="2pm-4pm"
-        checked={check4}
-        onPress={() => setCheck4(!check4)}
+        checked={check14}
+        onPress={() => {
+          setCheck14(!check14);
+          toggleOtherCheckboxes(14);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled4}
+        disabled={disabled14}
       />
 
       <CheckBox
         center
         title="4pm-6pm"
-        checked={check5}
-        onPress={() => setCheck5(!check5)}
+        checked={check16}
+        onPress={() => {
+          setCheck16(!check16);
+          toggleOtherCheckboxes(16);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled5}
+        disabled={disabled16}
       />
 
       <CheckBox
         center
         title="6pm-8pm"
-        checked={check6}
-        onPress={() => setCheck6(!check6)}
+        checked={check18}
+        onPress={() => {
+          setCheck18(!check18);
+          toggleOtherCheckboxes(18);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled6}
+        disabled={disabled18}
       />
 
       <CheckBox
         center
         title="8pm-10pm"
-        checked={check7}
-        onPress={() => setCheck7(!check7)}
+        checked={check20}
+        onPress={() => {
+          setCheck20(!check20);
+          toggleOtherCheckboxes(20);
+        }}
         containerStyle={{ backgroundColor: "white" }}
-        disabled={disabled7}
+        disabled={disabled20}
       />
-      <RegularButton style={{ alignSelf: "center" }}>Confirm Time</RegularButton>
+      <RegularButton style={{ alignSelf: "center" }}>
+        Confirm Time
+      </RegularButton>
     </View>
   );
 };
