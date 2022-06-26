@@ -25,7 +25,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 25,
     color: white,
-    marginLeft: 15,
+    flex: 1,
+    flexWrap: 'wrap',
+    marginLeft: 15
   },
   image: {
     width: 109, 

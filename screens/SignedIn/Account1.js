@@ -43,7 +43,7 @@ const Account1 = ({ navigation, route }) => {
           handlePress("Favourite Facilities");
         }}
         image={{
-          uri: "https://uci.nus.edu.sg/suu/wp-content/uploads/sites/5/2020/07/Olympic-pool-1-1024x706.jpg",
+          uri: "https://firebasestorage.googleapis.com/v0/b/gojim-1d589.appspot.com/o/USC_Olympic-pool-1-1024x706.jpg?alt=media&token=0be3f293-bb9e-4119-a16a-901201713612",
         }}
       >
         Favourite Facilities
