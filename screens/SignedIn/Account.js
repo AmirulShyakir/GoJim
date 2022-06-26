@@ -16,9 +16,9 @@ import SignedInContainer from "../../components/containers/SignedInContainer";
 import LargeText from "../../components/Texts/LargeText";
 import BookingCard from "../../components/containers/BookingCard";
 
-const Account = (route) => {
+const Account = ({route}) => {
   const [bookings, setBookings] = useState([]);
-  const isUpcoming = route.params;
+  const isUpcoming = route.params.key;
   console.log("isUpcomingBooking: " + isUpcoming);
 
   useEffect(() => {

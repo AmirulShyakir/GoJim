@@ -200,9 +200,9 @@ const MakeEvent = ({ route, navigation }) => {
                 containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
                 textStyle={{color: white}}
               />}
-              {facility.type == "Sports Courts" ||
+              {(facility.type == "Sports Courts" ||
               facility.type == "Studios" ||
-              facility.type == "Event Spaces"
+              facility.type == "Event Spaces")
               &&
                 <CheckBox
                 title="Recreational Training"
@@ -215,8 +215,8 @@ const MakeEvent = ({ route, navigation }) => {
                 containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
                 textStyle={{color: white}}
               />}
-              {facility.type == "Discussion Rooms" || 
-              facility.type == "Studios" || facility.type == "Event Spaces"
+              {(facility.type == "Discussion Rooms" || 
+              facility.type == "Studios" || facility.type == "Event Spaces")
               &&
                 <CheckBox
                 title="Networking Sessions"
@@ -233,7 +233,7 @@ const MakeEvent = ({ route, navigation }) => {
               &&
                 <CheckBox
                 title="Study Sessions"
-                checked={checkEventType3}
+                checked={checkEventType4}
                 onPress={() => {
                   setCheckEventType4(!checkEventType4);
                   toggleOtherCheckboxes(4);
