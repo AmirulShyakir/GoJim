@@ -10,6 +10,7 @@ import Home1 from './screens/SignedIn/Home1';
 import Events from './screens/SignedIn/Events';
 import Events1 from './screens/SignedIn/Events1';
 import Account from './screens/SignedIn/Account';
+import Account1 from './screens/SignedIn/Account1';
 import Settings from './screens/SignedIn/Settings';
 import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
@@ -20,13 +21,22 @@ import { colours } from './components/ColourPalette';
 import { Feather } from '@expo/vector-icons'
 const {action, white, secondary, primary, tertiary} = colours;
 
-const AccountStackScreen = () => {
+const AccountStackScreen = (navigation, route) => {
   const AccountStack = createNativeStackNavigator();
   return (
       <AccountStack.Navigator>
-          <AccountStack.Screen name="ProfileScreen" component={Account} options={{
+          <AccountStack.Screen name="Account1" component={Account1} options={{
             headerShown:true, 
             headerTitle:'Account', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
+          <AccountStack.Screen name="MyBookings" component={Account} options={{
+            headerShown:true, 
+            headerTitle:'My Bookings', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
