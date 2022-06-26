@@ -67,7 +67,6 @@ const Account = ({route}) => {
 
   return (
     <SignedInContainer>
-      <LargeText>Your Bookings</LargeText>
       <FlatList data={bookings} renderItem={renderItem} />
     </SignedInContainer>
   );

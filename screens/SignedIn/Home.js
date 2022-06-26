@@ -27,10 +27,6 @@ const Home = ({navigation, route}) => {
             });
             setFacilities([...list])
     };
-
-    /*function pressFacility(facilityName) {
-      console.log("selected " + facilityName);
-    };*/
     
     const renderItem = ({ item }) => {
         return (

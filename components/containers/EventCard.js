@@ -1,7 +1,6 @@
-import LargeText from '../../components/Texts/LargeText';
-import RegularButton from '../../components/Buttons/RegularButton';
 import { colours } from '../../components/ColourPalette';
 import RegularText from '../../components/Texts/RegularText';
+import SmallText from '../../components/Texts/SmallText';
 import RowContainer from '../../components/containers/RowContainer';
 import MaxCapacityContainer from '../../components/containers/MaxCapacityContainer';
 import { TouchableOpacity, StyleSheet, Image, Text } from 'react-native';
@@ -53,15 +52,30 @@ const styles = StyleSheet.create({
         setFacility(facility);
     }
 
+    const showTimeSlotChosen = () => {
+      var timeDisplayed = {
+        8: "8am - 10am",
+        10: "10am-12pm",
+        12: "12pm-2pm",
+        14: "2pm-4pm",
+        16: "4pm-6pm",
+        18: "6pm-8pm",
+        20: "8pm-10pm",
+      };
+      return timeDisplayed[item.timeSlot];
+    };
+
     return (
       <TouchableOpacity onPress={onPress} style={[styles.item]}>
         <RowContainer style={{justifyContent: 'flex-start'}}>
           <Image source={{uri:facility.imageURL}}  style={[styles.image]} />
           <Text style={[styles.title]}>{item.eventName} </Text>
         </RowContainer>
-
+      <RowContainer>
+        <SmallText>{item.date.toDate().toDateString()}</SmallText>
+        <SmallText>{showTimeSlotChosen()}</SmallText>
+      </RowContainer>
         <RegularText>{item.venue} </RegularText>
-        
         <RowContainer>
           <RegularText>{facility.venue}</RegularText>
           <MaxCapacityContainer>

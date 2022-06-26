@@ -1,6 +1,6 @@
 import { db, auth } from '../../firebase';
 import React, { useEffect, useState } from 'react';
-import View from 'react-native'
+import {View, ImageBackground} from 'react-native'
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import SignedInContainer from '../../components/containers/SignedInContainer';
 import SelectList from 'react-native-dropdown-select-list';
@@ -37,7 +37,10 @@ const Home1 = ({navigation, route}) => {
   ];
   
   return (
-    <SignedInContainer>
+    <ImageBackground 
+      source={{uri: 'https://firebasestorage.googleapis.com/v0/b/gojim-1d589.appspot.com/o/dark_mode_map.jpg?alt=media&token=af87d869-f225-413e-9b9b-7c9b02155255'}}
+      style={{height: '100%'}}
+    >
       <SelectList
         placeholder='Facility Types'
         setSelected={setSelected} data={data} 
@@ -51,7 +54,8 @@ const Home1 = ({navigation, route}) => {
         }}
       />
       <RegularButton onPress={pressFacil}>Search</RegularButton>
-    </SignedInContainer>
+      <LargeText>This map is a stub</LargeText>
+    </ImageBackground>
   )
 }
 

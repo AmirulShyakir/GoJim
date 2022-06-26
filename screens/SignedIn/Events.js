@@ -1,13 +1,10 @@
 import { db } from '../../firebase';
-import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import SignedInContainer from '../../components/containers/SignedInContainer';
 //texts
 import { FlatList } from 'react-native';
 import EventCard from '../../components/containers/EventCard';
-import EventTypeCard from '../../components/containers/EventTypeCard';
 import { useState, useEffect } from 'react';
-
-
 
 const Events = ({route}) => {
   const eventType  = route.params.key;
@@ -26,6 +23,7 @@ const Events = ({route}) => {
         eventsSnapshot.forEach(events => {
                 list.push(events.data());
             });
+            list.sort((a, b) => b.date.toDate() - a.date.toDate());
             setEvents([...list])
     };
 
