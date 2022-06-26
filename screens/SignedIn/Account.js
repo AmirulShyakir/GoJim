@@ -1,12 +1,10 @@
 import { auth, db } from "../../firebase";
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   query,
   where,
-  onSnapshot,
+  Timestamp
 } from "firebase/firestore";
 import { Image, FlatList } from "react-native";
 import { useState, useEffect } from "react";
@@ -18,8 +16,10 @@ import BookingCard from "../../components/containers/BookingCard";
 
 const Account = ({route}) => {
   const [bookings, setBookings] = useState([]);
-  const isUpcoming = route.params.key;
-  console.log("isUpcomingBooking: " + isUpcoming);
+  //isUpcoming is a string that is either ">" || "<=" that will be
+  //used in where() in getData()
+  const isUpcoming = route.params;
+  console.log("This has reached the next page: " + isUpcoming);
 
   useEffect(() => {
     getData();
@@ -27,7 +27,7 @@ const Account = ({route}) => {
 
   const getData = async () => {
     const list = [];
-    //update list to fill in participated events
+    //update list to fill in participated events (currently does not work)
     const events = query(
       collection(db, "bookings"),
       where("events", "==", true),
@@ -37,17 +37,14 @@ const Account = ({route}) => {
     eventsSnapshot.forEach((event) => {
       list.push(event.data());
     });
-
+    
+    //update list to fill in bookings
     const bookings = query(
       collection(db, "bookings"),
-      where("userUID", "==", auth.currentUser.uid)
+      where("userUID", "==", auth.currentUser.uid), 
+      where("date", isUpcoming, Timestamp.fromMillis(Date.now()))
     );
-    /*const unsubscribe = onSnapshot(bookings, (querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-            list.push(doc.data());
-            //console.log(doc.data());
-        });
-      });*/
+    
     const bookingsSnapshot = await getDocs(bookings);
     bookingsSnapshot.forEach((booking) => {
       list.push(booking.data());
@@ -55,6 +52,7 @@ const Account = ({route}) => {
     list.sort((a, b) => b.date.toDate() - a.date.toDate());
     setBookings([...list]);
   };
+
 
   const renderItem = ({ item }) => {
     return (
