@@ -2,9 +2,9 @@ import MainContainer from "../../components/containers/MainContainer";
 import KeyboardAvoidingContainer from "../../components/containers/KeyboardAvoidingContainer";
 import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
-import StyledEventInput from "../../components/Inputs/StyledTextInput";
 import RegularButton from "../../components/Buttons/RegularButton";
 import { ActivityIndicator, TextInput, StyleSheet } from "react-native";
+import { CheckBox } from "@rneui/themed";
 
 import { auth, db } from "../../firebase";
 import {
@@ -19,80 +19,126 @@ import {
 import LargeText from "../../components/Texts/LargeText";
 import MessageBox from "../../components/Texts/MessageBox";
 import { colours } from "../../components/ColourPalette";
+import RegularText from "../../components/Texts/RegularText";
 const { primary, white, secondary, tertiary } = colours;
 
-const MakeEvent = ({ route }) => {
+const MakeEvent = ({ route, navigation }) => {
   const { bookingID } = route.params;
   const [message, setMessage] = useState("");
-  const [capacity, setCapacity] = useState(0);
+  /*const [capacity, setCapacity] = useState(0);
   const [facilityName, setFacilityName] = useState("");
-  const [facilityType, setFacilityType] = useState("");
+  const [facilityType, setFacilityType] = useState("");*/
+  const [facility, setFacility] = useState({});
   const [isSuccessMessage, setIsSuccessMessage] = useState("false");
+  const [checkEventType1, setCheckEventType1] = useState(false);
+  const [checkEventType2, setCheckEventType2] = useState(false);
+  const [checkEventType3, setCheckEventType3] = useState(false);
+  const [checkEventType4, setCheckEventType4] = useState(false);
 
   useEffect(() => {
-    getFacilityName();
-    getFacilityDetails();
+    getFacility();
   }, []);
 
   // Get facility details
-  const getFacilityName = async () => {
-    //get facil name
+  const getFacility = async () => {
     const bookingRef = doc(db, "bookings", bookingID);
     const bookingSnap = await getDoc(bookingRef);
     const booking = bookingSnap.data();
-    setFacilityName(booking.venue);
-    console.log(facilityName);
-  };
-
-  const getFacilityDetails = async () => {
-    //get facil capacity and type
-    const facilityRef = doc(db, "facilities", facilityName);
+    const facilityRef = doc(db, "facilities", booking.venue);
     const facilitySnap = await getDoc(facilityRef);
-    if (facilitySnap.exists()) {
-      console.log("Document data:", facilitySnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
     const facility = facilitySnap.data();
-    setCapacity(facility.capacity);
-    setFacilityType(facility.type);
-    console.log(capacity + facilityType);
-  }
-
-
-  //get maxCapacity
-  //get facility type => determine eventType
-
-  const handleEvent = (values, setSubmitting) => {
-    console.log("Event Name:" + values.eventName);
-    console.log("Event Description:" + values.eventDescription);
-    setMessage("");
-    setSubmitting(false);
+    setFacility(facility);
   };
+
+  //On Submitting the event
+  const handleEvent = (values, setSubmitting) => {
+    console.log("Event Name: " + values.eventName);
+    console.log("Event Description: " + values.eventDescription);
+    console.log("Event Capacity: " + values.maxParticipants)
+    console.log("Event Type: " + eventTypeChosen());
+    setMessage("");
+    setSubmitting(true);
+
+    //Firestore commands here
+    const bookingRef = doc(db, 'bookings', bookingID);
+    setDoc(
+      bookingRef,
+      {
+        event: true,
+        eventName: values.eventName,
+        maxParticipants: values.maxParticipants,
+        eventType: eventTypeChosen(),
+        participants: [],
+      },
+      { merge: true }
+    );
+    setSubmitting(false);
+    navigation.navigate("HomeScreen1");
+  };
+
+  const toggleCheckbox = (checkboxNumber) => {
+    var toggle = {
+      1: setCheckEventType1,
+      2: setCheckEventType2,
+      3: setCheckEventType3,
+      4: setCheckEventType4,
+    };
+    toggle[checkboxNumber](false);
+  };
+
+  const toggleOtherCheckboxes = (thisCheckbox) => {
+    for (var i = 1; i <= 4; i++) {
+      if (thisCheckbox != i) {
+        toggleCheckbox(i);
+      }
+    }
+  };
+
+  const eventTypeChosen = () => {
+    if (checkEventType1 == true) {
+      return "Friendly Sports";
+    } else if (checkEventType2 == true) {
+      return "Recreational Training";
+    } else if (checkEventType3 == true) {
+      return "Networking Sessions";
+    } else if (checkEventType4 == true) {
+      return "Study Sessions";
+    }
+  }
 
   return (
     <MainContainer>
-      <LargeText> EVENT </LargeText>
+      <LargeText> Enter Details: </LargeText>
       <KeyboardAvoidingContainer>
         <Formik
           initialValues={{ eventName: "", eventDescription: "" }}
           onSubmit={(values, { setSubmitting }) => {
-            if (
+            if ( // CHECK IF ALL FIELDS ARE FILLED
               values.eventName == "" ||
               values.eventDescription == "" ||
-              values.maxParticipants == ""
+              values.maxParticipants == "" ||
+              (checkEventType1 == false  &&
+              checkEventType2 == false &&
+              checkEventType3 == false &&
+              checkEventType4 == false)
             ) {
               setMessage("Please fill in all fields");
               setSubmitting(false);
               setIsSuccessMessage(false);
-            } else if (values.maxParticipants >= capacity) {
-              setTimeout(() => setMessage(
-                "Please enter a number less than or equal to " + capacity
-              ), 500);
+            //Check if Participants is less than capacity of facil
+            } else if (values.maxParticipants > facility.capacity) {
+              setTimeout(
+                () =>
+                  setMessage(
+                    "Please enter a number less than or equal to " +
+                      facility.capacity
+                  ),
+                500
+              );
               setSubmitting(false);
               setIsSuccessMessage(false);
-            } else if ((values.maxParticipants == 0)) {
+            //Check if Participants is not zero
+            } else if (values.maxParticipants == 0) {
               setMessage("Number of participants cannot be zero");
               setSubmitting(false);
               setIsSuccessMessage(false);
@@ -141,9 +187,63 @@ const MakeEvent = ({ route }) => {
                 maxLength={20}
                 placeholderTextColor={tertiary}
               />
-
+              <RegularText>Select Event Type:</RegularText>
+              {facility.type == "Sports Courts" &&
+                <CheckBox
+                title="Friendly Sports"
+                checked={checkEventType1}
+                onPress={() => {
+                  setCheckEventType1(!checkEventType1);
+                  toggleOtherCheckboxes(1);
+                }}
+                values={values.selectedType}
+                containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
+                textStyle={{color: white}}
+              />}
+              {facility.type == "Sports Courts" ||
+              facility.type == "Studios" ||
+              facility.type == "Event Spaces"
+              &&
+                <CheckBox
+                title="Recreational Training"
+                checked={checkEventType2}
+                onPress={() => {
+                  setCheckEventType2(!checkEventType2);
+                  toggleOtherCheckboxes(2);
+                }}
+                values={values.selectedType}
+                containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
+                textStyle={{color: white}}
+              />}
+              {facility.type == "Discussion Rooms" || 
+              facility.type == "Studios" || facility.type == "Event Spaces"
+              &&
+                <CheckBox
+                title="Networking Sessions"
+                checked={checkEventType3}
+                onPress={() => {
+                  setCheckEventType3(!checkEventType3);
+                  toggleOtherCheckboxes(3);
+                }}
+                values={values.selectedType}
+                containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
+                textStyle={{color: white}}
+              />}
+              {facility.type == "Discussion Rooms"
+              &&
+                <CheckBox
+                title="Study Sessions"
+                checked={checkEventType3}
+                onPress={() => {
+                  setCheckEventType4(!checkEventType4);
+                  toggleOtherCheckboxes(4);
+                }}
+                values={values.selectedType}
+                containerStyle={{ backgroundColor: primary, paddingBottom: 0}}
+                textStyle={{color: white}}
+              />}
               <MessageBox
-                style={{ marginBottom: 20 }}
+                style={{ marginBottom: 0, marginTop: 20 }}
                 success={isSuccessMessage}
               >
                 {message || " "}
@@ -163,7 +263,6 @@ const MakeEvent = ({ route }) => {
           )}
         </Formik>
       </KeyboardAvoidingContainer>
-      <RegularButton onPress = {() => console.log("Capacity: " + capacity + " Name: " + facilityName + " Type: " + facilityType)}>press me</RegularButton>
     </MainContainer>
   );
 };
@@ -191,6 +290,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
     marginBottom: 25,
+    textAlignVertical: 'top'
   },
   maxParticipants: {
     height: 50,
