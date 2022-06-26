@@ -1,32 +1,9 @@
-import { db } from "../../firebase";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
-import MainContainer from "../../components/containers/MainContainer";
-import SignedInContainer from "../../components/containers/SignedInContainer";
-//texts
-import LargeText from "../../components/Texts/LargeText";
-import RegularButton from "../../components/Buttons/RegularButton";
-import { FlatList } from "react-native";
-import EventCard from "../../components/containers/EventCard";
 import EventTypeCard from "../../components/containers/EventTypeCard";
 import EventContainer from "../../components/containers/EventContainer";
-import { useState, useEffect } from "react";
 
 const Events1 = ({ navigation }) => {
-  /*const [selected, setSelected] = useState("");
-
-  useEffect(() => {
-    console.log(selected + "joe");
-  }, [selected]);*/
 
   function pressEvent(eventType) {
-    /*setSelected(eventType);*/
     console.log(eventType + " EVENTS1 SCREEN");
     navigation.navigate("EventsScreen", {key: eventType});
   }

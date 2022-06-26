@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
 const FacilityCard = ({ item, onPress }) => (
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
       <Image source={{uri:item.imageURL}}  style={[styles.image]} />

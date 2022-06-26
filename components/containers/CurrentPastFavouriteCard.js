@@ -2,7 +2,7 @@ import { TouchableOpacity, ImageBackground, Image, StyleSheet, Text } from "reac
 import LargeText from "../Texts/LargeText";
 import { colours } from "../ColourPalette";
 
-const EventTypeCard = (props) => {
+const CurrentPastFavouriteCard = (props) => {
     return (
         <TouchableOpacity onPress={props.onPress} {...props} style={[styles.container]}>
             <ImageBackground
@@ -19,11 +19,11 @@ const EventTypeCard = (props) => {
 const {primary} = colours
 const styles = StyleSheet.create({
     container: {
-        width: "46%",
-        height: "48%",
+        width: "100%",
+        height: "31%",
         backgroundColor: primary,
         borderRadius: 10,
-        margin: 5,
+        margin: 7,
     },
     image: {
         width: '100%', 
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
       }
 });
 
-export default EventTypeCard;
+export default CurrentPastFavouriteCard;
