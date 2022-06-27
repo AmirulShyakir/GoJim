@@ -21,13 +21,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 10,
   },
-  title: {
-    fontSize: 25,
-    color: white,
-    marginLeft: 15,
-    flex: 1,
-    flexWrap: 'wrap',
-  },
   image: {
     width: 109,
     height: 65,
@@ -69,9 +62,9 @@ const BookingCard = ({ item, onPress }) => {
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
       <RowContainer style={{ justifyContent: "flex-start" }}>
         <Image source={{ uri: facility.imageURL }} style={[styles.image]} />
-        <View style={{marginHorizontal:15}}>
-        <RegularText>{facility.name} </RegularText>
-        <SmallText>{facility.venue}</SmallText>
+        <View style={{marginHorizontal:15, flex: 1, flexGrow: 1}}>
+          <RegularText>{facility.name}</RegularText>
+          <SmallText>{facility.venue}</SmallText>
         </View>
       </RowContainer>
       <RowContainer>
