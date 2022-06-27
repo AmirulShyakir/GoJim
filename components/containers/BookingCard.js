@@ -25,6 +25,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: white,
     marginLeft: 15,
+    flex: 1,
+    flexWrap: 'wrap',
   },
   image: {
     width: 109,
