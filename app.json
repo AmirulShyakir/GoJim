@@ -29,7 +29,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "description": "GoJim Demo",
+    "description": "GoJim Demo for Milestone 2",
     "githubUrl": "https://github.com/AmirulShyakir/GoJim"
   }
 }

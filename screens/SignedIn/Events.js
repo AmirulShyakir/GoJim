@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import EventCard from '../../components/containers/EventCard';
 import { useState, useEffect } from 'react';
 
-const Events = ({route}) => {
+const Events = ({navigation, route}) => {
   const eventType  = route.params.key;
 
     const [events, setEvents] = useState([]);
@@ -31,7 +31,10 @@ const Events = ({route}) => {
         return (
           <EventCard
             item={item}
-            onPress={() => console.log("selected " + item.eventName)}
+            onPress={() => {
+              console.log("selected " + item.eventName);
+              navigation.navigate("JoinEventScreen", {eventDetails: item});
+          }}
           />
         );
       };

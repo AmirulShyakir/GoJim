@@ -116,7 +116,7 @@ const Facility = ({ navigation, route }) => {
       );
         //Ask if want event or nah
         Alert.alert(
-          "Booking Confirmed",
+          "Booking Confirmed!",
           "Make an Event?",
           [
             {

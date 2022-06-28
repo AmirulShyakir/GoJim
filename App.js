@@ -14,6 +14,7 @@ import Account1 from './screens/SignedIn/Account1';
 import Settings from './screens/SignedIn/Settings';
 import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
+import JoinEvent from './screens/SignedIn/JoinEvent';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -64,6 +65,15 @@ const EventsStackScreen = () => {
           <EventsStack.Screen name="EventsScreen" component={Events} options={{
             headerShown:true, 
             headerTitle:'Events', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
+          <EventsStack.Screen name="JoinEventScreen" component={JoinEvent} options={{
+            headerShown:true, 
+            headerTitle:'Event Details', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
