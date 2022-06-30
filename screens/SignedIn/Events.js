@@ -1,5 +1,5 @@
 import { auth, db } from '../../firebase';
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, Timestamp } from "firebase/firestore";
 import SignedInContainer from '../../components/containers/SignedInContainer';
 //texts
 import { FlatList } from 'react-native';
@@ -13,23 +13,24 @@ const Events = ({navigation, route}) => {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, []);    
     
     const getData = async () => {
-      console.log(eventType + " EVENTS SCREEN");
       const list = [];
       const events = query(
         collection(db, "bookings"),
         where("event", "==", true),
         where("eventType", "==", eventType),
         where("userUID", "!=", auth.currentUser.uid)
+        //where("date", ">=", Timestamp.fromMillis(Date.now()))
       );
       const eventsSnapshot = await getDocs(events);
       eventsSnapshot.forEach((events) => {
         list.push(events.data());
       });
       list.sort((a, b) => b.date.toDate() - a.date.toDate());
-      setEvents([...list]);
+      const arrayOfEvents = list.filter(event => event.date > Timestamp.fromMillis(Date.now()));
+      setEvents(arrayOfEvents);
     };
 
     const renderEvents = ({ item }) => {
