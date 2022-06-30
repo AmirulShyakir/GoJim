@@ -1,4 +1,4 @@
-import { db } from '../../firebase';
+import { auth, db } from '../../firebase';
 import { collection, getDocs, query, where } from "firebase/firestore";
 import SignedInContainer from '../../components/containers/SignedInContainer';
 //texts
@@ -16,15 +16,20 @@ const Events = ({navigation, route}) => {
     }, []);
     
     const getData = async () => {
-      console.log(eventType + " EVENTS SCREEN");  
+      console.log(eventType + " EVENTS SCREEN");
       const list = [];
-        const events = query(collection(db, "bookings"), where("event", "==", true), where("eventType", "==", eventType));
-        const eventsSnapshot = await getDocs(events);
-        eventsSnapshot.forEach(events => {
-                list.push(events.data());
-            });
-            list.sort((a, b) => b.date.toDate() - a.date.toDate());
-            setEvents([...list])
+      const events = query(
+        collection(db, "bookings"),
+        where("event", "==", true),
+        where("eventType", "==", eventType),
+        where("userUID", "!=", auth.currentUser.uid)
+      );
+      const eventsSnapshot = await getDocs(events);
+      eventsSnapshot.forEach((events) => {
+        list.push(events.data());
+      });
+      list.sort((a, b) => b.date.toDate() - a.date.toDate());
+      setEvents([...list]);
     };
 
     const renderEvents = ({ item }) => {

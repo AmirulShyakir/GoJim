@@ -42,7 +42,7 @@ const JoinEvent = ({ navigation, route }) => {
   }, []);
 
   /* 
-  This method is to retrieve the facility where the event will be held. 
+  Retrieve the facility where the event will be held. 
   The facilitiy object will be used for the venue pic
   and the venue details (AKA the building name)
   */
@@ -55,7 +55,7 @@ const JoinEvent = ({ navigation, route }) => {
   };
 
   /* 
-  This method is to convert the timeSlot number field in a 
+  Convert the timeSlot number field in a 
   booking document to a string that can be displayed.
   */
   const showTimeSlot = (timeSlot) => {
@@ -71,9 +71,13 @@ const JoinEvent = ({ navigation, route }) => {
     return timeDisplayed[timeSlot];
   };
 
+  /*
+  Update firestore of the new participant. Currently does not 
+  work as we dont have access to the event document ID
+  */
   const joinEvent = async () => {
     console.log("You just joined: " + eventDetails.eventName);
-    const docRef = doc(db, "bookings", "EpUpq2IlKm1PbCLcM2LN");
+    const docRef = doc(db, "bookings", eventDetails.bookingID);
     await updateDoc(docRef, {
         participants: arrayUnion(auth.currentUser.uid)
     });

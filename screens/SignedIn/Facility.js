@@ -108,6 +108,7 @@ const Facility = ({ navigation, route }) => {
       await setDoc(
         bookingRef,      
           {
+            bookingID: bookingRef,
             venue: facilityName,
             date: selectedDateObject,
             timeSlot: timeSlotChosen,
