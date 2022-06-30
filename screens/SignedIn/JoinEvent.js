@@ -56,7 +56,7 @@ const JoinEvent = ({ navigation, route }) => {
 
   /* 
   Convert the timeSlot number field in a 
-  booking document to a string that can be displayed.
+  booking document to a string that can be displayed
   */
   const showTimeSlot = (timeSlot) => {
     var timeDisplayed = {
@@ -72,8 +72,7 @@ const JoinEvent = ({ navigation, route }) => {
   };
 
   /*
-  Update firestore of the new participant. Currently does not 
-  work as we dont have access to the event document ID
+  Update firestore of the new participant
   */
   const joinEvent = async () => {
     console.log("You just joined: " + eventDetails.eventName);
@@ -81,6 +80,10 @@ const JoinEvent = ({ navigation, route }) => {
     await updateDoc(docRef, {
         participants: arrayUnion(auth.currentUser.uid)
     });
+    Alert.alert("Successfully joined !", 
+    `You have just joined ${eventDetails.eventName}`,
+    [{text: "OK", onPress:() => console.log("You clicked okay")}]
+    );
   };
 
   return (
