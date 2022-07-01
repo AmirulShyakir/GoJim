@@ -36,6 +36,7 @@ const { primary } = colours;
 const JoinEvent = ({ navigation, route }) => {
   const { eventDetails } = route.params;
   const [facility, setFacility] = useState({});
+  const [buttonText, setButtonText] = useState("Join Event");
 
   useEffect(() => {
     getFacility();
@@ -75,15 +76,27 @@ const JoinEvent = ({ navigation, route }) => {
   Update firestore of the new participant
   */
   const joinEvent = async () => {
+    
+    // in case user clicks the button again
+    if (buttonText == "You have joined this event") {
+        return (Alert.alert(
+          "You have joined this event!",
+          "To withdraw please proceed to the upcoming bookings page",
+          [{ text: "OK", onPress: () => console.log("You clicked okay") }]
+        ));
+      }
+    
     console.log("You just joined: " + eventDetails.eventName);
     const docRef = doc(db, "bookings", eventDetails.bookingID);
     await updateDoc(docRef, {
-        participants: arrayUnion(auth.currentUser.uid)
+      participants: arrayUnion(auth.currentUser.uid),
     });
-    Alert.alert("Successfully joined !", 
-    `You have just joined ${eventDetails.eventName}`,
-    [{text: "OK", onPress:() => console.log("You clicked okay")}]
+    Alert.alert(
+      "Successfully joined !",
+      `You have just joined ${eventDetails.eventName}`,
+      [{ text: "OK", onPress: () => console.log("You clicked okay") }]
     );
+    setButtonText("You have joined this event");
   };
 
   return (
@@ -97,8 +110,10 @@ const JoinEvent = ({ navigation, route }) => {
         }}
         source={{ uri: facility.imageURL }}
       />
-      <LargeText>{eventDetails.venue}</LargeText>
-      <RegularText>{facility.venue}</RegularText>
+      <View style={styles.venueView}>
+        <LargeText>{eventDetails.venue}</LargeText>
+        <RegularText>{facility.venue}</RegularText>
+      </View>
       <RowContainer>
         <RegularText>{eventDetails.date.toDate().toDateString()}</RegularText>
         <RegularText>{showTimeSlot(eventDetails.timeSlot)}</RegularText>
@@ -109,25 +124,22 @@ const JoinEvent = ({ navigation, route }) => {
         </MaxCapacityContainer>
       </RowContainer>
       <RegularText>{eventDetails.eventDescription}</RegularText>
+      <View style={styles.organisedView}>
+        <RegularText>Organised by: {eventDetails.userUID}</RegularText>
+      </View>
       <View style={styles.container}>
-        <RegularButton onPress={joinEvent}>
-          Join Event
-        </RegularButton>
+        <RegularButton onPress={joinEvent}>{buttonText}</RegularButton>
       </View>
     </MainContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  view: {
-    backgroundColor: primary,
-    padding: 25,
+  venueView: {
+    marginBottom: 15,
   },
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    margin: 22,
+  organisedView: {
+    marginVertical: 15,
   },
   container: {
     right: 10,
