@@ -1,5 +1,5 @@
 import { auth, db } from "../../firebase";
-import { getStorage, ref, uploadBytes } from "firebase/storage" 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage" 
 import { updateProfile } from "firebase/auth/react-native";
 import React, { useState, useEffect } from "react";
 import {
@@ -73,6 +73,10 @@ const Settings = () => {
         const bytes = await image.blob();
         //uploads image
         await uploadBytes(profilePicRef, bytes);
+        getDownloadURL(profilePicRef).then((url) => {
+            console.log(url);
+            updateProfile(auth.currentUser, { photoURL: url })
+        });
     }
   };
 
