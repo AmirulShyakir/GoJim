@@ -14,7 +14,7 @@ import SignedInContainer from "../../components/containers/SignedInContainer";
 import LargeText from "../../components/Texts/LargeText";
 import BookingCard from "../../components/containers/BookingCard";
 
-const Account = ({route}) => {
+const Account = ({navigation, route}) => {
   const [bookings, setBookings] = useState([]);
   //isUpcoming is a string that is either ">" || "<=" that will be
   //used in where() in getData()
@@ -59,7 +59,7 @@ const Account = ({route}) => {
       <BookingCard
         item={item}
         onPress={() => {
-          console.log("Navigating to " + item.venue);
+          navigation.navigate("BookingDetails", {booking: item});
         }}
       />
     );
