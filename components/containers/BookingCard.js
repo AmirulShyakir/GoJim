@@ -59,15 +59,7 @@ const BookingCard = ({ item, onPress }) => {
     };
 
     const checkParticipantOrganiser = () => {
-      const findCurrentUser = (participant) => {
-        return participant == auth.currentUser.uid;
-      }
-      
-      if (item.participants.findIndex(findCurrentUser) >= 0) {
-        return "Participant";
-      } else if (item.userUID == auth.currentUser.uid) {
-        return "Organiser";
-      }
+      return (item.userUID == auth.currentUser.uid) ? "Organiser" : "Participant";
     };
 
   return (

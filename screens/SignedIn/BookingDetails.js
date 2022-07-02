@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   Image,
-  ScrollView,
   StyleSheet,
   View,
-  Text,
-  Modal,
   Alert,
 } from "react-native";
 
@@ -18,6 +15,7 @@ import {
   addDoc,
   collection,
   arrayUnion,
+  arrayRemove,
   updateDoc,
 } from "firebase/firestore";
 //texts
@@ -84,15 +82,27 @@ const BookingDetails = ({ navigation, route }) => {
     return timeDisplayed[timeSlot];
   };
 
+  //Check if current user is a participant or organiser so that it can display the suitable text
   const checkParticipantOrganiser = () => {
-    if (booking.userUID == auth.currentUser.uid) {
-        return "Organiser";
-    } else {
-        return "Participant";
-    }
+    return (booking.userUID == auth.currentUser.uid) ? "Organiser" : "Participant";
   };
 
+  const deleteWitdraw = async () => {
+    const bookingRef = doc(db, "bookings", booking.bookingID);
 
+    if (buttonText == "Delete Booking") {
+        //DELETE BOOKING from bookings collection as well as facilities booking doc
+        console.log("You have deleted this booking!");
+    } else {
+        //WITHDRAW FROM EVENT use arrayRemove
+        await updateDoc(bookingRef, {participants: arrayRemove(auth.currentUser.uid)});
+        Alert.alert(
+          "Withdrawn from event",
+          `You have just withdrawn ${booking.eventName}`,
+          [{ text: "OK", onPress: () => navigation.navigate("Account1") }]
+        );
+    }
+  }
 
   return (
     <MainContainer>
@@ -132,7 +142,7 @@ const BookingDetails = ({ navigation, route }) => {
       </View>
       }
       <View style={styles.container}>
-        <RegularButton onPress={() => console.log("You have deleted this booking!")}>{buttonText}</RegularButton>
+        <RegularButton onPress={deleteWitdraw}>{buttonText}</RegularButton>
       </View>
     </MainContainer>
   );
