@@ -1,4 +1,5 @@
 import { auth, db } from "../../firebase";
+import { getStorage, ref, uploadBytes } from "firebase/storage" 
 import { updateProfile } from "firebase/auth/react-native";
 import React, { useState, useEffect } from "react";
 import {
@@ -63,10 +64,17 @@ const Settings = () => {
     console.log(result);
 
     if (!result.cancelled) {
-      setProfilePicURL(result.uri);
+        setProfilePicURL(result.uri);
+        //gets firestore and image reference
+        const storage = getStorage();
+        const profilePicRef = ref(storage, "profilePic/" + auth.currentUser.uid);
+        //converts image to array of bytes
+        const image = await fetch(result.uri);
+        const bytes = await image.blob();
+        //uploads image
+        await uploadBytes(profilePicRef, bytes);
     }
   };
-
 
   return (
     <MainContainer>
