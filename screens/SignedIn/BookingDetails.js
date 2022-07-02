@@ -17,6 +17,7 @@ import {
   arrayUnion,
   arrayRemove,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
@@ -87,12 +88,20 @@ const BookingDetails = ({ navigation, route }) => {
     return (booking.userUID == auth.currentUser.uid) ? "Organiser" : "Participant";
   };
 
+  // Either deletes booking or withdraws participant from event
   const deleteWitdraw = async () => {
     const bookingRef = doc(db, "bookings", booking.bookingID);
 
     if (buttonText == "Delete Booking") {
         //DELETE BOOKING from bookings collection as well as facilities booking doc
-        console.log("You have deleted this booking!");
+        const facilDateRef = doc(db, "facilities", booking.venue, "bookings", booking.date.toDate().toDateString())
+        await updateDoc(facilDateRef, {timeSlots: arrayRemove(booking.timeSlot)});
+        await deleteDoc(bookingRef);
+        Alert.alert(
+            "Deleted Booking",
+            `You have just deleted this booking`,
+            [{ text: "OK", onPress: () => navigation.navigate("Account1") }]
+          );
     } else {
         //WITHDRAW FROM EVENT use arrayRemove
         await updateDoc(bookingRef, {participants: arrayRemove(auth.currentUser.uid)});
