@@ -29,9 +29,24 @@ const Events = ({navigation, route}) => {
         list.push(events.data());
       });
       list.sort((a, b) => b.date.toDate() - a.date.toDate());
-      const arrayOfEvents = list.filter(event => event.date > Timestamp.fromMillis(Date.now()));
+      const arrayOfEvents = list.filter(filterEvents);
       setEvents(arrayOfEvents);
     };
+
+
+    /*
+    Filter events that are in the past, have no more participant slots
+    or if the current user is already a participants
+    */
+    const filterEvents = (event) => {
+      return event.date > Timestamp.fromMillis(Date.now()) && 
+      event.participants.length < event.maxParticipants &&
+      event.participants.findIndex(findCurrentUser) == -1;
+    }
+
+    const findCurrentUser = (participant) => {
+      return participant == auth.currentUser.uid;
+    }
 
     const renderEvents = ({ item }) => {
         return (

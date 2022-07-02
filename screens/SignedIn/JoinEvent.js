@@ -82,7 +82,7 @@ const JoinEvent = ({ navigation, route }) => {
         return (Alert.alert(
           "You have joined this event!",
           "To withdraw please proceed to the upcoming bookings page",
-          [{ text: "OK", onPress: () => navigation.navigate("Account1") }]
+          [{ text: "OK", onPress: () => navigation.navigate("EventsScreen1") }]
         ));
       }
     
