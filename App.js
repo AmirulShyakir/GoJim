@@ -14,6 +14,8 @@ import Account1 from './screens/SignedIn/Account1';
 import Settings from './screens/SignedIn/Settings';
 import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
+import JoinEvent from './screens/SignedIn/JoinEvent';
+import BookingDetails from './screens/SignedIn/BookingDetails';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -43,6 +45,15 @@ const AccountStackScreen = (navigation, route) => {
               },
             headerTintColor: white,
           }} />
+          <AccountStack.Screen name="BookingDetails" component={BookingDetails} options={{
+            headerShown:true, 
+            headerTitle:'Booking Details', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
       </AccountStack.Navigator>
   )
 }
@@ -64,6 +75,15 @@ const EventsStackScreen = () => {
           <EventsStack.Screen name="EventsScreen" component={Events} options={{
             headerShown:true, 
             headerTitle:'Events', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
+          <EventsStack.Screen name="JoinEventScreen" component={JoinEvent} options={{
+            headerShown:true, 
+            headerTitle:'Event Details', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,

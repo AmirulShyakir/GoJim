@@ -66,7 +66,8 @@ const MakeEvent = ({ route, navigation }) => {
       {
         event: true,
         eventName: values.eventName,
-        maxParticipants: values.maxParticipants,
+        eventDescription: values.eventDescription,
+        maxParticipants: parseInt(values.maxParticipants),
         eventType: eventTypeChosen(),
         participants: [],
       },

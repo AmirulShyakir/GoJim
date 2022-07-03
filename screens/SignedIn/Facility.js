@@ -108,6 +108,7 @@ const Facility = ({ navigation, route }) => {
       await setDoc(
         bookingRef,      
           {
+            bookingID: bookingRef.id,
             venue: facilityName,
             date: selectedDateObject,
             timeSlot: timeSlotChosen,
@@ -116,7 +117,7 @@ const Facility = ({ navigation, route }) => {
       );
         //Ask if want event or nah
         Alert.alert(
-          "Booking Confirmed",
+          "Booking Confirmed!",
           "Make an Event?",
           [
             {

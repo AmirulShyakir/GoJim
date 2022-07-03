@@ -58,11 +58,15 @@ const BookingCard = ({ item, onPress }) => {
       return timeDisplayed[item.timeSlot];
     };
 
+    const checkParticipantOrganiser = () => {
+      return (item.userUID == auth.currentUser.uid) ? "Organiser" : "Participant";
+    };
+
   return (
     <TouchableOpacity onPress={onPress} style={[styles.item]}>
       <RowContainer style={{ justifyContent: "flex-start" }}>
         <Image source={{ uri: facility.imageURL }} style={[styles.image]} />
-        <View style={{marginHorizontal:15, flex: 1, flexGrow: 1}}>
+        <View style={{ marginHorizontal: 15, flex: 1, flexGrow: 1 }}>
           <RegularText>{facility.name}</RegularText>
           <SmallText>{facility.venue}</SmallText>
         </View>
@@ -71,16 +75,19 @@ const BookingCard = ({ item, onPress }) => {
         <SmallText>{item.date.toDate().toDateString()}</SmallText>
         <SmallText>{showTimeSlotChosen()}</SmallText>
       </RowContainer>
-      {item.event && 
+      {item.event && (
+        <View>
           <RowContainer>
-          <RegularText>{item.eventName}</RegularText>
-          <MaxCapacityContainer>
-            <RegularText>
-            {item.participants.length}/{item.maxParticipants}
-            </RegularText>
-          </MaxCapacityContainer>
-        </RowContainer>
-      }
+            <RegularText>{item.eventName}</RegularText>
+            <MaxCapacityContainer>
+              <RegularText>
+                {item.participants.length}/{item.maxParticipants}
+              </RegularText>
+            </MaxCapacityContainer>
+          </RowContainer>
+          <SmallText>{checkParticipantOrganiser()}</SmallText>
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
