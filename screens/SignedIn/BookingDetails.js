@@ -18,6 +18,7 @@ import {
   arrayRemove,
   updateDoc,
   deleteDoc,
+  Timestamp
 } from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
@@ -150,9 +151,11 @@ const BookingDetails = ({ navigation, route }) => {
         <RegularText>Organised by: {booking.userUID}</RegularText>
       </View>
       }
-      <View style={styles.container}>
+      {(booking.date > Timestamp.fromMillis(Date.now())) &&
+        <View style={styles.container}>
         <RegularButton onPress={deleteWitdraw}>{buttonText}</RegularButton>
       </View>
+      }
     </MainContainer>
   );
 };
