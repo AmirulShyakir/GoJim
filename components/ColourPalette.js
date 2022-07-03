@@ -5,7 +5,7 @@ export const colours = {
     tertiary: "#413636", //lightest grey 
     action: "#A6051A", //F1-75 red, for action buttons
     white: "#ffffff", //text on primary/secondary
-    black: "000", //text on white
+    black: "#000000", //text on white
     success: "green",
     fail: "red",
 }
