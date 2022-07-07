@@ -10,9 +10,10 @@ const {tertiary, action, white} = colours;
 const StyledView = styled.TouchableOpacity`
     flex-direction: row;
     align-items: center;
-    marginHorizontal: 15;
-    marginTop: 30;
-
+    paddingHorizontal: 15px;
+    borderTopWidth: 1px;
+    borderColor: #413636;
+    paddingVertical: 15px;
 `;
 
 const LeftIcon = styled.View`

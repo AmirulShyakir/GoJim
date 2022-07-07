@@ -30,7 +30,7 @@ import SettingsContainer from "../../components/containers/SettingsContainer";
 
 const { primary, secondary, tertiary, white, black, action } = colours;
 
-const Settings = () => {
+const Settings = ({navigation}) => {
   const [profilePicURL, setProfilePicURL] = useState(
     "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
   );
@@ -38,6 +38,10 @@ const Settings = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [isSuccessMessage, setIsSuccessMessage] = useState("false");
+
+  const pressHowItWorks = () => {
+    navigation.navigate('OnboardingScreen');
+}
 
   useEffect(() => {
     console.log("profilePicURL: " + auth.currentUser.photoURL);
@@ -191,18 +195,18 @@ const Settings = () => {
         </View>
       </TouchableOpacity>
       <Text style={styles.email}>{auth.currentUser.email}</Text>
-      <View style={{marginTop: 15}}>
+      <View style={{marginTop: 20}}>
         <SettingsContainer icon = {"bell"}>Notification control</SettingsContainer>
-        <SettingsContainer icon = {"help-circle"}>How it works</SettingsContainer>
+        <SettingsContainer icon = {"help-circle"} onPress={pressHowItWorks}>How it works</SettingsContainer>
         <SettingsContainer icon = {"message-square"}>Contact us</SettingsContainer>
         <SettingsContainer icon = {"log-out"} onPress= {Logout}>Log out</SettingsContainer>
       </View>
 
       <View style={styles.extraInfoView}>
-        <SmallText style={{ alignSelf: "center", marginTop: 15 }}>
+        <SmallText style={{ alignSelf: "center", marginTop: 15, color: tertiary }}>
          current userID: {auth.currentUser.uid}
         </SmallText>
-        <SmallText style={{ alignSelf: "center" }}>GoJim Version 1.0.0</SmallText>
+        <SmallText style={{ alignSelf: "center", color: tertiary }}>GoJim Version 1.0.0</SmallText>
       </View>
     </MainContainer>
   );
