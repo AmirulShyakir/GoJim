@@ -26,8 +26,9 @@ import LargeText from "../../components/Texts/LargeText";
 import RegularButton from "../../components/Buttons/RegularButton";
 import SmallText from "../../components/Texts/SmallText";
 import MessageBox from "../../components/Texts/MessageBox";
+import SettingsContainer from "../../components/containers/SettingsContainer";
 
-const { primary, secondary, tertiary, white, black } = colours;
+const { primary, secondary, tertiary, white, black, action } = colours;
 
 const Settings = () => {
   const [profilePicURL, setProfilePicURL] = useState(
@@ -118,6 +119,7 @@ const Settings = () => {
                 } else {
                   handleChangeUsername(values.username, setSubmitting);
                   setModalVisible(!modalVisible);
+                  setMessage("");
                 }
               }}
             >
@@ -172,15 +174,13 @@ const Settings = () => {
           </View>
         </View>
       </Modal>
-      <LargeText>Profile Settings</LargeText>
       <Image style={styles.profilePic} source={{ uri: profilePicURL }} />
       <TouchableOpacity onPress={pickImage}>
-        <View style={styles.editImage}>
-          <Text style={styles.editImageText}>edit image</Text>
-          <Icon>
-            <Feather name={"edit-2"} size={15} color={white} />
-          </Icon>
-        </View>
+          <View style={styles.cameraIconView}> 
+            <CameraIcon>
+              <Feather name={"camera"} size={15} color={white} />
+            </CameraIcon>
+          </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
         <View style={styles.editImage}>
@@ -191,14 +191,26 @@ const Settings = () => {
         </View>
       </TouchableOpacity>
       <Text style={styles.email}>{auth.currentUser.email}</Text>
-      <RegularButton onPress={Logout}> Log out </RegularButton>
-      <SmallText style={{ alignSelf: "center" }}>
-        current userID: {auth.currentUser.uid}
-      </SmallText>
-      <SmallText style={{ alignSelf: "center" }}>GoJim Version 1.0.0</SmallText>
+      <View style={{marginTop: 15}}>
+        <SettingsContainer icon = {"bell"}>Notification control</SettingsContainer>
+        <SettingsContainer icon = {"help-circle"}>How it works</SettingsContainer>
+        <SettingsContainer icon = {"message-square"}>Contact us</SettingsContainer>
+        <SettingsContainer icon = {"log-out"} onPress= {Logout}>Log out</SettingsContainer>
+      </View>
+
+      <View style={styles.extraInfoView}>
+        <SmallText style={{ alignSelf: "center", marginTop: 15 }}>
+         current userID: {auth.currentUser.uid}
+        </SmallText>
+        <SmallText style={{ alignSelf: "center" }}>GoJim Version 1.0.0</SmallText>
+      </View>
     </MainContainer>
   );
 };
+
+const CameraIcon = styled.View`
+  position: relative;
+`;
 
 const Icon = styled.View`
   position: relative;
@@ -245,7 +257,7 @@ const styles = StyleSheet.create({
   editImageText: {
     fontSize: 13,
     alignSelf: "center",
-    color: white,
+    color: action,
   },
   centeredView: {
     flex: 1,
@@ -264,6 +276,24 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
+  },
+  cameraIconView:{
+    backgroundColor: action,
+    borderRadius: 27,
+    height: 35,
+    width: 35,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    alignSelf: "center",
+    bottom: 45,
+    left: 60,
+    marginBottom: -30, //im quite sure theres a better way to do this
+  },
+  extraInfoView: {
+    position: "absolute",
+    bottom: 10,
+    alignSelf: "center",
   },
   buttonContainer: {
     flexDirection: "row",
