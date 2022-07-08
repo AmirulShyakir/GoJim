@@ -16,6 +16,7 @@ import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
 import JoinEvent from './screens/SignedIn/JoinEvent';
 import BookingDetails from './screens/SignedIn/BookingDetails';
+import Favourites from './screens/SignedIn/Favourites';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
@@ -39,6 +40,15 @@ const AccountStackScreen = (navigation, route) => {
           <AccountStack.Screen name="MyBookings" component={Account} options={{
             headerShown:true, 
             headerTitle:'My Bookings', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
+          <AccountStack.Screen name="MyFavourites" component={Favourites} options={{
+            headerShown:true, 
+            headerTitle:'My Favourites', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
