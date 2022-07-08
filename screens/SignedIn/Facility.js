@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Image, ScrollView, StyleSheet, View, Text, Modal, Alert } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  Modal,
+  Alert,
+  Switch,
+} from "react-native";
 
 //Firestore
 import { auth, db } from "../../firebase";
-import { doc, getDoc, setDoc, addDoc, collection, arrayUnion} from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+  arrayUnion,
+} from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
 import RegularText from "../../components/Texts/RegularText";
@@ -16,7 +32,7 @@ import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
 
-const { primary } = colours;
+const { primary, white, action, tertiary } = colours;
 
 const Facility = ({ navigation, route }) => {
   const facilityName = route.params.facilityName;
@@ -27,6 +43,8 @@ const Facility = ({ navigation, route }) => {
   const [selectedDateObject, setSelectedDateObject] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [timeSlotChosen, setTimeSlotChosen] = useState(0);
+  const [isFav, setIsFav] = useState(false);
+  
 
   useEffect(() => {
     getFacility();
@@ -59,7 +77,7 @@ const Facility = ({ navigation, route }) => {
 
   //Update Regular Button text to date
   const showTimeSlotChosen = () => {
-    if(timeSlotChosen == 0) {
+    if (timeSlotChosen == 0) {
       return "";
     } else {
       var timeDisplayed = {
@@ -70,20 +88,31 @@ const Facility = ({ navigation, route }) => {
         16: ",  4pm-6pm",
         18: ",  6pm-8pm",
         20: ",  8pm-10pm",
-      }
+      };
       return timeDisplayed[timeSlotChosen];
     }
-  }
+  };
 
   //Retrieve timeSlotChosen from CheckBoxTimeSlot.js
   const callbackTimeSlot = (childData) => {
-    setTimeSlotChosen(childData)
+    setTimeSlotChosen(childData);
     console.log(childData);
   };
 
   //Closes modal on confirm
   const callbackClose = () => {
-    setModalVisible(!modalVisible)
+    setModalVisible(!modalVisible);
+  };
+
+  const handleFav = () => {
+    setIsFav(!isFav);
+    if(!isFav) {
+      // save to firestore
+      console.log("Removed from favourites");
+    } else {
+      //delete from firestore
+      console.log("Saved as favourites");
+    }
   };
 
   //On confirm Booking update Firestore accordingly
@@ -91,45 +120,36 @@ const Facility = ({ navigation, route }) => {
     //Update Facil array
     if (timeSlotChosen != 0 && selectedDateString !== "Select Date") {
       await setDoc(
-        doc(
-          db,
-          "facilities",
-          facilityName,
-          "bookings",
-          selectedDateString
-        ),
+        doc(db, "facilities", facilityName, "bookings", selectedDateString),
         {
           timeSlots: arrayUnion(timeSlotChosen),
         },
-        {merge: true}
+        { merge: true }
       );
       //Update Bookings
       const bookingRef = doc(collection(db, "bookings"));
-      await setDoc(
-        bookingRef,      
-          {
-            bookingID: bookingRef.id,
-            venue: facilityName,
-            date: selectedDateObject,
-            timeSlot: timeSlotChosen,
-            userUID: auth.currentUser.uid
-        }
-      );
-        //Ask if want event or nah
-        Alert.alert(
-          "Booking Confirmed!",
-          "Make an Event?",
-          [
-            {
-              text: "No",
-              onPress: () => navigation.navigate("HomeScreen1"),
-              style: "cancel"
-            },
-            { text: "Yes", onPress: () => navigation.navigate("MakeEvent", {bookingID: bookingRef.id}) }
-          ]
-        );
+      await setDoc(bookingRef, {
+        bookingID: bookingRef.id,
+        venue: facilityName,
+        date: selectedDateObject,
+        timeSlot: timeSlotChosen,
+        userUID: auth.currentUser.uid,
+      });
+      //Ask if want event or nah
+      Alert.alert("Booking Confirmed!", "Make an Event?", [
+        {
+          text: "No",
+          onPress: () => navigation.navigate("HomeScreen1"),
+          style: "cancel",
+        },
+        {
+          text: "Yes",
+          onPress: () =>
+            navigation.navigate("MakeEvent", { bookingID: bookingRef.id }),
+        },
+      ]);
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -145,6 +165,16 @@ const Facility = ({ navigation, route }) => {
         </MaxCapacityContainer>
       </RowContainer>
       <RegularText>{facility.description}</RegularText>
+      <View style={styles.fav}>
+        <Switch
+          trackColor={{ false: "#767577", true: action }}
+          thumbColor="#f4f3f4"
+          ios_backgroundColor="#3e3e3e"
+          onValueChange={handleFav}
+          value={isFav}
+        />
+        <RegularText>Add to Favourites</RegularText>
+      </View>
       <View>
         <RegularButton onPress={showDatePicker}>
           {selectedDateString} {showTimeSlotChosen()}
@@ -199,6 +229,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 22,
   },
+  fav: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    },
   modalView: {
     margin: 10,
     backgroundColor: "white",
