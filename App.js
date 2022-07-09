@@ -12,6 +12,7 @@ import Events1 from './screens/SignedIn/Events1';
 import Account from './screens/SignedIn/Account';
 import Account1 from './screens/SignedIn/Account1';
 import Settings from './screens/SignedIn/Settings';
+import HowItWorks from './screens/SignedIn/Onboarding';
 import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
 import JoinEvent from './screens/SignedIn/JoinEvent';
@@ -165,6 +166,9 @@ const SettingsStackScreen = () => {
               backgroundColor: primary,
               },
             headerTintColor: white,
+          }} />
+          <SettingsStack.Screen name="OnboardingScreen" component={HowItWorks} options={{
+            headerShown: false,
           }} />
       </SettingsStack.Navigator>
   )
