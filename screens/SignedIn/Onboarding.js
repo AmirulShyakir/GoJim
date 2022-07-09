@@ -9,37 +9,44 @@ const HowItWorks = ({navigation}) => (
   <Onboarding
     onDone={() => navigation.goBack()}
     onSkip={() => navigation.goBack()}
+    transitionAnimationDuration = {200}
     titleStyles= {{fontSize: 20, fontWeight: 'bold'}}
     pages={[
       {
         backgroundColor: primary,
         image: <Image source={require('../../assets/GojimLogo.png')} />,
+        title: 'BOOKINGS MADE SIMPLE.',
+        subtitle: 'Who says it has to be hard?',
+      },
+      {
+        backgroundColor: "#E4D0D0",
+        image: <Image source={require('../../assets/SearchForFacilityFINAL.png')}/>,
         title: 'SEARCH FOR FACILITY.',
-        subtitle: 'Filter by facility type in Home',
+        subtitle: 'Filter by facility type in Home.',
       },
       {
-        backgroundColor: '#fe6e58',
-        image: <Image source={require('../../assets/GojimLogo.png')} />,
+        backgroundColor: '#E4EAEB',
+        image: <Image source={require('../../assets/JustBookIt.png')} />,
         title: 'JUST BOOK IT.',
-        subtitle: 'Select date and available timeslot \n And thats pretty much it',
+        subtitle: 'Select date and available timeslot. \n And thats pretty much it.',
       },
       {
-        backgroundColor: '#999',
-        image: <Image source={require('../../assets/GojimLogo.png')} />,
+        backgroundColor: '#F8F0D4',
+        image: <Image source={require('../../assets/MakeItAnEvent.png')} />,
         title: 'MAKE IT AN EVENT.',
-        subtitle: "Okay shawty, one's company, two's a crowd and three's a party! Enter event details and publish",
+        subtitle: "Okay shawty, one's company, two's a crowd and three's a party! Enter event details and publish.",
       },
       {
-        backgroundColor: action,
-        image: <Image source={require('../../assets/GojimLogo.png')} />,
+        backgroundColor: "#F6DDC1",
+        image: <Image source={require('../../assets/JoinEvents.png')} />,
         title: 'JOIN EVENTS.',
         subtitle: "Fancy a quick battle? Or perhaps a study date? There's always something fresh in the Events tab. ASSC who?",
       },
       {
-        backgroundColor: tertiary,
-        image: <Image source={require('../../assets/GojimLogo.png')} />,
+        backgroundColor: "#D4D4D4",
+        image: <Image source={require('../../assets/TrackBookings.png')} />,
         title: 'TRACK YOUR BOOKINGS.',
-        subtitle: "View your past and upcoming bookings in the Account tab. Psst! You can also find your favourite facilities here",
+        subtitle: "View your bookings in the Account tab. \n Psst! Here's where you can find your favourite facilities.",
       },
     ]}
   />
