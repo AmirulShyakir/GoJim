@@ -19,6 +19,8 @@ import {
   addDoc,
   collection,
   arrayUnion,
+  updateDoc,
+  arrayRemove,
 } from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
@@ -31,6 +33,8 @@ import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
+import { async } from "@firebase/util";
+import { set } from "react-native-reanimated";
 
 const { primary, white, action, tertiary } = colours;
 
@@ -43,11 +47,11 @@ const Facility = ({ navigation, route }) => {
   const [selectedDateObject, setSelectedDateObject] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [timeSlotChosen, setTimeSlotChosen] = useState(0);
-  const [isFav, setIsFav] = useState(false);
-  
+  const [fav, setFav] = useState(false);
 
   useEffect(() => {
     getFacility();
+    checkFav();
   }, []);
 
   const showDatePicker = () => {
@@ -64,6 +68,39 @@ const Facility = ({ navigation, route }) => {
     const docSnap = await getDoc(docRef);
     const facility = docSnap.data();
     setFacility(facility);
+  };
+
+  //Check if user fav this facil
+  const checkFav = async () => {
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    const userSnap = await getDoc(userRef);
+    if (
+      userSnap.exists() &&
+      userSnap.data().favourites.indexOf(facilityName) > -1
+    ) {
+      setFav(true);
+    } else if (!userSnap.exists()) {
+      await setDoc(doc(db, "users", auth.currentUser.uid), {
+        favourites: [],
+      });
+    } else {
+      setFav(false);
+    }
+  };
+
+  const handleFav = async () => {
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    if (fav) {
+      setFav(false);
+      //Remove from firestore
+      await updateDoc(userRef, { favourites: arrayRemove(facilityName) });
+      console.log("Removed from favs");
+    } else {
+      setFav(true);
+      //Add to firestore
+      await updateDoc(userRef, { favourites: arrayUnion(facilityName) });
+      console.log("Added to favs");
+    }
   };
 
   //Standardise Time on Date to be 0000 and change Regular Button text to date selected
@@ -102,17 +139,6 @@ const Facility = ({ navigation, route }) => {
   //Closes modal on confirm
   const callbackClose = () => {
     setModalVisible(!modalVisible);
-  };
-
-  const handleFav = () => {
-    setIsFav(!isFav);
-    if(!isFav) {
-      // save to firestore
-      console.log("Removed from favourites");
-    } else {
-      //delete from firestore
-      console.log("Saved as favourites");
-    }
   };
 
   //On confirm Booking update Firestore accordingly
@@ -171,7 +197,7 @@ const Facility = ({ navigation, route }) => {
           thumbColor="#f4f3f4"
           ios_backgroundColor="#3e3e3e"
           onValueChange={handleFav}
-          value={isFav}
+          value={fav}
         />
         <RegularText>Add to Favourites</RegularText>
       </View>
@@ -233,7 +259,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    },
+  },
   modalView: {
     margin: 10,
     backgroundColor: "white",
