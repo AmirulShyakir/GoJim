@@ -23,11 +23,11 @@ const Favourites = ({ navigation, route }) => {
     getFavs();
   }, []);
 
-  const getFacil = async (facility) => {
+  /*const getFacil = async (facility) => {
     const facilRef = doc(db, "facilities", facility);
     const facilSnap = await getDoc(facilRef);
     return facilSnap.data();
-  }
+  }*/
   
   const getFavs = async () => {
     const list = [];
@@ -47,8 +47,8 @@ const Favourites = ({ navigation, route }) => {
       <FacilityCard
         item={item}
         onPress={() => {
-          console.log("Navigating to " + item);
-          //navigation.navigate("Facility", { facilityName: item.name });
+          console.log("Navigating to " + item.name);
+          navigation.navigate("Facility", { facilityName: item.name });
         }}
       />
     );
