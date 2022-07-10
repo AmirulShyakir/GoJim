@@ -8,7 +8,7 @@ const Account1 = ({ navigation, route }) => {
     console.log("this is getting passed to the next page: " + selected)
     if (selected == "Favourite Facilities") {
       console.log("Navigating to Facility")
-      navigation.navigate("MyFavourites");
+      //navigation.navigate("Facility", {key: selected});
     } else {
       //navigate to a page containing list of bookings
       navigation.navigate("MyBookings", selected);
