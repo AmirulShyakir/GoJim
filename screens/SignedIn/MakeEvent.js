@@ -117,7 +117,7 @@ const MakeEvent = ({ route, navigation }) => {
             if ( // CHECK IF ALL FIELDS ARE FILLED
               values.eventName == "" ||
               values.eventDescription == "" ||
-              values.maxParticipants == undefined ||
+              values.maxParticipants == "" ||
               (checkEventType1 == false  &&
               checkEventType2 == false &&
               checkEventType3 == false &&
