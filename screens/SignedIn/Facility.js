@@ -1,27 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  Modal,
-  Alert,
-  Switch,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, View, Text, Modal, Alert } from "react-native";
 
 //Firestore
 import { auth, db } from "../../firebase";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  addDoc,
-  collection,
-  arrayUnion,
-  updateDoc,
-  arrayRemove,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc, addDoc, collection, arrayUnion} from "firebase/firestore";
 //texts
 import LargeText from "../../components/Texts/LargeText";
 import RegularText from "../../components/Texts/RegularText";
@@ -33,10 +15,8 @@ import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
-import { async } from "@firebase/util";
-import { set } from "react-native-reanimated";
 
-const { primary, white, action, tertiary } = colours;
+const { primary } = colours;
 
 const Facility = ({ navigation, route }) => {
   const facilityName = route.params.facilityName;
@@ -47,11 +27,9 @@ const Facility = ({ navigation, route }) => {
   const [selectedDateObject, setSelectedDateObject] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const [timeSlotChosen, setTimeSlotChosen] = useState(0);
-  const [fav, setFav] = useState(false);
 
   useEffect(() => {
     getFacility();
-    checkFav();
   }, []);
 
   const showDatePicker = () => {
@@ -70,39 +48,6 @@ const Facility = ({ navigation, route }) => {
     setFacility(facility);
   };
 
-  //Check if user fav this facil
-  const checkFav = async () => {
-    const userRef = doc(db, "users", auth.currentUser.uid);
-    const userSnap = await getDoc(userRef);
-    if (
-      userSnap.exists() &&
-      userSnap.data().favourites.indexOf(facilityName) > -1
-    ) {
-      setFav(true);
-    } else if (!userSnap.exists()) {
-      await setDoc(doc(db, "users", auth.currentUser.uid), {
-        favourites: [],
-      });
-    } else {
-      setFav(false);
-    }
-  };
-
-  const handleFav = async () => {
-    const userRef = doc(db, "users", auth.currentUser.uid);
-    if (fav) {
-      setFav(false);
-      //Remove from firestore
-      await updateDoc(userRef, { favourites: arrayRemove(facilityName) });
-      console.log("Removed from favs");
-    } else {
-      setFav(true);
-      //Add to firestore
-      await updateDoc(userRef, { favourites: arrayUnion(facilityName) });
-      console.log("Added to favs");
-    }
-  };
-
   //Standardise Time on Date to be 0000 and change Regular Button text to date selected
   const selectDate = async (date) => {
     date.setHours(0, 0, 0);
@@ -114,7 +59,7 @@ const Facility = ({ navigation, route }) => {
 
   //Update Regular Button text to date
   const showTimeSlotChosen = () => {
-    if (timeSlotChosen == 0) {
+    if(timeSlotChosen == 0) {
       return "";
     } else {
       var timeDisplayed = {
@@ -125,20 +70,20 @@ const Facility = ({ navigation, route }) => {
         16: ",  4pm-6pm",
         18: ",  6pm-8pm",
         20: ",  8pm-10pm",
-      };
+      }
       return timeDisplayed[timeSlotChosen];
     }
-  };
+  }
 
   //Retrieve timeSlotChosen from CheckBoxTimeSlot.js
   const callbackTimeSlot = (childData) => {
-    setTimeSlotChosen(childData);
+    setTimeSlotChosen(childData)
     console.log(childData);
   };
 
   //Closes modal on confirm
   const callbackClose = () => {
-    setModalVisible(!modalVisible);
+    setModalVisible(!modalVisible)
   };
 
   //On confirm Booking update Firestore accordingly
@@ -146,36 +91,45 @@ const Facility = ({ navigation, route }) => {
     //Update Facil array
     if (timeSlotChosen != 0 && selectedDateString !== "Select Date") {
       await setDoc(
-        doc(db, "facilities", facilityName, "bookings", selectedDateString),
+        doc(
+          db,
+          "facilities",
+          facilityName,
+          "bookings",
+          selectedDateString
+        ),
         {
           timeSlots: arrayUnion(timeSlotChosen),
         },
-        { merge: true }
+        {merge: true}
       );
       //Update Bookings
       const bookingRef = doc(collection(db, "bookings"));
-      await setDoc(bookingRef, {
-        bookingID: bookingRef.id,
-        venue: facilityName,
-        date: selectedDateObject,
-        timeSlot: timeSlotChosen,
-        userUID: auth.currentUser.uid,
-      });
-      //Ask if want event or nah
-      Alert.alert("Booking Confirmed!", "Make an Event?", [
-        {
-          text: "No",
-          onPress: () => navigation.navigate("HomeScreen1"),
-          style: "cancel",
-        },
-        {
-          text: "Yes",
-          onPress: () =>
-            navigation.navigate("MakeEvent", { bookingID: bookingRef.id }),
-        },
-      ]);
+      await setDoc(
+        bookingRef,      
+          {
+            bookingID: bookingRef.id,
+            venue: facilityName,
+            date: selectedDateObject,
+            timeSlot: timeSlotChosen,
+            userUID: auth.currentUser.uid
+        }
+      );
+        //Ask if want event or nah
+        Alert.alert(
+          "Booking Confirmed!",
+          "Make an Event?",
+          [
+            {
+              text: "No",
+              onPress: () => navigation.navigate("HomeScreen1"),
+              style: "cancel"
+            },
+            { text: "Yes", onPress: () => navigation.navigate("MakeEvent", {bookingID: bookingRef.id}) }
+          ]
+        );
     }
-  };
+  }
 
   return (
     <ScrollView style={styles.scrollView}>
@@ -191,16 +145,6 @@ const Facility = ({ navigation, route }) => {
         </MaxCapacityContainer>
       </RowContainer>
       <RegularText>{facility.description}</RegularText>
-      <View style={styles.fav}>
-        <Switch
-          trackColor={{ false: "#767577", true: action }}
-          thumbColor="#f4f3f4"
-          ios_backgroundColor="#3e3e3e"
-          onValueChange={handleFav}
-          value={fav}
-        />
-        <RegularText>Add to Favourites</RegularText>
-      </View>
       <View>
         <RegularButton onPress={showDatePicker}>
           {selectedDateString} {showTimeSlotChosen()}
@@ -254,11 +198,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     margin: 22,
-  },
-  fav: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
   },
   modalView: {
     margin: 10,
