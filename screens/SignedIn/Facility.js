@@ -1,3 +1,7 @@
+
+
+
+
 import React, { useState, useEffect } from "react";
 import {
   Image,
@@ -33,8 +37,7 @@ import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
-import { async } from "@firebase/util";
-import { set } from "react-native-reanimated";
+
 
 const { primary, white, action, tertiary } = colours;
 

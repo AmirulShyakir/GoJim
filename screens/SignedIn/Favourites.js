@@ -14,7 +14,6 @@ import { doc, collection, getDoc, getDocs, query, where } from "firebase/firesto
 
 import SignedInContainer from "../../components/containers/SignedInContainer";
 import FacilityCard from "../../components/containers/FacilityCard";
-import { async } from "@firebase/util";
 
 const Favourites = ({ navigation, route }) => {
   const [favourites, setFavourites] = useState([]);
