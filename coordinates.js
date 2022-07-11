@@ -18,7 +18,7 @@ const venueCoordinates = [
     },
   },
   {
-    name: "Stephen Riady Centre",
+    name: "Stephen Riady Center",
     coordinates: {
       latitude: 1.3048818954621386,
       longitude: 103.77203899551903,

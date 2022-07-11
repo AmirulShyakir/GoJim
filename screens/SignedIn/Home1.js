@@ -94,17 +94,26 @@ const Home1 = ({ navigation, route }) => {
           longitudeDelta: 0.02,
         }}
       >
-        {showMarkers && arrOfCoordinates.map((item, index) => (
-          <Marker key={index} title={item.name} coordinate={item.coordinates}>
-            <Callout tooltip onPress={() => console.log(item.name)}>
-              <View style={styles.bubble}>
-                <TouchableOpacity>
-                  <RegularText>{item.name}</RegularText>
-                </TouchableOpacity>
-              </View>
-            </Callout>
-          </Marker>
-        ))}
+        {showMarkers &&
+          arrOfCoordinates.map((item, index) => (
+            <Marker key={index} title={item.name} coordinate={item.coordinates}>
+              <Callout
+                tooltip
+                onPress={() =>
+                  navigation.navigate("HomeScreen", {
+                    venue: item.name,
+                    type: selected,
+                  })
+                }
+              >
+                <View style={styles.bubble}>
+                  <TouchableOpacity>
+                    <RegularText>{item.name}</RegularText>
+                  </TouchableOpacity>
+                </View>
+              </Callout>
+            </Marker>
+          ))}
       </MapView>
       <View style={{ padding: 5, position: "absolute", width: "100%" }}>
         <SelectList
