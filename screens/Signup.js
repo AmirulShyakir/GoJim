@@ -46,11 +46,11 @@ function Signup({navigation}) {
         <Image
           source={require("../assets/GOJIM.png")}
           style={{
-            width: 150,
+            width: 200,
             height: 50,
             resizeMode: "contain",
             marginBottom: 50,
-            marginTop: 30,
+            marginTop: 100,
             alignSelf: "center",
           }}
         />
@@ -65,6 +65,10 @@ function Signup({navigation}) {
                 setIsSuccessMessage(false);
               } else if (values.password !== values.confirmPassword) {
                 setMessage("Passwords do not match");
+                setSubmitting(false);
+                setIsSuccessMessage(false);
+              } else if (values.password.length < 6) {
+                setMessage("Password must be at least 6 characters long");
                 setSubmitting(false);
                 setIsSuccessMessage(false);
               } else {

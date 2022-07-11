@@ -21,6 +21,9 @@ import Favourites from './screens/SignedIn/Favourites';
 
 import Signup from './screens/Signup';
 import Login from './screens/Login';
+import ForgotPassword from './screens/ForgotPassword';
+import OnboardingLoggedOut from './screens/OnboardingLoggedOut';
+
 import { colours } from './components/ColourPalette';
 import { Feather } from '@expo/vector-icons'
 const {action, white, secondary, primary, tertiary} = colours;
@@ -200,6 +203,7 @@ const App = () => {
       <NavigationContainer>
         <LoginSignupStack.Navigator
           screenOptions={{
+            headerShown: false,
             headerStyle: {backgroundColor: action, borderBottomWidth: 0, shadowColor: "transparent"},
             headerTitleAlign: 'center',
             headerTintColor: white}}
@@ -207,6 +211,8 @@ const App = () => {
           <LoginSignupStack.Screen name="Login" component={Login}
           initialParams={{ authenticate: AuthLogin }} 
            />
+          <LoginSignupStack.Screen name="OnboardingLoggedOut" component={OnboardingLoggedOut}/>
+          <LoginSignupStack.Screen name="ForgotPassword" component={ForgotPassword} />
           <LoginSignupStack.Screen name="Signup" component={Signup} />
         </LoginSignupStack.Navigator>
       </NavigationContainer>

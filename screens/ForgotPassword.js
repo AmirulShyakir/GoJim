@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator, Image} from 'react-native';
 import { auth } from '../firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 //containers
 import MainContainer from '../components/containers/MainContainer'; 
 import KeyboardAvoidingContainer from '../components/containers/KeyboardAvoidingContainer';
@@ -11,59 +11,48 @@ import RowContainer from '../components/containers/RowContainer';
 import PressableText from '../components/Texts/PressableText';
 import MessageBox from '../components/Texts/MessageBox';
 import StyledTextInput from '../components/Inputs/StyledTextInput';
+import RegularText from '../components/Texts/RegularText';
 //buttons
 import RegularButton from '../components/Buttons/RegularButton';
 //colours
 import { colours } from '../components/ColourPalette';
 const {primary, white} = colours;
 
-function Login({navigation, route}) {
+function ForgotPassword({navigation, route}) {
     const [message, setMessage] = useState('');
     const [isSuccessMessage, setIsSuccessMessage] = useState('false');
 
-    const handleLogin = (credentials, setSubmitting) => {
-        signInWithEmailAndPassword(auth, credentials.email, credentials.password)
-        .then(userCredentials => {
-            const user = userCredentials.user;
-            console.log("logged in with " + user.email);
-            setSubmitting(false);
-            route.params.authenticate(true);
-        })
-        .catch(error => {
-            setMessage("Login failed: " + error.message);
-            setIsSuccessMessage(false);
-            setSubmitting(false);
-        })
+    const handlePasswordResetEmail = (email, setSubmitting) => {
+      sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log("sent password reset email to " + email)
+        setSubmitting(false);
+        setMessage("Password reset email has been sent to " + email);
+      })
+      .catch(error => {
+        setMessage("Failed to send password reset email: " + error.message);
+        setIsSuccessMessage(false);
+        setSubmitting(false);
+      })
     }
 
-    const pressSignup = () => {
-        navigation.navigate('OnboardingLoggedOut');
+    const pressLogin = () => {
+        navigation.navigate('Login');
     }
 
     return (
-      <MainContainer>
-        <Image
-          source={require("../assets/GOJIM.png")}
-          style={{
-            width: 200,
-            height: 50,
-            resizeMode: "contain",
-            marginBottom: 50,
-            marginTop: 100,
-            alignSelf: "center",
-          }}
-        />
-
+      <MainContainer style={{paddingTop: 100}}>
+        <RegularText style={{marginBottom: 50}}>Enter your email address and you will receive a code to reset your password</RegularText>
         <KeyboardAvoidingContainer>
           <Formik
             initialValues={{ email: "", password: "" }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.email == "" || values.password == "") {
-                setMessage("Please fill in all fields");
+              if (values.email == "") {
+                setMessage("Please enter your email");
                 setSubmitting(false);
                 setIsSuccessMessage(false);
               } else {
-                handleLogin(values, setSubmitting);
+                handlePasswordResetEmail(values.email, setSubmitting);
               }
             }}
           >
@@ -83,43 +72,27 @@ function Login({navigation, route}) {
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
                   values={values.email}
-                  style={{ marginBottom: 25 }}
-                />
-
-                <StyledTextInput
-                  label={"Password"}
-                  icon="lock"
-                  placeholder="********"
-                  onChangeText={handleChange("password")}
-                  onBlur={handleBlur("password")}
-                  values={values.password}
-                  isPassword={true}
-                  style={{ marginBottom: 25 }}
+                  style={{ marginBottom: 15 }}
                 />
 
                 <MessageBox
-                  style={{ marginBottom: 20 }}
+                  style={{ marginBottom: 15 }}
                   success={isSuccessMessage}
                 >
                   {message || " "}
                 </MessageBox>
 
                 {!isSubmitting && (
-                  <RegularButton onPress={handleSubmit}>Login</RegularButton>
+                  <RegularButton onPress={handleSubmit}>Send</RegularButton>
                 )}
                 {isSubmitting && (
                   <RegularButton disabled={true}>
                     <ActivityIndicator size="small" color={white} />
                   </RegularButton>
                 )}
-                <RowContainer>
-                  <PressableText onPress={pressSignup}>
-                    New Account Signup
+                  <PressableText onPress={pressLogin}>
+                    Back to login
                   </PressableText>
-                  <PressableText onPress={() => {navigation.navigate("ForgotPassword")}}>
-                    Forgot Password
-                  </PressableText>
-                </RowContainer>
               </>
             )}
           </Formik>
@@ -128,4 +101,4 @@ function Login({navigation, route}) {
     );
 };
 
-export default Login;
+export default ForgotPassword;

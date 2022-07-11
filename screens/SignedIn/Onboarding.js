@@ -9,12 +9,22 @@ const HowItWorks = ({navigation}) => (
   <Onboarding
     onDone={() => navigation.goBack()}
     onSkip={() => navigation.goBack()}
-    transitionAnimationDuration = {200}
+    transitionAnimationDuration = {500}
     titleStyles= {{fontSize: 20, fontWeight: 'bold'}}
     pages={[
       {
         backgroundColor: primary,
-        image: <Image source={require('../../assets/GojimLogo.png')} />,
+        image: <Image
+						source={require("../../assets/GOJIM.png")}
+						style={{
+							width: 250,
+							height: 50,
+							resizeMode: "contain",
+							marginBottom: 0,
+							marginTop: 0,
+							alignSelf: "center",
+						}}
+					/>,
         title: 'BOOKINGS MADE SIMPLE.',
         subtitle: 'Who says it has to be hard?',
       },
