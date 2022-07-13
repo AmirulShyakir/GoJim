@@ -41,10 +41,25 @@ const venueCoordinates = [
   {
     name: "University Sports Centre",
     coordinates: {
-        latitude: 1.3001363790438372,
-        longitude: 103.77534860013934
-    }
-  }
+      latitude: 1.3001363790438372,
+      longitude: 103.77534860013934,
+    },
+  },
+  {
+    name: "Multipurpose Sports Hall",
+    coordinates: {
+      latitude: 1.300824315667021,
+      longitude: 103.77578299997609,
+    },
+  },
+  {
+    name: "NUS Tennis Courts",
+    coordinates: {
+      latitude: 1.2988418614904917, 
+      longitude: 103.77721366070739,
+    },
+  },
+
 ];
 
 export { venueCoordinates };
