@@ -28,13 +28,19 @@ import RowContainer from "../../components/containers/RowContainer";
 import SearchButton from "../../components/Buttons/SearchButton";
 import SmallText from "../../components/Texts/SmallText";
 import RegularText from "../../components/Texts/RegularText";
+import { set } from "react-native-reanimated";
 
 const { white, secondary, primary, black } = colours;
 
 const Home1 = ({ navigation, route }) => {
   const [selected, setSelected] = useState("");
-  const [showMarkers, setShowMarkers] = useState(false);
   const [arrOfCoordinates, setArrOfCoordinates] = useState([]);
+  const [region, setRegion] = useState({
+    latitude: 1.2975006718982152,
+    longitude: 103.7766084407046,
+    latitudeDelta: 0.02,
+    longitudeDelta: 0.02,
+  });
   const mapRef = useRef();
 
   const data = [
@@ -53,7 +59,7 @@ const Home1 = ({ navigation, route }) => {
     });
   }, []);
 
-  /*useEffect(() => {
+  useEffect(() => {
     if (mapRef.current) {
       // list of _id's must same that has been provided to the identifier props of the Marker
       mapRef.current.fitToSuppliedMarkers(
@@ -66,9 +72,14 @@ const Home1 = ({ navigation, route }) => {
       }, animated: true }
       );
     }
-  }, [arrOfCoordinates]);*/
+  }, [arrOfCoordinates]);
+
+  useEffect(() => {
+    mapRef.current.animateToRegion(region, 2000);
+  }, [selected])
 
   const pressSearch = async () => {
+    setSelected(selected)
     const list = [];
     // IMPLEMENTING NEW ONE HERE
     // using Set here so that it can avoid duplicates
@@ -97,33 +108,6 @@ const Home1 = ({ navigation, route }) => {
     }
     console.log(setOfFacilityStrings);
     setArrOfCoordinates([...list]);
-    setShowMarkers(true);
-    if (mapRef.current) {
-      /*console.log('mapRef is working');
-      console.log(arrOfCoordinates);
-      console.log(list);*/
-      mapRef.current.fitToSuppliedMarkers(
-        list.map((item, index) => index.toString()),
-        { edgePadding: {
-          bottom: 10,
-          left: 250,
-          right: 250,
-          top: 800,
-      }, animated: true }
-      );
-    }
-    /*mapRef.current.fitToSuppliedMarkers(
-      arrOfCoordinates.map((item, index) => index.toString()),
-      {
-        edgePadding: {
-          bottom: 0,
-          left: 250,
-          right: 250,
-          top: 800,
-        },
-        animated: true,
-      }
-    );*/
   };
 
   return (
@@ -132,15 +116,10 @@ const Home1 = ({ navigation, route }) => {
         ref={mapRef}
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        initialRegion={{
-          latitude: 1.2975006718982152,
-          longitude: 103.7766084407046,
-          latitudeDelta: 0.02,
-          longitudeDelta: 0.02,
-        }}
+        initialRegion={region}
+        region={region}
       >
-        {showMarkers &&
-          arrOfCoordinates.map((item, index) => (
+        {arrOfCoordinates.map((item, index) => (
             <Marker
               key={index}
               identifier={index.toString()}
@@ -169,7 +148,7 @@ const Home1 = ({ navigation, route }) => {
       <View style={{ padding: 5, position: "absolute", width: "100%" }}>
         <SelectList
           placeholder="Facility Types"
-          setSelected={setSelected}
+          setSelected={pressSearch}
           data={data}
           boxStyles={{
             backgroundColor: white,
