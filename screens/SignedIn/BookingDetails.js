@@ -132,7 +132,7 @@ const BookingDetails = ({ navigation, route }) => {
       />
       <View style={styles.venueView}>
         <LargeText>{booking.venue}</LargeText>
-        <RegularText>{facility.venue}</RegularText>
+        <RegularText>{facility.venue} {facility.unit} </RegularText>
       </View>
       <RowContainer>
         <RegularText>{booking.date.toDate().toDateString()}</RegularText>

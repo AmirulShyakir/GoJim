@@ -112,7 +112,7 @@ const JoinEvent = ({ navigation, route }) => {
       />
       <View style={styles.venueView}>
         <LargeText>{eventDetails.venue}</LargeText>
-        <RegularText>{facility.venue}</RegularText>
+        <RegularText>{facility.venue} {facility.unit}</RegularText>
       </View>
       <RowContainer>
         <RegularText>{eventDetails.date.toDate().toDateString()}</RegularText>
