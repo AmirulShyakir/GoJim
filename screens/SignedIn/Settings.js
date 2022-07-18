@@ -90,14 +90,20 @@ const Settings = ({navigation}) => {
       //converts image to array of bytes
       const image = await fetch(result.uri);
       const bytes = await image.blob();
-      //uploads image
+      //uploads image to firebase auth 
       await uploadBytes(profilePicRef, bytes);
       getDownloadURL(profilePicRef).then((url) => {
         console.log(url);
         updateProfile(auth.currentUser, { photoURL: url });
+        addUrlToFirestore(url);
       });
     }
   };
+
+  const addUrlToFirestore = async (url) => {
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    await updateDoc(userRef, { photoURL: url });
+  }
 
   return (
     <MainContainer>

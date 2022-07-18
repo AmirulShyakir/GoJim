@@ -4,13 +4,7 @@ import { ActivityIndicator, Image} from 'react-native';
 import { auth, db } from '../firebase';
 import {
   doc,
-  getDoc,
   setDoc,
-  addDoc,
-  collection,
-  arrayUnion,
-  updateDoc,
-  arrayRemove,
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { updateProfile } from "firebase/auth/react-native";
