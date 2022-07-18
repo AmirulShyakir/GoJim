@@ -13,6 +13,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { updateProfile } from "firebase/auth/react-native";
 
 //containers
 import MainContainer from '../components/containers/MainContainer'; 
@@ -37,7 +38,7 @@ function Signup({navigation}) {
         createUserWithEmailAndPassword(auth, credentials.email, credentials.password)
         .then(userCredentials => {
             const user = userCredentials.user;
-            updateFiretore(user.uid, user.email)
+            updateFiretore(user.uid, user.email, credentials.username)
             console.log("Signed up with " + user.email);
             navigation.navigate('Login');
         })
@@ -52,10 +53,11 @@ function Signup({navigation}) {
         navigation.navigate('Login');
     }
 
-    const updateFiretore = async (uid, email) => {
+    const updateFiretore = async (uid, email, username) => {
       const userRef = doc(db, "users", uid);
-      await setDoc(userRef, { username: uid, email: email });
-      console.log("username set to " + uid);
+      await setDoc(userRef, { email: email, username: username });
+      updateProfile(auth.currentUser, { displayName: username });
+      console.log("username set to " + username);
     };
 
     return (
@@ -74,9 +76,10 @@ function Signup({navigation}) {
 
         <KeyboardAvoidingContainer>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: "", username: "", password: "", confirmPassword: "" }}
             onSubmit={(values, { setSubmitting }) => {
-              if (values.email == "" || values.password == "") {
+              if (values.email == "" || values.password == "" 
+              || values.username == "" || values.confirmPassword == "") {
                 setMessage("Please fill in all fields");
                 setSubmitting(false);
                 setIsSuccessMessage(false);
@@ -86,6 +89,10 @@ function Signup({navigation}) {
                 setIsSuccessMessage(false);
               } else if (values.password.length < 6) {
                 setMessage("Password must be at least 6 characters long");
+                setSubmitting(false);
+                setIsSuccessMessage(false);
+              } else if (values.username.length > 20) {
+                setMessage("Username cannot be more than 20 characters");
                 setSubmitting(false);
                 setIsSuccessMessage(false);
               } else {
@@ -103,12 +110,22 @@ function Signup({navigation}) {
               <>
                 <StyledTextInput
                   label={"Email Address"}
-                  icon="user"
+                  icon="mail"
                   placeholder="example@u.nus.edu"
                   keyboardType="email-address"
                   onChangeText={handleChange("email")}
                   onBlur={handleBlur("email")}
                   values={values.email}
+                  style={{ marginBottom: 25 }}
+                />
+
+                <StyledTextInput
+                  label={"Username"}
+                  icon="user"
+                  placeholder="example name"
+                  onChangeText={handleChange("username")}
+                  onBlur={handleBlur("username")}
+                  values={values.username}
                   style={{ marginBottom: 25 }}
                 />
 

@@ -1,14 +1,17 @@
 import { auth, db } from "../../firebase";
+import {
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { Formik } from "formik";
 import { updateProfile } from "firebase/auth/react-native";
+import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
 import {
   Image,
   StyleSheet,
   Text,
   TouchableOpacity,
-  Alert,
   View,
   Modal,
   ActivityIndicator,
@@ -19,10 +22,8 @@ import { Feather } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 import MainContainer from "../../components/containers/MainContainer";
-import RowContainer from "../../components/containers/RowContainer";
 import { colours } from "../../components/ColourPalette";
 //texts
-import LargeText from "../../components/Texts/LargeText";
 import RegularButton from "../../components/Buttons/RegularButton";
 import SmallText from "../../components/Texts/SmallText";
 import MessageBox from "../../components/Texts/MessageBox";
@@ -61,9 +62,12 @@ const Settings = ({navigation}) => {
     auth.signOut();
   };
 
-  const handleChangeUsername = (username, setSubmitting) => {
+  //updates both auth and users collection
+  const handleChangeUsername = async (username, setSubmitting) => {
     setUsername(username);
     updateProfile(auth.currentUser, { displayName: username });
+    const userRef = doc(db, "users", auth.currentUser.uid);
+    await updateDoc(userRef, { username: username });
     setSubmitting(false);
   };
 
