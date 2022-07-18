@@ -1,7 +1,17 @@
 import React, {useState} from 'react';
 import { Formik } from 'formik';
 import { ActivityIndicator, Image} from 'react-native';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import {
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  collection,
+  arrayUnion,
+  updateDoc,
+  arrayRemove,
+} from "firebase/firestore";
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 //containers
@@ -27,6 +37,7 @@ function Signup({navigation}) {
         createUserWithEmailAndPassword(auth, credentials.email, credentials.password)
         .then(userCredentials => {
             const user = userCredentials.user;
+            updateFiretore(user.uid, user.email)
             console.log("Signed up with " + user.email);
             navigation.navigate('Login');
         })
@@ -40,6 +51,12 @@ function Signup({navigation}) {
     const pressLogin = () => {
         navigation.navigate('Login');
     }
+
+    const updateFiretore = async (uid, email) => {
+      const userRef = doc(db, "users", uid);
+      await setDoc(userRef, { username: uid, email: email });
+      console.log("username set to " + uid);
+    };
 
     return (
       <MainContainer>
