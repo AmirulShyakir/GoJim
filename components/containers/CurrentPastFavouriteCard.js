@@ -20,7 +20,7 @@ const {primary} = colours
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        height: "31%",
+        height: "30%",
         backgroundColor: primary,
         borderRadius: 10,
         margin: 7,
