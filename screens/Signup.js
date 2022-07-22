@@ -49,7 +49,7 @@ function Signup({navigation}) {
 
     const updateFiretore = async (uid, email, username) => {
       const userRef = doc(db, "users", uid);
-      await setDoc(userRef, { email: email, username: username });
+      await setDoc(userRef, { email: email, username: username, favourites: [] });
       updateProfile(auth.currentUser, { displayName: username });
       console.log("username set to " + username);
     };
