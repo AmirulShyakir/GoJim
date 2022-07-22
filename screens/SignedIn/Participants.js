@@ -9,14 +9,10 @@ import {
 import MainContainer from "../../components/containers/MainContainer";
 import ParticipantsCard from "../../components/containers/ParticipantsCard";
 //Firestore
-import { auth, db } from "../../firebase";
-import {
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 //Others
 import { colours } from "../../components/ColourPalette";
-
 const { primary, white, secondary } = colours;
 
 const Participants = ({ route }) => {
@@ -88,7 +84,10 @@ const Participants = ({ route }) => {
     );
   };
   
-
+  //not sure why the organiser isnt displaying. the console.log in the useEffect appears to be working but sometimes lag sometimes not
+  //flatlist with actual data not working
+  //flatlist with stub data not working
+  //the actual component itself appears to be working
   return (
     <MainContainer>
       <View style={[styles.view]}>

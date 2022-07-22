@@ -1,13 +1,5 @@
-import { TouchableOpacity, Image, StyleSheet, View, Text } from "react-native";
+import { Image, StyleSheet, View, Text } from "react-native";
 import { colours } from "../ColourPalette";
-//Texts
-import RegularText from "../Texts/RegularText";
-import LargeText from "../Texts/LargeText";
-
-//Containers
-import RowContainer from "./RowContainer";
-import MaxCapacityContainer from "./MaxCapacityContainer";
-import RegularButton from "../Buttons/RegularButton";
 
 //Styles
 const {white, primary, secondary} = colours;
@@ -35,7 +27,7 @@ const styles = StyleSheet.create({
 });
 
 
-const ParticipantsCard = ({ username, profilePic, participants }) => (  
+const ParticipantsCard = ({ username, profilePic }) => (  
   <View style={[styles.view]}>
       <Image source={{uri: profilePic}}  style={[styles.image]} />
       <Text style={styles.text}>{username}</Text>
