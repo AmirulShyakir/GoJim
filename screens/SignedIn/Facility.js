@@ -188,7 +188,7 @@ const Facility = ({ navigation, route }) => {
       />
       <LargeText>{facilityName}</LargeText>
       <RowContainer>
-        <RegularText>{facility.venue}</RegularText>
+        <RegularText>{facility.venue} {facility.unit}</RegularText>
         <MaxCapacityContainer>
           <RegularText>{facility.capacity}</RegularText>
         </MaxCapacityContainer>
