@@ -1,101 +1,131 @@
 import React, { useState, useEffect } from "react";
 import {
   Image,
-  ScrollView,
   StyleSheet,
   View,
   Text,
   FlatList
 } from "react-native";
-import SignedInContainer from "../../components/containers/SignedInContainer";
+import MainContainer from "../../components/containers/MainContainer";
+import ParticipantsCard from "../../components/containers/ParticipantsCard";
 //Firestore
 import { auth, db } from "../../firebase";
 import {
   doc,
   getDoc,
-  setDoc,
-  addDoc,
-  collection,
-  arrayUnion,
-  updateDoc,
-  arrayRemove,
 } from "firebase/firestore";
-//texts
-import LargeText from "../../components/Texts/LargeText";
-import RegularText from "../../components/Texts/RegularText";
-//Containers
-import MaxCapacityContainer from "../../components/containers/MaxCapacityContainer";
-import RowContainer from "../../components/containers/RowContainer";
 //Others
 import { colours } from "../../components/ColourPalette";
 
-const { primary, white, action, tertiary } = colours;
+const { primary, white, secondary } = colours;
 
-const Participants = ({ navigation, route }) => {
+const Participants = ({ route }) => {
   const organiserUID = route.params.organiserUID;
+  const [organiserUsername, setOrganiserUsername] = useState("");
+  const [organiserProfilePic, setOrganiserProfilePic] = useState("");
+
   const participantsArray = route.params.participantsArray;
-  const booking = route.params.booking;
-  const [participants, setParticipants] = useState([]);
+  const [usernames, setUsernames] = useState([]);
+  const [profilePics, setProfilePics] = useState([]);
 
   useEffect(() => {
+    getOrganiserDetails();
     getParticipants();
-    console.log("organiser UID: " + organiserUID);
-    console.log("participants array: " + participantsArray);
+    console.log("this is the organiser: \n" + organiserUID) ;
+    console.log("this is the organiser profilePic: \n" + organiserProfilePic);
+    console.log("these are the usernames: \n" + usernames)
+    console.log("these are the profilePics: \n" + profilePics)
   }, []);
-  
-  /*
-  const getParticipants = async () => {
-    const list = [];
-    const participantsArrRef = doc(db, "bookings", booking);
-    const participantsArrSnap = await getDoc(participantsArrRef);
-    const participantsArr = participantsArrSnap.data().participants;
-    for (const uid of participantsArr) {
-        const personRef = doc(db, "users", uid);
-        const personSnap = await getDoc(personRef);
-        list.push(personSnap.data());
+
+  const getOrganiserDetails = async () => {
+    const organiserRef = doc(db, "users", organiserUID);
+    const organiserSnap = await getDoc(organiserRef);
+    if (organiserSnap.exists()) {
+    setOrganiserUsername(organiserSnap.data().username)
+    organiserSnap.data().photoURL 
+    ? setOrganiserProfilePic(organiserSnap.data().photoURL) 
+    : setOrganiserProfilePic("https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg")
+    } else {
+      setOrganiserUsername(organiserUID);
+      setOrganiserProfilePic("https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg")
     }
-    setFavourites([...list]);
-    console.log(organiserUID);
-    console.log(list);
-  };
-  */
+  }
 
   const getParticipants = async () => {
-    const list = [];
+    const usernameList = [];
+    const profilePicList = [];
     for (const uid of participantsArray) {
         const personRef = doc(db, "users", uid);
         const personSnap = await getDoc(personRef);
         //if he has a username, add it to the list, else add his uid to the list
         if (personSnap.exists()) {
-          list.push(personSnap.data().username)
+          usernameList.push(personSnap.data().username)
+          //if he has a profile pic, add it to list, else add this default
+          personSnap.data().photoURL 
+          ? profilePicList.push(personSnap.data().photoURL) 
+          : profilePicList.push("https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg")
         } else {
-          list.push(uid);
+          usernameList.push(uid);
+          profilePicList.push("https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg");
         }
     }
-    setParticipants([...list]);
-    console.log(organiserUID);
-    console.log(list);
+    setUsernames([...usernameList]);
+    setProfilePics([...profilePicList])
+    //console.log(usernameList);
+    //console.log(profilePicList);
   };
+ 
+  
+  const usernameStub = ["stub1", "stub2", "stub3"];
+  const profilePicStub = ["https://xsgames.co/randomusers/avatar.php?g=male", "https://xsgames.co/randomusers/avatar.php?g=male", "https://xsgames.co/randomusers/avatar.php?g=male"]
 
-  /*
-  const renderItem = ({ item }) => {
+  const renderItem = ({ usernames, profilePics }) => {
     return (
-      <FacilityCard
-        item={item}
-        onPress={() => {
-          console.log("Navigating to " + item.name);
-          navigation.navigate("Facility", { facilityName: item.name });
-        }}
+      <ParticipantsCard
+        username={usernames}
+        profilePic={profilePics}
       />
     );
   };
-  */
+  
 
   return (
-    <SignedInContainer>
-      <LargeText>joe</LargeText>
-    </SignedInContainer>
+    <MainContainer>
+      <View style={[styles.view]}>
+          <Image source={{uri: organiserProfilePic}}  style={[styles.image]} />
+          <Text style={styles.text}>{organiserUsername}</Text>
+      </View>
+      <FlatList data={{usernames, profilePics}} renderItem={renderItem} />
+      <FlatList data={{usernameStub, profilePicStub}} renderItem={renderItem} />
+      <ParticipantsCard username={"stub1"} profilePic={"https://xsgames.co/randomusers/avatar.php?g=male"} />
+      <ParticipantsCard username={"stub2"} profilePic={"https://xsgames.co/randomusers/avatar.php?g=female"} />
+      <ParticipantsCard username={"stub3"} profilePic={"https://xsgames.co/randomusers/avatar.php?g=male"} />
+      <ParticipantsCard username={"stub4"} profilePic={"https://xsgames.co/randomusers/avatar.php?g=female"} />
+    </MainContainer>
   );
 };
 
 export default Participants;
+
+const styles = StyleSheet.create({
+  view: {
+    flexDirection: "row",
+    alignContent: 'center',
+    alignItems: "center",
+    backgroundColor: primary,
+    paddingVertical: 15,
+    borderColor: secondary,
+    borderTopWidth: 1,
+  },
+  image: {
+    width:40, 
+    height:40,
+    borderRadius: 20,
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  text: {
+    fontSize: 40,
+    color: white,
+  }
+});
