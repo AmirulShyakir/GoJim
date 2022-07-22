@@ -28,7 +28,6 @@ import RowContainer from "../../components/containers/RowContainer";
 import SearchButton from "../../components/Buttons/SearchButton";
 import SmallText from "../../components/Texts/SmallText";
 import RegularText from "../../components/Texts/RegularText";
-import { set } from "react-native-reanimated";
 
 const { white, secondary, primary, black } = colours;
 
@@ -74,12 +73,8 @@ const Home1 = ({ navigation, route }) => {
     }
   }, [arrOfCoordinates]);
 
-  useEffect(() => {
-    mapRef.current.animateToRegion(region, 2000);
-  }, [selected])
 
   const pressSearch = async () => {
-    setSelected(selected)
     const list = [];
     // IMPLEMENTING NEW ONE HERE
     // using Set here so that it can avoid duplicates
@@ -148,7 +143,7 @@ const Home1 = ({ navigation, route }) => {
       <View style={{ padding: 5, position: "absolute", width: "100%" }}>
         <SelectList
           placeholder="Facility Types"
-          setSelected={pressSearch}
+          setSelected={setSelected}
           data={data}
           boxStyles={{
             backgroundColor: white,
