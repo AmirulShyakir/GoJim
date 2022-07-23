@@ -6,10 +6,6 @@ import { auth, db } from "../../firebase";
 import {
 	doc,
 	getDoc,
-	setDoc,
-	addDoc,
-	collection,
-	arrayUnion,
 	arrayRemove,
 	updateDoc,
 	deleteDoc,
