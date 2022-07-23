@@ -34,7 +34,7 @@
     "react-native-app-intro-slider": "^4.0.4",
     "react-native-dropdown-select-list": "^1.0.7",
     "react-native-gesture-handler": "~2.2.1",
-    "react-native-maps": "0.30.2",
+    "react-native-maps": "^0.30.2",
     "react-native-modal-datetime-picker": "^13.1.2",
     "react-native-onboarding-swiper": "^1.2.0",
     "react-native-reanimated": "~2.8.0",

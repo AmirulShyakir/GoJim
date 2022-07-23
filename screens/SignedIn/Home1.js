@@ -2,32 +2,26 @@ import { db, auth } from "../../firebase";
 import React, { useEffect, useState, useRef } from "react";
 import {
   View,
-  ImageBackground,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import {
   collection,
-  doc,
-  getDoc,
   getDocs,
   query,
   where,
 } from "firebase/firestore";
-import SignedInContainer from "../../components/containers/SignedInContainer";
 import SelectList from "react-native-dropdown-select-list";
 import MapView, { Callout, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { venueCoordinates } from "../../coordinates";
 
 //texts
-import LargeText from "../../components/Texts/LargeText";
 import RegularButton from "../../components/Buttons/RegularButton";
-import { colours } from "../../components/ColourPalette";
-import RowContainer from "../../components/containers/RowContainer";
 import SearchButton from "../../components/Buttons/SearchButton";
 import SmallText from "../../components/Texts/SmallText";
 import RegularText from "../../components/Texts/RegularText";
+import LargeText from "../../components/Texts/LargeText";
+import { colours } from "../../components/ColourPalette";
 
 const { white, secondary, primary, black } = colours;
 
@@ -109,7 +103,6 @@ const Home1 = ({ navigation, route }) => {
     <View>
       <MapView
         ref={mapRef}
-        provider={PROVIDER_GOOGLE}
         style={styles.map}
         initialRegion={region}
         region={region}
@@ -147,14 +140,16 @@ const Home1 = ({ navigation, route }) => {
           data={data}
           boxStyles={{
             backgroundColor: white,
-            marginRight: 150,
+            width: "70%",
+            height: 50,
+            alignItems: "center",
           }}
           dropdownStyles={{
             backgroundColor: white,
-            marginRight: 150,
+            width: "70%",
           }}
         />
-        <RegularButton onPress={pressSearch}>Search</RegularButton>
+        <SearchButton onPress={pressSearch}>Search</SearchButton>
       </View>
     </View>
   );
