@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, View, Text, FlatList } from "react-native";
+import { Image, StyleSheet, View, Text, FlatList} from "react-native";
 import MainContainer from "../../components/containers/MainContainer";
 import ParticipantsCard from "../../components/containers/ParticipantsCard";
+import ParticipantsCard2 from "../../components/containers/ParticipantsCard2";
 //Firestore
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
@@ -19,18 +20,16 @@ const Participants = ({ route }) => {
   );
 
   const participantsArray = route.params.participantsArray;
+  const participantsArray2 = [];
   const [usernames, setUsernames] = useState(["hello"]);
   const [profilePics, setProfilePics] = useState([]);
 
   useEffect(() => {
     getOrganiserDetails();
     getParticipants();
-    console.log("this is the organiser: \n" + organiserUID);
-    console.log("this is the organiser profilePic: \n" + organiserProfilePic);
-    console.log("these are the usernames: \n" + usernames);
-    console.log("these are the profilePics: \n" + profilePics);
+    console.log("these are the participants: \n" + participantsArray);
   }, []);
-
+  
   const getOrganiserDetails = async () => {
     const organiserRef = doc(db, "users", organiserUID);
     const organiserSnap = await getDoc(organiserRef);
@@ -88,6 +87,11 @@ const Participants = ({ route }) => {
     return <ParticipantsCard username={usernames} profilePic={profilePics} />;
   };
 
+  const renderItem2 = ({ participantsArray }) => {
+    console.log("im passing the following uid to card: " + participantsArray)
+    return <ParticipantsCard2 uid={participantsArray}/>;
+  };
+
   //not sure why the organiser isnt displaying. the console.log in the useEffect appears to be working but sometimes lag sometimes not
   //flatlist with actual data not working
   //flatlist with stub data not working
@@ -96,29 +100,10 @@ const Participants = ({ route }) => {
     <MainContainer>
       <View style={[styles.view]}>
         <Image source={{ uri: organiserProfilePic }} style={[styles.image]} />
-        <LargeText>{organiserUsername}</LargeText>
+        <Text style={styles.text}>{organiserUsername}</Text>
       </View>
+      <FlatList data={participantsArray} renderItem={renderItem2} />
       <FlatList data={{ usernames, profilePics }} renderItem={renderItem} />
-      <FlatList
-        data={{ usernameStub, profilePicStub }}
-        renderItem={renderItem}
-      />
-      <ParticipantsCard
-        username={"stub1"}
-        profilePic={"https://xsgames.co/randomusers/avatar.php?g=male"}
-      />
-      <ParticipantsCard
-        username={"stub2"}
-        profilePic={"https://xsgames.co/randomusers/avatar.php?g=female"}
-      />
-      <ParticipantsCard
-        username={"stub3"}
-        profilePic={"https://xsgames.co/randomusers/avatar.php?g=male"}
-      />
-      <ParticipantsCard
-        username={"stub4"}
-        profilePic={"https://xsgames.co/randomusers/avatar.php?g=female"}
-      />
     </MainContainer>
   );
 };
@@ -134,12 +119,16 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderColor: secondary,
     borderTopWidth: 1,
+    flexWrap: "wrap",
   },
   image: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    marginLeft: 10,
     marginRight: 10,
   },
+  text: {
+    fontSize: 18,
+    color: white,
+  }
 });

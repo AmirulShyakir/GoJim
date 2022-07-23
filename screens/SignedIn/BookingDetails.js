@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, View, Alert, TouchableOpacity, ScrollView } from "react-native";
+import {
+	Image,
+	StyleSheet,
+	View,
+	Alert,
+	TouchableOpacity,
+	ScrollView,
+} from "react-native";
 import { Divider } from "@rneui/themed";
 //Firestore
 import { auth, db } from "../../firebase";
@@ -115,63 +122,59 @@ const BookingDetails = ({ navigation, route }) => {
 		}
 	};
 
-  const seeParticipantsPage = () => {
-    navigation.navigate("Participants", {
-      booking: booking,
-      organiserUID: booking.userUID,
-      participantsArray: booking.participants
-      });
-  }
+	const seeParticipantsPage = () => {
+		navigation.navigate("Participants", {
+			booking: booking,
+			organiserUID: booking.userUID,
+			participantsArray: booking.participants,
+		});
+	};
 
 	return (
 		<MainContainer>
-    <ScrollView>
-			{booking.event && (
-				<View style={{ marginBottom: 5 }}>
-					<LargeText>{booking.eventName}</LargeText>
-					<RegularText>{checkParticipantOrganiser()}</RegularText>
-				</View>
-			)}
-			<Image
-				style={{
-					width: "100%",
-					height: 200,
-					borderRadius: 10,
-				}}
-				source={{ uri: facility.imageURL }}
-			/>
-			<View style={styles.venueView}>
-				<LargeText>{booking.venue}</LargeText>
-				<RegularText>
-					{facility.venue} {facility.unit}{" "}
-				</RegularText>
-			</View>
-			<RowContainer>
-				<RegularText>{booking.date.toDate().toDateString()}</RegularText>
-				<RegularText>{showTimeSlot(booking.timeSlot)}</RegularText>
+			<ScrollView>
 				{booking.event && (
-          <TouchableOpacity onPress={seeParticipantsPage}>
-            <MaxCapacityContainer>
-              <RegularText>
-                {booking.participants.length} / {booking.maxParticipants}
-              </RegularText>
-            </MaxCapacityContainer>
-          </TouchableOpacity>
+					<View style={{ marginBottom: 5 }}>
+						<LargeText>{booking.eventName}</LargeText>
+						<RegularText>
+							{booking.date.toDate().toDateString()}{" "}
+							{showTimeSlot(booking.timeSlot)}
+						</RegularText>
+						<TouchableOpacity onPress={seeParticipantsPage}>
+						<View style= {styles.participantsContainer}>
+							<MaxCapacityContainer>
+								<RegularText>
+									{booking.participants.length} / {booking.maxParticipants}
+								</RegularText>
+							</MaxCapacityContainer>
+							<RegularText>			Participants</RegularText>
+						</View>
+						</TouchableOpacity>
+						<LargeText>Description</LargeText>
+						<RegularText>{booking.eventDescription}</RegularText>
+					</View>
 				)}
-			</RowContainer>
-      <Divider width={2} color={tertiary} marginBottom={10} />
-			<RegularText>{booking.eventDescription}</RegularText>
-			{booking.event && booking.userUID != auth.currentUser.uid && (
-				<View style={styles.organisedView}>
-					<RegularText>Organised by: {booking.userUID}</RegularText>
+				<LargeText>Facility</LargeText>
+				<Image
+					style={{
+						width: "100%",
+						height: 200,
+						borderRadius: 10,
+					}}
+					source={{ uri: facility.imageURL }}
+				/>
+				<View style={styles.venueView}>
+					<LargeText>{booking.venue}</LargeText>
+					<RegularText>
+						{facility.venue} {facility.unit}{" "}
+					</RegularText>
 				</View>
-			)}
-			{booking.date > Timestamp.fromMillis(Date.now()) && (
-				<View style={styles.container}>
-					<RegularButton onPress={deleteWitdraw}>{buttonText}</RegularButton>
-				</View>
-			)}
-      </ScrollView>
+				{booking.date > Timestamp.fromMillis(Date.now()) && (
+					<View style={styles.container}>
+						<RegularButton onPress={deleteWitdraw}>{buttonText}</RegularButton>
+					</View>
+				)}
+			</ScrollView>
 		</MainContainer>
 	);
 };
@@ -181,14 +184,16 @@ const styles = StyleSheet.create({
 		marginBottom: 15,
 	},
 	organisedView: {
-		marginVertical: 15,
+		marginBottom: 15,
 	},
 	container: {
-		right: 10,
-		left: 10,
 		position: "relative",
-		bottom: 10,
 	},
+	participantsContainer: {
+		flexDirection: "row",
+		marginVertical: 10,
+		alignItems: "center",
+	}
 });
 
 export default BookingDetails;
