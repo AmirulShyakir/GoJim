@@ -6,13 +6,14 @@ import {
   where,
   Timestamp
 } from "firebase/firestore";
-import { Image, FlatList } from "react-native";
+import { Image, FlatList, StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
-import MainContainer from "../../components/containers/MainContainer";
 import SignedInContainer from "../../components/containers/SignedInContainer";
+import BookingCard from "../../components/containers/BookingCard";
 //texts
 import LargeText from "../../components/Texts/LargeText";
-import BookingCard from "../../components/containers/BookingCard";
+import { colours } from "../../components/ColourPalette";
+const {white, primary, secondary} = colours;
 
 const Account = ({navigation, route}) => {
   const [bookings, setBookings] = useState([]);
@@ -65,11 +66,41 @@ const Account = ({navigation, route}) => {
     );
   };
 
+  const convertIsUpcomingToText = (isUpcoming) => {
+    if (isUpcoming == ">") {
+      console.log("upcoming");
+      return "upcoming";
+    } else {
+      console.log("past");
+      return "past";
+    }
+  }
+
   return (
     <SignedInContainer>
-      <FlatList data={bookings} renderItem={renderItem} />
+      {bookings.length >= 1 && (
+        <FlatList data={bookings} renderItem={renderItem} />
+      )}
+      {bookings.length == 0 && (
+        <View style = {styles.view}>
+          <Text style={styles.text}>You do not have any {convertIsUpcomingToText(isUpcoming)} bookings</Text>
+        </View>
+      )}
     </SignedInContainer>
   );
 };
 
 export default Account;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    color: white,
+    textAlign: "center"
+  },
+  view: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  }
+});
