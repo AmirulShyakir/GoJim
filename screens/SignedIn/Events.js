@@ -1,18 +1,21 @@
 import { auth, db } from '../../firebase';
-import { collection, getDocs, query, where, Timestamp } from "firebase/firestore";
-import SignedInContainer from '../../components/containers/SignedInContainer';
-//texts
-import { FlatList } from 'react-native';
-import EventCard from '../../components/containers/EventCard';
+import { FlatList, StyleSheet, View, Text } from 'react-native';
 import { useState, useEffect } from 'react';
+import { collection, getDocs, query, where, Timestamp } from "firebase/firestore";
+//texts
+import SignedInContainer from '../../components/containers/SignedInContainer';
+import EventCard from '../../components/containers/EventCard';
+import { colours } from '../../components/ColourPalette';
+const {white, primary, secondary} = colours;
 
 const Events = ({navigation, route}) => {
   const eventType  = route.params.key;
-
+  const [emptyText, setEmptyText] = useState("");
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         getData();
+        setTimeout(() => {renderEmptyText(eventType)}, 300);
     }, []);    
     
     const getData = async () => {
@@ -60,12 +63,36 @@ const Events = ({navigation, route}) => {
         );
       };
     
+    const renderEmptyText = (eventType) => {
+      setEmptyText("There are no " + eventType + " at the moment");
+    }
+
     return <SignedInContainer>
+      {events.length >= 1 && (
         <FlatList
           data={events}
           renderItem={renderEvents}
         />
+      )}
+      {events.length == 0 && (
+        <View style = {styles.view}>
+          <Text style={styles.text}> {emptyText} </Text>
+        </View>
+      )}
     </SignedInContainer>
 }
 
 export default Events;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    color: white,
+    textAlign: "center"
+  },
+  view: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  }
+});

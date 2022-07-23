@@ -17,6 +17,7 @@ const {white, primary, secondary} = colours;
 
 const Account = ({navigation, route}) => {
   const [bookings, setBookings] = useState([]);
+  const [emptyText, setEmptyText] = useState("");
   //isUpcoming is a string that is either ">" || "<=" that will be
   //used in where() in getData()
   const isUpcoming = route.params;
@@ -24,6 +25,7 @@ const Account = ({navigation, route}) => {
 
   useEffect(() => {
     getData();
+    setTimeout(() => {renderEmptyText(isUpcoming)}, 300);
   }, []);
 
   const getData = async () => {
@@ -66,13 +68,11 @@ const Account = ({navigation, route}) => {
     );
   };
 
-  const convertIsUpcomingToText = (isUpcoming) => {
+  const renderEmptyText = (isUpcoming) => {
     if (isUpcoming == ">") {
-      console.log("upcoming");
-      return "upcoming";
+      setEmptyText("You do not have any upcoming bookings")
     } else {
-      console.log("past");
-      return "past";
+      setEmptyText("You do not have any past bookings");
     }
   }
 
@@ -83,7 +83,7 @@ const Account = ({navigation, route}) => {
       )}
       {bookings.length == 0 && (
         <View style = {styles.view}>
-          <Text style={styles.text}>You do not have any {convertIsUpcomingToText(isUpcoming)} bookings</Text>
+          <Text style={styles.text}> {emptyText} </Text>
         </View>
       )}
     </SignedInContainer>

@@ -18,9 +18,11 @@ const {white, primary, secondary} = colours;
 
 const Favourites = ({ navigation, route }) => {
   const [favourites, setFavourites] = useState([]);
+  const [emptyText, setEmptyText] = useState("");
 
   useEffect(() => {
     getFavs();
+    setTimeout(() => {renderEmptyText()}, 300);
   }, []);
   
   const getFavs = async () => {
@@ -48,6 +50,10 @@ const Favourites = ({ navigation, route }) => {
     );
   };
 
+  const renderEmptyText = () => {
+    setEmptyText("You do not have any favourite facilities");
+  }
+
   return (
     <SignedInContainer>
       {favourites.length >= 1 && (
@@ -55,7 +61,7 @@ const Favourites = ({ navigation, route }) => {
       )}
       {favourites == "" && (
         <View style = {styles.view}>
-          <Text style={styles.text}>You do not have any favourite facilities</Text>
+          <Text style={styles.text}>{emptyText}</Text>
         </View>
       )}
     </SignedInContainer>
@@ -68,6 +74,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     color: white,
+    textAlign: "center"
   },
   view: {
     flex: 1,
