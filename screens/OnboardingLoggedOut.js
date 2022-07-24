@@ -64,7 +64,7 @@ const OnboardingLoggedOut = ({ navigation }) => (
 				image: <Image source={require("../assets/TrackBookings.png")} />,
 				title: "TRACK YOUR BOOKINGS.",
 				subtitle:
-					"View your bookings in the Account tab. \n Psst! Here's where you can find your favourite facilities.",
+					"View your bookings in the Bookings tab. \n Psst! Here's where you can find your favourite facilities.",
 			},
 		]}
 	/>

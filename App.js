@@ -35,7 +35,7 @@ const AccountStackScreen = (navigation, route) => {
       <AccountStack.Navigator>
           <AccountStack.Screen name="Account1" component={Account1} options={{
             headerShown:true, 
-            headerTitle:'Account', 
+            headerTitle:'Bookings', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
@@ -236,7 +236,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({focused, color, size}) => {
               let iconName;
-                if(route.name === "Account") {
+                if(route.name === "Bookings") {
                   iconName = focused ? "user" : "user"; 
                 } else if(route.name == "Events") {
                     iconName = focused ? "calendar" : "calendar";
@@ -260,7 +260,7 @@ const App = () => {
             })}
           initialRouteName="Home"
           >
-          <Tabs.Screen name="Account" component={AccountStackScreen} />
+          <Tabs.Screen name="Bookings" component={AccountStackScreen} />
           <Tabs.Screen name="Events" component={EventsStackScreen} />
           <Tabs.Screen name="Home"  component={HomeStackScreen}
           initialParams={{ authenticate: AuthLogin }}

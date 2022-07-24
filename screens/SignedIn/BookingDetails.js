@@ -8,6 +8,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { Divider } from "@rneui/themed";
+import { Feather } from '@expo/vector-icons'
 //Firestore
 import { auth, db } from "../../firebase";
 import {
@@ -29,7 +30,7 @@ import RowContainer from "../../components/containers/RowContainer";
 import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 
-const { primary, tertiary } = colours;
+const { primary, tertiary, white } = colours;
 
 const BookingDetails = ({ navigation, route }) => {
 	const { booking } = route.params;
@@ -130,25 +131,44 @@ const BookingDetails = ({ navigation, route }) => {
 		});
 	};
 
+	const warnDelete = () => {
+		var text = "";
+		var text2 = "";
+		if (buttonText == "Withdraw from event") {
+			text = "Confirm withdraw?"
+			text2 = "You are about to withdraw from this event";
+		} else {
+			text = "Confirm Delete?"
+			text2 = "You are about to delete this booking";
+		}
+		Alert.alert(text, text2, [
+			{ text: "OK", onPress: deleteWitdraw },
+			{ text: "Cancel", onPress: () => console.log("cancel pressed"), style:"cancel"}
+		]);
+	}
+
 	return (
 		<MainContainer>
 			<ScrollView>
 				{booking.event && (
-					<View style={{ marginBottom: 5 }}>
+					<View style={{ marginBottom: 20 }}>
 						<LargeText>{booking.eventName}</LargeText>
+						{booking.date > Timestamp.fromMillis(Date.now()) && (
+						<TouchableOpacity onPress={warnDelete} style={styles.delete}>
+							<Feather name='trash-2' size={25} color = {white}/>
+						</TouchableOpacity>
+						)}
 						<RegularText>
 							{booking.date.toDate().toDateString()}{" "}
 							{showTimeSlot(booking.timeSlot)}
 						</RegularText>
-						<TouchableOpacity onPress={seeParticipantsPage}>
-						<View style= {styles.participantsContainer}>
+						<TouchableOpacity onPress={seeParticipantsPage} style={styles.participantsContainer}>
 							<MaxCapacityContainer>
 								<RegularText>
 									{booking.participants.length} / {booking.maxParticipants}
 								</RegularText>
 							</MaxCapacityContainer>
 							<RegularText>			Participants</RegularText>
-						</View>
 						</TouchableOpacity>
 						<LargeText>Description</LargeText>
 						<RegularText>{booking.eventDescription}</RegularText>
@@ -169,11 +189,6 @@ const BookingDetails = ({ navigation, route }) => {
 						{facility.venue} {facility.unit}{" "}
 					</RegularText>
 				</View>
-				{booking.date > Timestamp.fromMillis(Date.now()) && (
-					<View style={styles.container}>
-						<RegularButton onPress={deleteWitdraw}>{buttonText}</RegularButton>
-					</View>
-				)}
 			</ScrollView>
 		</MainContainer>
 	);
@@ -191,8 +206,14 @@ const styles = StyleSheet.create({
 	},
 	participantsContainer: {
 		flexDirection: "row",
-		marginVertical: 10,
+		marginBottom: 20,
 		alignItems: "center",
+		width: "50%",
+	},
+	delete: {
+		position: "absolute",
+		top: 10,
+		right: 5,
 	}
 });
 
