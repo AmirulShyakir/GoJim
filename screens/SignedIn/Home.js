@@ -12,7 +12,8 @@ import FacilityCard from '../../components/containers/FacilityCard';
 const Home = ({navigation, route}) => {
     const [facilities, setFacilities] = useState([]);
 
-    const { facilityType } = route.params;
+    const { venue, type } = route.params;
+
 
     useEffect(() => {
         getData();
@@ -20,7 +21,11 @@ const Home = ({navigation, route}) => {
     
     const getData = async () => {
         const list = [];
-        const discussionRooms = query(collection(db, "facilities"), where("type", "==", facilityType));
+        const discussionRooms = query(
+          collection(db, "facilities"),
+          where("venue", "==", venue),
+          where("type", "==", type)
+        );
         const dRoomsSnapshot = await getDocs(discussionRooms);
         dRoomsSnapshot.forEach(facility => {
                 list.push(facility.data());

@@ -13,10 +13,12 @@ import Account from './screens/SignedIn/Account';
 import Account1 from './screens/SignedIn/Account1';
 import Settings from './screens/SignedIn/Settings';
 import HowItWorks from './screens/SignedIn/Onboarding';
+import ContactUs from './screens/SignedIn/ContactUs';
 import Facility from './screens/SignedIn/Facility';
 import MakeEvent from './screens/SignedIn/MakeEvent';
 import JoinEvent from './screens/SignedIn/JoinEvent';
 import BookingDetails from './screens/SignedIn/BookingDetails';
+import Participants from './screens/SignedIn/Participants';
 import Favourites from './screens/SignedIn/Favourites';
 
 import Signup from './screens/Signup';
@@ -34,7 +36,7 @@ const AccountStackScreen = (navigation, route) => {
       <AccountStack.Navigator>
           <AccountStack.Screen name="Account1" component={Account1} options={{
             headerShown:true, 
-            headerTitle:'Account', 
+            headerTitle:'Bookings', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
@@ -62,6 +64,15 @@ const AccountStackScreen = (navigation, route) => {
           <AccountStack.Screen name="BookingDetails" component={BookingDetails} options={{
             headerShown:true, 
             headerTitle:'Booking Details', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
+          <AccountStack.Screen name="Participants" component={Participants} options={{
+            headerShown:true, 
+            headerTitle:'Participants', 
             headerTitleAlign: 'center',
             headerStyle:{
               backgroundColor: primary,
@@ -173,6 +184,15 @@ const SettingsStackScreen = () => {
           <SettingsStack.Screen name="OnboardingScreen" component={HowItWorks} options={{
             headerShown: false,
           }} />
+           <SettingsStack.Screen name="ContactUs" component={ContactUs} options={{
+            headerShown:true, 
+            headerTitle:'Contact Us', 
+            headerTitleAlign: 'center',
+            headerStyle:{
+              backgroundColor: primary,
+              },
+            headerTintColor: white,
+          }} />
       </SettingsStack.Navigator>
   )
 }
@@ -226,7 +246,7 @@ const App = () => {
             headerShown: false,
             tabBarIcon: ({focused, color, size}) => {
               let iconName;
-                if(route.name === "Account") {
+                if(route.name === "Bookings") {
                   iconName = focused ? "user" : "user"; 
                 } else if(route.name == "Events") {
                     iconName = focused ? "calendar" : "calendar";
@@ -250,7 +270,7 @@ const App = () => {
             })}
           initialRouteName="Home"
           >
-          <Tabs.Screen name="Account" component={AccountStackScreen} />
+          <Tabs.Screen name="Bookings" component={AccountStackScreen} />
           <Tabs.Screen name="Events" component={EventsStackScreen} />
           <Tabs.Screen name="Home"  component={HomeStackScreen}
           initialParams={{ authenticate: AuthLogin }}

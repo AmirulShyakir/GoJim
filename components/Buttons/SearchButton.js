@@ -8,11 +8,14 @@ const {action, white, tertiary} = colours;
 
 const ButtonView = styled.TouchableOpacity`
     background-color: ${action};
-    width: 60;
-    height: 60;
+    width: 50px;
+    height: 50px;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
 `
 const SearchButton = (props) => {
     return (

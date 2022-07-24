@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from "react";
 import {
-  TouchableOpacity,
-  Image,
   Text,
   FlatList,
-  View,
   StyleSheet,
+  View,
 } from "react-native";
 
 //firebase stuff
 import { auth, db } from "../../firebase";
-import { doc, collection, getDoc, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 import SignedInContainer from "../../components/containers/SignedInContainer";
 import FacilityCard from "../../components/containers/FacilityCard";
+import RegularText from "../../components/Texts/RegularText";
+import { colours } from "../../components/ColourPalette";
+const {white, primary, secondary} = colours;
 
 const Favourites = ({ navigation, route }) => {
   const [favourites, setFavourites] = useState([]);
+  const [emptyText, setEmptyText] = useState("");
 
   useEffect(() => {
     getFavs();
+    setTimeout(() => {renderEmptyText()}, 300);
+    console.log("these are the favourites: " + favourites);
   }, []);
-
-  /*const getFacil = async (facility) => {
-    const facilRef = doc(db, "facilities", facility);
-    const facilSnap = await getDoc(facilRef);
-    return facilSnap.data();
-  }*/
   
   const getFavs = async () => {
     const list = [];
@@ -53,11 +51,35 @@ const Favourites = ({ navigation, route }) => {
     );
   };
 
+  const renderEmptyText = () => {
+    setEmptyText("You do not have any favourite facilities");
+  }
+
   return (
     <SignedInContainer>
-      <FlatList data={favourites} renderItem={renderItem} />
+      {favourites.length >= 1 && (
+        <FlatList data={favourites} renderItem={renderItem} />
+      )}
+      {favourites == "" && (
+        <View style = {styles.view}>
+          <Text style={styles.text}>{emptyText}</Text>
+        </View>
+      )}
     </SignedInContainer>
   );
 };
 
 export default Favourites;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    color: white,
+    textAlign: "center"
+  },
+  view: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  }
+});

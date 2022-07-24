@@ -6,16 +6,18 @@ import {
   where,
   Timestamp
 } from "firebase/firestore";
-import { Image, FlatList } from "react-native";
+import { Image, FlatList, StyleSheet, View, Text } from "react-native";
 import { useState, useEffect } from "react";
-import MainContainer from "../../components/containers/MainContainer";
 import SignedInContainer from "../../components/containers/SignedInContainer";
+import BookingCard from "../../components/containers/BookingCard";
 //texts
 import LargeText from "../../components/Texts/LargeText";
-import BookingCard from "../../components/containers/BookingCard";
+import { colours } from "../../components/ColourPalette";
+const {white, primary, secondary} = colours;
 
 const Account = ({navigation, route}) => {
   const [bookings, setBookings] = useState([]);
+  const [emptyText, setEmptyText] = useState("");
   //isUpcoming is a string that is either ">" || "<=" that will be
   //used in where() in getData()
   const isUpcoming = route.params;
@@ -23,6 +25,7 @@ const Account = ({navigation, route}) => {
 
   useEffect(() => {
     getData();
+    setTimeout(() => {renderEmptyText(isUpcoming)}, 300);
   }, []);
 
   const getData = async () => {
@@ -65,11 +68,39 @@ const Account = ({navigation, route}) => {
     );
   };
 
+  const renderEmptyText = (isUpcoming) => {
+    if (isUpcoming == ">") {
+      setEmptyText("You do not have any upcoming bookings")
+    } else {
+      setEmptyText("You do not have any past bookings");
+    }
+  }
+
   return (
     <SignedInContainer>
-      <FlatList data={bookings} renderItem={renderItem} />
+      {bookings.length >= 1 && (
+        <FlatList data={bookings} renderItem={renderItem} />
+      )}
+      {bookings.length == 0 && (
+        <View style = {styles.view}>
+          <Text style={styles.text}> {emptyText} </Text>
+        </View>
+      )}
     </SignedInContainer>
   );
 };
 
 export default Account;
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    color: white,
+    textAlign: "center"
+  },
+  view: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  }
+});

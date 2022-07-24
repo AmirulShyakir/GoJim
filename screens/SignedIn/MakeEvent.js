@@ -112,12 +112,12 @@ const MakeEvent = ({ route, navigation }) => {
       <LargeText> Enter Details: </LargeText>
       <KeyboardAvoidingContainer>
         <Formik
-          initialValues={{ eventName: "", eventDescription: "" }}
+          initialValues={{ eventName: "", eventDescription: "", maxParticipants: 0 }}
           onSubmit={(values, { setSubmitting }) => {
             if ( // CHECK IF ALL FIELDS ARE FILLED
               values.eventName == "" ||
               values.eventDescription == "" ||
-              values.maxParticipants == "" ||
+              values.maxParticipants == 0 ||
               (checkEventType1 == false  &&
               checkEventType2 == false &&
               checkEventType3 == false &&

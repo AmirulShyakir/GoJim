@@ -56,7 +56,7 @@ const HowItWorks = ({navigation}) => (
         backgroundColor: "#D4D4D4",
         image: <Image source={require('../../assets/TrackBookings.png')} />,
         title: 'TRACK YOUR BOOKINGS.',
-        subtitle: "View your bookings in the Account tab. \n Psst! Here's where you can find your favourite facilities.",
+        subtitle: "View your bookings in the Bookings tab. \n Psst! Here's where you can find your favourite facilities.",
       },
     ]}
   />
