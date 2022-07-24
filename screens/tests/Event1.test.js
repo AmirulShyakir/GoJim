@@ -15,3 +15,14 @@ test("it renders text correctly", () => {
   expect (queryAllByText("Recreational Training").length).not.toBe(0);
   expect (queryAllByText("Study Sessions").length).not.toBe(0);
 })
+
+test("it renders all cards correctly", () => {
+  const { getByTestId } = render(<Events1 />);
+  getByTestId("friendlySports");
+  getByTestId("networkingSessions");
+  getByTestId("recreationalTraining");
+  getByTestId("studySessions");
+});
+
+
+

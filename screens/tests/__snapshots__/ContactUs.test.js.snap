@@ -37,6 +37,7 @@ exports[`ContactUs Snapshot test 1`] = `
         "fontSize": 15,
       }
     }
+    testID="text"
   >
     We are Team Sikkunt. We have developed GoJim as an integrated booking app for all NUS facilities for our Orbital project. 
     
@@ -70,6 +71,7 @@ exports[`ContactUs Snapshot test 1`] = `
         "width": 80,
       }
     }
+    testID="image"
   />
 </View>
 `;

@@ -11,6 +11,7 @@ const Events1 = ({ navigation }) => {
   return (
     <EventContainer>
       <EventTypeCard
+        testID="friendlySports"
         onPress={() => {
           pressEvent("Friendly Sports");
         }}
@@ -22,6 +23,7 @@ const Events1 = ({ navigation }) => {
       </EventTypeCard>
 
       <EventTypeCard
+        testID="networkingSessions"
         onPress={() => {
           pressEvent("Networking Sessions");
         }}
@@ -32,6 +34,7 @@ const Events1 = ({ navigation }) => {
         Networking Sessions
       </EventTypeCard>
       <EventTypeCard
+        testID="recreationalTraining"
         onPress={() => {
           pressEvent("Recreational Training");
         }}
@@ -42,6 +45,7 @@ const Events1 = ({ navigation }) => {
         Recreational Training
       </EventTypeCard>
       <EventTypeCard
+        testID="studySessions"
         onPress={() => {
           pressEvent("Study Sessions");
         }}
