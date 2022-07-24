@@ -12,6 +12,7 @@ import {
   Modal,
   Alert,
   Switch,
+  TouchableOpacity,
 } from "react-native";
 
 //Firestore
@@ -37,6 +38,7 @@ import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import CheckBoxTimeSlot from "../../components/containers/CheckBoxTimeSlot";
+import { Feather } from '@expo/vector-icons'
 
 
 const { primary, white, action, tertiary } = colours;
@@ -181,19 +183,23 @@ const Facility = ({ navigation, route }) => {
   };
 
   return (
-    <ScrollView style={styles.scrollView}>
+    <View style={styles.scrollView}>
       <Image
         style={{ width: "100%", height: 200, borderRadius: 10 }}
         source={{ uri: facility.imageURL }}
       />
       <LargeText>{facilityName}</LargeText>
       <RowContainer>
-        <RegularText>{facility.venue} {facility.unit}</RegularText>
+        <RegularText>
+          {facility.venue} {facility.unit}
+        </RegularText>
         <MaxCapacityContainer>
           <RegularText>{facility.capacity}</RegularText>
         </MaxCapacityContainer>
       </RowContainer>
-      <RegularText>{facility.description}</RegularText>
+      {facility.description &&
+        <RegularText>{facility.description}</RegularText>
+      }
       <View style={styles.fav}>
         <Switch
           trackColor={{ false: "#767577", true: action }}
@@ -204,10 +210,15 @@ const Facility = ({ navigation, route }) => {
         />
         <RegularText>Add to Favourites</RegularText>
       </View>
-      <View>
-        <RegularButton onPress={showDatePicker}>
-          {selectedDateString} {showTimeSlotChosen()}
-        </RegularButton>
+        <TouchableOpacity
+          style={{ flexDirection: "row", alignItems: "center"  }}
+          onPress={showDatePicker}
+        >
+          <Feather name="calendar" size={25} color={white} />
+          <RegularText style={{marginLeft: 10}}>
+            {selectedDateString} {showTimeSlotChosen()}
+          </RegularText>
+        </TouchableOpacity>
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
@@ -242,9 +253,10 @@ const Facility = ({ navigation, route }) => {
             </View>
           </View>
         </Modal>
+        <View style={styles.container}>
         <RegularButton onPress={updateFiretore}>Confirm Booking</RegularButton>
-      </View>
-    </ScrollView>
+        </View>
+    </View>
   );
 };
 
@@ -252,6 +264,7 @@ const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: primary,
     padding: 25,
+    minHeight: "100%"
   },
   centeredView: {
     flex: 1,
@@ -278,6 +291,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 0,
   },
 });
 
