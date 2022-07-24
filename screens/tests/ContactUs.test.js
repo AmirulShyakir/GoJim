@@ -6,4 +6,3 @@ test("ContactUs Snapshot test", () => {
     const tree = renderer.create(<ContactUs />).toJSON();
   expect(tree).toMatchSnapshot();
 });
-
