@@ -1,11 +1,3 @@
-import { auth, db } from "../../firebase";
-import {
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { updateProfile } from "firebase/auth/react-native";
-import { Formik } from "formik";
 import React, { useState, useEffect } from "react";
 import {
   Image,
