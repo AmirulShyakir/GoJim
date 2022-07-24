@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
 });
 
 
-const ParticipantsCard2 = (uid) => {  
+const ParticipantsCard2 = ({uid}) => {  
   const [username, setUsername] = useState("hello");
   const [profilePic, setProfilePic] = useState(
     "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"

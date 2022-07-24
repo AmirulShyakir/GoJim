@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
 	},
 	participantsContainer: {
 		flexDirection: "row",
+		marginTop: 10,
 		marginBottom: 20,
 		alignItems: "center",
 		width: "50%",

@@ -13,21 +13,21 @@ import LargeText from "../../components/Texts/LargeText";
 const { primary, white, secondary } = colours;
 
 const Participants = ({ route }) => {
+  //organiser details
   const organiserUID = route.params.organiserUID;
   const [organiserUsername, setOrganiserUsername] = useState("hello");
   const [organiserProfilePic, setOrganiserProfilePic] = useState(
     "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
   );
 
+  //participants details
   const participantsArray = route.params.participantsArray;
-  const participantsArray2 = [];
-  const [usernames, setUsernames] = useState(["hello"]);
-  const [profilePics, setProfilePics] = useState([]);
 
   useEffect(() => {
     getOrganiserDetails();
-    getParticipants();
-    console.log("these are the participants: \n" + participantsArray);
+    //getParticipants();
+    console.log(participantsArray);
+    console.log(Array.isArray(participantsArray));
   }, []);
   
   const getOrganiserDetails = async () => {
@@ -48,54 +48,11 @@ const Participants = ({ route }) => {
     }
   };
 
-  const getParticipants = async () => {
-    const usernameList = [];
-    const profilePicList = [];
-    for (const uid of participantsArray) {
-      const personRef = doc(db, "users", uid);
-      const personSnap = await getDoc(personRef);
-      //if he has a username, add it to the list, else add his uid to the list
-      if (personSnap.exists()) {
-        usernameList.push(personSnap.data().username);
-        //if he has a profile pic, add it to list, else add this default
-        personSnap.data().photoURL
-          ? profilePicList.push(personSnap.data().photoURL)
-          : profilePicList.push(
-              "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
-            );
-      } else {
-        usernameList.push(uid);
-        profilePicList.push(
-          "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
-        );
-      }
-    }
-    setUsernames([...usernameList]);
-    setProfilePics([...profilePicList]);
-    //console.log(usernameList);
-    //console.log(profilePicList);
+  const renderItem2 = ( {item} ) => {
+    console.log("im passing the following uid to card: " + item)
+    return <ParticipantsCard2 uid={item}/>;
   };
 
-  const usernameStub = ["hello", "stub2", "stub3"];
-  const profilePicStub = [
-    "https://xsgames.co/randomusers/avatar.php?g=male",
-    "https://xsgames.co/randomusers/avatar.php?g=male",
-    "https://xsgames.co/randomusers/avatar.php?g=male",
-  ];
-
-  const renderItem = ({ usernames, profilePics }) => {
-    return <ParticipantsCard username={usernames} profilePic={profilePics} />;
-  };
-
-  const renderItem2 = ({ participantsArray }) => {
-    console.log("im passing the following uid to card: " + participantsArray)
-    return <ParticipantsCard2 uid={participantsArray}/>;
-  };
-
-  //not sure why the organiser isnt displaying. the console.log in the useEffect appears to be working but sometimes lag sometimes not
-  //flatlist with actual data not working
-  //flatlist with stub data not working
-  //the actual component itself appears to be working
   return (
     <MainContainer>
       <View style={[styles.view]}>
@@ -103,7 +60,6 @@ const Participants = ({ route }) => {
         <Text style={styles.text}>{organiserUsername}</Text>
       </View>
       <FlatList data={participantsArray} renderItem={renderItem2} />
-      <FlatList data={{ usernames, profilePics }} renderItem={renderItem} />
     </MainContainer>
   );
 };

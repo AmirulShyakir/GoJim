@@ -23,6 +23,7 @@ const Favourites = ({ navigation, route }) => {
   useEffect(() => {
     getFavs();
     setTimeout(() => {renderEmptyText()}, 300);
+    console.log("these are the favourites: " + favourites);
   }, []);
   
   const getFavs = async () => {
