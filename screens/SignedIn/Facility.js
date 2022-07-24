@@ -211,6 +211,7 @@ const Facility = ({ navigation, route }) => {
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
+          minimumDate={new Date()}
           onConfirm={selectDate}
           onCancel={hideDatePicker}
           textColor="black"

@@ -174,7 +174,7 @@ const BookingDetails = ({ navigation, route }) => {
 						<RegularText>{booking.eventDescription}</RegularText>
 					</View>
 				)}
-				<LargeText>Facility</LargeText>
+				<LargeText>Venue</LargeText>
 				<Image
 					style={{
 						width: "100%",

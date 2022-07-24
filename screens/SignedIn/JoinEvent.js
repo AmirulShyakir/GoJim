@@ -31,15 +31,20 @@ import RowContainer from "../../components/containers/RowContainer";
 import RegularButton from "../../components/Buttons/RegularButton";
 import { colours } from "../../components/ColourPalette";
 
-const { primary } = colours;
+const { primary, secondary, white } = colours;
 
 const JoinEvent = ({ navigation, route }) => {
   const { eventDetails } = route.params;
   const [facility, setFacility] = useState({});
   const [buttonText, setButtonText] = useState("Join Event");
+  const [organiserUsername, setOrganiserUsername] = useState("hello");
+  const [organiserProfilePic, setOrganiserProfilePic] = useState(
+    "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
+  );
 
   useEffect(() => {
     getFacility();
+    getOrganiserDetails();
   }, []);
 
   /* 
@@ -53,6 +58,28 @@ const JoinEvent = ({ navigation, route }) => {
     const docSnap = await getDoc(docRef);
     const facility = docSnap.data();
     setFacility(facility);
+  };
+
+  /* 
+  Retrieve the organiser details to display his/her
+  username and profile picture
+  */
+  const getOrganiserDetails = async () => {
+    const organiserRef = doc(db, "users", eventDetails.userUID);
+    const organiserSnap = await getDoc(organiserRef);
+    if (organiserSnap.exists()) {
+      setOrganiserUsername(organiserSnap.data().username);
+      organiserSnap.data().photoURL
+        ? setOrganiserProfilePic(organiserSnap.data().photoURL)
+        : setOrganiserProfilePic(
+            "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
+          );
+    } else {
+      setOrganiserUsername(eventDetails.userUID);
+      setOrganiserProfilePic(
+        "https://www.ukm.my/fper/wp-content/uploads/2021/04/blank-profile-picture-973460_1280-768x768.jpg"
+      );
+    }
   };
 
   /* 
@@ -76,16 +103,15 @@ const JoinEvent = ({ navigation, route }) => {
   Update firestore of the new participant
   */
   const joinEvent = async () => {
-    
     // in case user clicks the button again
     if (buttonText == "You have joined this event") {
-        return (Alert.alert(
-          "You have joined this event!",
-          "To withdraw please proceed to the upcoming bookings page",
-          [{ text: "OK", onPress: () => navigation.navigate("EventsScreen1") }]
-        ));
-      }
-    
+      return Alert.alert(
+        "You have joined this event!",
+        "To withdraw please proceed to the upcoming bookings page",
+        [{ text: "OK", onPress: () => navigation.navigate("EventsScreen1") }]
+      );
+    }
+
     console.log("You just joined: " + eventDetails.eventName);
     const docRef = doc(db, "bookings", eventDetails.bookingID);
     await updateDoc(docRef, {
@@ -101,35 +127,47 @@ const JoinEvent = ({ navigation, route }) => {
 
   return (
     <MainContainer>
-      <LargeText>{eventDetails.eventName}</LargeText>
-      <Image
-        style={{
-          width: "100%",
-          height: 200,
-          borderRadius: 10,
-        }}
-        source={{ uri: facility.imageURL }}
-      />
-      <View style={styles.venueView}>
-        <LargeText>{eventDetails.venue}</LargeText>
-        <RegularText>{facility.venue} {facility.unit}</RegularText>
-      </View>
-      <RowContainer>
-        <RegularText>{eventDetails.date.toDate().toDateString()}</RegularText>
-        <RegularText>{showTimeSlot(eventDetails.timeSlot)}</RegularText>
-        <MaxCapacityContainer>
+      <ScrollView>
+          <LargeText>{eventDetails.eventName}</LargeText>
           <RegularText>
-            {eventDetails.participants.length} / {eventDetails.maxParticipants}
+            {eventDetails.date.toDate().toDateString()}{" "}
+            {showTimeSlot(eventDetails.timeSlot)}
           </RegularText>
-        </MaxCapacityContainer>
-      </RowContainer>
-      <RegularText>{eventDetails.eventDescription}</RegularText>
-      <View style={styles.organisedView}>
-        <RegularText>Organised by: {eventDetails.userUID}</RegularText>
-      </View>
-      <View style={styles.container}>
+          <View style ={styles.participantsContainer}>
+          <MaxCapacityContainer>
+            <RegularText>
+              {eventDetails.participants.length} /{" "}
+              {eventDetails.maxParticipants}
+            </RegularText>
+          </MaxCapacityContainer>
+          </View>
+            <View style={[styles.view]}>
+            <RegularText>Organiser:  </RegularText>
+              <Image
+                source={{ uri: organiserProfilePic }}
+                style={[styles.image]}
+              />
+              <Text style={styles.text}>{organiserUsername}</Text>
+            </View>
+          <LargeText>Description</LargeText>
+          <RegularText>{eventDetails.eventDescription}</RegularText>
+        <LargeText>Venue</LargeText>
+        <Image
+          style={{
+            width: "100%",
+            height: 200,
+            borderRadius: 10,
+          }}
+          source={{ uri: facility.imageURL }}
+        />
+        <View style={styles.venueView}>
+          <LargeText>{eventDetails.venue}</LargeText>
+          <RegularText>
+            {facility.venue} {facility.unit}{" "}
+          </RegularText>
+        </View>
         <RegularButton onPress={joinEvent}>{buttonText}</RegularButton>
-      </View>
+      </ScrollView>
     </MainContainer>
   );
 };
@@ -140,12 +178,40 @@ const styles = StyleSheet.create({
   },
   organisedView: {
     marginVertical: 15,
+    flexDirection: "row",
+    alignContent: "center"
   },
   container: {
     right: 10,
     left: 10,
     position: "absolute",
     bottom: 10,
+  },
+	participantsContainer: {
+		flexDirection: "row",
+		marginTop: 10,
+		marginBottom: 0,
+		alignItems: "center",
+		width: "50%",
+	},
+  view: {
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    backgroundColor: primary,
+    paddingTop: 5,
+    paddingBottom: 0,
+    flexWrap: "wrap",
+  },
+  image: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    marginRight: 10,
+  },
+  text: {
+    fontSize: 15,
+    color: white,
   },
 });
 
