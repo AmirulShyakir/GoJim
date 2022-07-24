@@ -42,7 +42,11 @@ const Settings = ({navigation}) => {
 
   const pressHowItWorks = () => {
     navigation.navigate('OnboardingScreen');
-}
+  }
+
+  const pressContactUs = () => {
+    navigation.navigate("ContactUs");
+  }
 
   useEffect(() => {
     console.log("profilePicURL: " + auth.currentUser.photoURL);
@@ -208,7 +212,7 @@ const Settings = ({navigation}) => {
       <View style={{marginTop: 20}}>
         <SettingsContainer icon = {"bell"}>Notification control</SettingsContainer>
         <SettingsContainer icon = {"help-circle"} onPress={pressHowItWorks}>How it works</SettingsContainer>
-        <SettingsContainer icon = {"message-square"}>Contact us</SettingsContainer>
+        <SettingsContainer icon = {"message-square"} onPress={pressContactUs}>Contact us</SettingsContainer>
         <SettingsContainer icon = {"log-out"} onPress= {Logout}>Log out</SettingsContainer>
       </View>
 
