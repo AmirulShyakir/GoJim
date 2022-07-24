@@ -29,6 +29,7 @@ exports[`Onboarding Snapshot test 1`] = `
                 "width": 250,
               }
             }
+            testID="page1"
           />,
           "subtitle": "Who says it has to be hard?",
           "title": "BOOKINGS MADE SIMPLE.",
@@ -37,6 +38,7 @@ exports[`Onboarding Snapshot test 1`] = `
           "backgroundColor": "#E4D0D0",
           "image": <Image
             source={1}
+            testID="page2"
           />,
           "subtitle": "Filter by facility type in Home.",
           "title": "SEARCH FOR FACILITY.",
@@ -45,6 +47,7 @@ exports[`Onboarding Snapshot test 1`] = `
           "backgroundColor": "#E4EAEB",
           "image": <Image
             source={1}
+            testID="page3"
           />,
           "subtitle": "Select date and available timeslot. 
  And thats pretty much it.",
@@ -54,6 +57,7 @@ exports[`Onboarding Snapshot test 1`] = `
           "backgroundColor": "#F8F0D4",
           "image": <Image
             source={1}
+            testID="page4"
           />,
           "subtitle": "Okay shawty, one's company, two's a crowd and three's a party! Enter event details and publish.",
           "title": "MAKE IT AN EVENT.",
@@ -62,6 +66,7 @@ exports[`Onboarding Snapshot test 1`] = `
           "backgroundColor": "#F6DDC1",
           "image": <Image
             source={1}
+            testID="page5"
           />,
           "subtitle": "Fancy a quick battle? Or perhaps a study date? There's always something fresh in the Events tab. ASSC who?",
           "title": "JOIN EVENTS.",
@@ -70,6 +75,7 @@ exports[`Onboarding Snapshot test 1`] = `
           "backgroundColor": "#D4D4D4",
           "image": <Image
             source={1}
+            testID="page6"
           />,
           "subtitle": "View your bookings in the Bookings tab. 
  Psst! Here's where you can find your favourite facilities.",
@@ -168,6 +174,7 @@ exports[`Onboarding Snapshot test 1`] = `
                   "width": 250,
                 }
               }
+              testID="page1"
             />
           </View>
           <View
