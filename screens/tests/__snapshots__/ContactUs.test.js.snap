@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactUs Snapshot test 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#1c1515",
+        "flexBasis": 0,
+        "flexGrow": 1,
+        "flexShrink": 1,
+        "paddingBottom": 15,
+        "paddingLeft": 15,
+        "paddingRight": 15,
+        "paddingTop": 15,
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "#ffffff",
+        "fontSize": 25,
+        "fontWeight": "bold",
+        "marginBottom": 20,
+        "textAlign": "center",
+      }
+    }
+  >
+    Hello there
+  </Text>
+  <Text
+    style={
+      Object {
+        "color": "#ffffff",
+        "fontSize": 15,
+      }
+    }
+    testID="text"
+  >
+    We are Team Sikkunt. We have developed GoJim as an integrated booking app for all NUS facilities for our Orbital project. 
+    
+
+
+    Thanks for downloading GoJim. We appreciate any feedback and you may send them over at our emails. 
+    
+
+
+    -Team Sikkunt
+    
+
+
+    Amirul Shyakir  E0725279@u.nus.edu
+    
+
+    Muhammad Mursyid  E0725270@u.nus.edu
+    
+
+
+  </Text>
+  <Image
+    source={1}
+    style={
+      Object {
+        "alignSelf": "center",
+        "bottom": 20,
+        "height": 50,
+        "position": "absolute",
+        "resizeMode": "contain",
+        "width": 80,
+      }
+    }
+    testID="image"
+  />
+</View>
+`;

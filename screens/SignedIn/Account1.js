@@ -18,6 +18,7 @@ const Account1 = ({ navigation, route }) => {
   return (
     <CurrentPastFavouriteContainer>
       <CurrentPastFavouriteCard
+        testID="upcoming"
         onPress={() => {
           handlePress(">");
         }}
@@ -29,6 +30,7 @@ const Account1 = ({ navigation, route }) => {
       </CurrentPastFavouriteCard>
 
       <CurrentPastFavouriteCard
+        testID="past"
         onPress={() => {
           handlePress("<=");
         }}
@@ -39,6 +41,7 @@ const Account1 = ({ navigation, route }) => {
         Past Bookings
       </CurrentPastFavouriteCard>
       <CurrentPastFavouriteCard
+        testID="favourites"
         onPress={() => {
           handlePress("Favourite Facilities");
         }}

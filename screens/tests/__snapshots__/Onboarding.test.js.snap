@@ -1,0 +1,458 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Onboarding Snapshot test 1`] = `
+<View
+  collapsable={false}
+  onLayout={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#1c1515",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <RCTScrollView
+    data={
+      Array [
+        Object {
+          "backgroundColor": "#1c1515",
+          "image": <Image
+            source={1}
+            style={
+              Object {
+                "alignSelf": "center",
+                "height": 50,
+                "marginBottom": 0,
+                "marginTop": 0,
+                "resizeMode": "contain",
+                "width": 250,
+              }
+            }
+            testID="page1"
+          />,
+          "subtitle": "Who says it has to be hard?",
+          "title": "BOOKINGS MADE SIMPLE.",
+        },
+        Object {
+          "backgroundColor": "#E4D0D0",
+          "image": <Image
+            source={1}
+            testID="page2"
+          />,
+          "subtitle": "Filter by facility type in Home.",
+          "title": "SEARCH FOR FACILITY.",
+        },
+        Object {
+          "backgroundColor": "#E4EAEB",
+          "image": <Image
+            source={1}
+            testID="page3"
+          />,
+          "subtitle": "Select date and available timeslot. 
+ And thats pretty much it.",
+          "title": "JUST BOOK IT.",
+        },
+        Object {
+          "backgroundColor": "#F8F0D4",
+          "image": <Image
+            source={1}
+            testID="page4"
+          />,
+          "subtitle": "Okay shawty, one's company, two's a crowd and three's a party! Enter event details and publish.",
+          "title": "MAKE IT AN EVENT.",
+        },
+        Object {
+          "backgroundColor": "#F6DDC1",
+          "image": <Image
+            source={1}
+            testID="page5"
+          />,
+          "subtitle": "Fancy a quick battle? Or perhaps a study date? There's always something fresh in the Events tab. ASSC who?",
+          "title": "JOIN EVENTS.",
+        },
+        Object {
+          "backgroundColor": "#D4D4D4",
+          "image": <Image
+            source={1}
+            testID="page6"
+          />,
+          "subtitle": "View your bookings in the Bookings tab. 
+ Psst! Here's where you can find your favourite facilities.",
+          "title": "TRACK YOUR BOOKINGS.",
+        },
+      ]
+    }
+    extraData={null}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    horizontal={true}
+    initialNumToRender={1}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    onViewableItemsChanged={[Function]}
+    pagingEnabled={true}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsHorizontalScrollIndicator={false}
+    stickyHeaderIndices={Array []}
+    viewabilityConfig={
+      Object {
+        "itemVisiblePercentThreshold": 100,
+      }
+    }
+    viewabilityConfigCallbackPairs={
+      Array [
+        Object {
+          "onViewableItemsChanged": [Function],
+          "viewabilityConfig": Object {
+            "itemVisiblePercentThreshold": 100,
+          },
+        },
+      ]
+    }
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={
+          Array [
+            Object {
+              "flexDirection": "row",
+            },
+            null,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "alignItems": "center",
+                "flex": 1,
+                "flexDirection": "column",
+                "justifyContent": "center",
+                "paddingTop": 0,
+              },
+              null,
+              Object {
+                "height": 1334,
+                "width": 750,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Array [
+                Object {
+                  "alignItems": "center",
+                  "flex": 0,
+                  "paddingBottom": 60,
+                  "width": "100%",
+                },
+                null,
+              ]
+            }
+          >
+            <Image
+              source={1}
+              style={
+                Object {
+                  "alignSelf": "center",
+                  "height": 50,
+                  "marginBottom": 0,
+                  "marginTop": 0,
+                  "resizeMode": "contain",
+                  "width": 250,
+                }
+              }
+              testID="page1"
+            />
+          </View>
+          <View
+            style={
+              Object {
+                "paddingHorizontal": 10,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={true}
+              style={
+                Array [
+                  Object {
+                    "color": "#fff",
+                    "fontSize": 26,
+                    "paddingBottom": 15,
+                    "textAlign": "center",
+                  },
+                  Object {},
+                  Object {
+                    "fontSize": 20,
+                    "fontWeight": "bold",
+                  },
+                ]
+              }
+            >
+              BOOKINGS MADE SIMPLE.
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "paddingHorizontal": 10,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={true}
+              style={
+                Array [
+                  Object {
+                    "color": "rgba(255, 255, 255, 0.7)",
+                    "fontSize": 16,
+                    "textAlign": "center",
+                  },
+                  Object {},
+                  Object {},
+                ]
+              }
+            >
+              Who says it has to be hard?
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "width": 0,
+          }
+        }
+      />
+    </View>
+  </RCTScrollView>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "rgba(0, 0, 0, 0.1)",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "backgroundColor": "transparent",
+          "flexDirection": "row",
+          "height": 60,
+          "justifyContent": "space-between",
+          "paddingHorizontal": 0,
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "flex-start",
+            "flexShrink": 1,
+            "width": 200,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 0,
+              "marginLeft": 10,
+              "paddingHorizontal": 10,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            hitSlop={
+              Object {
+                "bottom": 15,
+                "left": 15,
+                "right": 15,
+                "top": 15,
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "flex": 0,
+                "opacity": 1,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={true}
+              style={
+                Object {
+                  "color": "#fff",
+                  "fontSize": 16,
+                }
+              }
+            >
+              Skip
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 0,
+            "flexDirection": "row",
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "backgroundColor": "#fff",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "backgroundColor": "rgba(255, 255, 255, 0.5)",
+              "borderRadius": 3,
+              "height": 6,
+              "marginHorizontal": 3,
+              "width": 6,
+            }
+          }
+        />
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "flex-end",
+            "flexShrink": 1,
+            "width": 200,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "flex": 0,
+              "marginRight": 10,
+              "paddingHorizontal": 10,
+            }
+          }
+        >
+          <View
+            accessible={true}
+            collapsable={false}
+            focusable={true}
+            hitSlop={
+              Object {
+                "bottom": 15,
+                "left": 15,
+                "right": 15,
+                "top": 15,
+              }
+            }
+            onClick={[Function]}
+            onResponderGrant={[Function]}
+            onResponderMove={[Function]}
+            onResponderRelease={[Function]}
+            onResponderTerminate={[Function]}
+            onResponderTerminationRequest={[Function]}
+            onStartShouldSetResponder={[Function]}
+            style={
+              Object {
+                "flex": 0,
+                "opacity": 1,
+              }
+            }
+          >
+            <Text
+              allowFontScaling={true}
+              style={
+                Object {
+                  "color": "#fff",
+                  "fontSize": 16,
+                }
+              }
+            >
+              Next
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;
