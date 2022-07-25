@@ -52,7 +52,11 @@ const Account = ({navigation, route}) => {
     bookingsSnapshot.forEach((booking) => {
       list.push(booking.data());
     });
-    list.sort((a, b) => b.date.toDate() - a.date.toDate());
+    if (isUpcoming == ">") {
+      list.sort((a, b) => a.date.toDate() - b.date.toDate());
+    } else {
+      list.sort((a, b) => b.date.toDate() - a.date.toDate());
+    }
     setBookings([...list]);
   };
 
