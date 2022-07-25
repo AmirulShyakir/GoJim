@@ -26,13 +26,14 @@ function ForgotPassword({navigation, route}) {
       sendPasswordResetEmail(auth, email)
       .then(() => {
         console.log("sent password reset email to " + email)
+        setIsSuccessMessage(true);
         setSubmitting(false);
         setMessage("Password reset email has been sent to " + email);
       })
       .catch(error => {
-        setMessage("Failed to send password reset email: " + error.message);
         setIsSuccessMessage(false);
         setSubmitting(false);
+        setMessage("Failed to send password reset email: " + error.message);
       })
     }
 
