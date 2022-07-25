@@ -276,7 +276,6 @@ const App = () => {
           initialParams={{ authenticate: AuthLogin }}
            />
           <Tabs.Screen name="Settings" 
-          authenticate={ AuthLogin }
            component={SettingsStackScreen} />
         </Tabs.Navigator>
       </NavigationContainer>
