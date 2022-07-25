@@ -2,6 +2,8 @@ import { TouchableOpacity, ImageBackground, Image, StyleSheet, Text } from "reac
 import LargeText from "../Texts/LargeText";
 import { colours } from "../ColourPalette";
 
+const { white } = colours;
+
 const EventTypeCard = (props) => {
     return (
         <TouchableOpacity onPress={props.onPress} {...props} style={[styles.container]}>
@@ -10,7 +12,7 @@ const EventTypeCard = (props) => {
             imageStyle={[styles.image]}
             source= {require=(props.image)}
             >
-                <LargeText style={{padding:10, fontWeight: "bold"}}>{props.children}</LargeText>
+                <Text style={{fontSize: 23, color: white, padding:10, fontWeight: "bold"}}>{props.children}</Text>
             </ImageBackground>
         </TouchableOpacity>
     );
